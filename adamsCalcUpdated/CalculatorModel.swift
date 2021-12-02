@@ -11,7 +11,7 @@ class Calculator: ObservableObject {
     
     @Published var numbersArray:[Double] = []
     @Published var operatorsArray:[String] = []
-    @Published var currentInput = "42"
+    @Published var currentInput = ""
     
     enum NumberPad: Double {
         case zero = 0
@@ -44,22 +44,36 @@ class Calculator: ObservableObject {
         case multiply = "x"
         case divide = "/"
     }
+    
+    enum AccessoryButtons: String {
+        case clear = "A/C"
+        case backspace = "<"
+        case negativePostive = "+/-"
+        case period = "."
+    }
 
     let operatorButtons: [Operator] = [.add, .subtract, .multiply, .divide]
-    
+    let accessoryButtons: [AccessoryButtons] = [.period, .backspace, .negativePostive, .clear]
 
-    func MathWithPEMDAS(arr: [Double], oper: [Operator]) -> Double {
+    func equalsButton(number: Double) {
+        numbersArray = []
+        operatorsArray = []
+        currentInput = String(number)
+    }
+    
+    
+    func MathWithPEMDAS(arr: [Double], oper: [String]) -> Double {
         
         var result:Double = 42.0
         var array: [Double] = arr
-        var operators: [Operator] = oper
+        var operators: [String] = oper
         
         while array.count > 1 {
             // PEMDAS Math, start with multiplication and division, from left to right.
-            if operators.contains(.multiply) || operators.contains(.divide) {
+            if operators.contains("x") || operators.contains("/") {
                 
-                let multiplyIndex = operators.firstIndex(of: .multiply)
-                let divisorIndex = operators.firstIndex(of: .divide)
+                let multiplyIndex = operators.firstIndex(of: "x")
+                let divisorIndex = operators.firstIndex(of: "/")
                 
                 if divisorIndex == nil && multiplyIndex != nil {
                     // multiply the numbers
@@ -103,8 +117,8 @@ class Calculator: ObservableObject {
                 }
                 
             } else {
-                let addIndex = operators.firstIndex(of: .add)
-                let subtractIndex = operators.firstIndex(of: .subtract)
+                let addIndex = operators.firstIndex(of: "+")
+                let subtractIndex = operators.firstIndex(of: "-")
                 
                 if addIndex != nil && subtractIndex == nil {
                     let firstNumber = array.remove(at: addIndex!)
