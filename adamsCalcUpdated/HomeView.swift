@@ -13,48 +13,23 @@ struct HomeView: View {
     @EnvironmentObject var calculator: Calculator
 
     var body: some View {
+        GeometryReader { geo in
         VStack {
+          
             // Current Operations Log
-            CurrentOperationStringView().padding()
+            CurrentOperationStringView()
             
-            HStack {
-                ForEach(calculator.accessoryButtons, id: \.self) { button in
-                    Button(action: {
-                    }) {
-                        Text(button.rawValue)
-                    }
-                    .padding()
-                    .padding(.horizontal)
-                    .background(Color(.darkGray))
-                    .foregroundColor(.white)
-                    .cornerRadius(50.0)
-                }
-            }
+            ExtraOperatorsView()
+            
+            OperatorButtonsView()
 
-            HStack {
-                VStack {
-                    // Number Pad Buttons
-                    NumberPadButtonsView()
-                }
-                VStack {
-                    // Operator Buttons
-                    OperatorButtonsView()
-                }
-            }
-            Button(action: {
-                calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
-                let result = calculator.MathWithPEMDAS(arr: calculator.numbersArray, oper: calculator.operatorsArray)
-                calculator.equalsButton(number: result)
-            }) {
-                Text("Calc")
-                    .padding()
-                    .frame(minWidth: 300, maxWidth: .infinity)
-                    .background(Color(.black))
-                    .foregroundColor(.white)
-                    .cornerRadius(50.0)
-                    .padding(.horizontal)
-            }
+            // Number Pad Buttons
+            NumberPadButtonsView()
+            // Operator Buttons
             
+            CalculateButtonView()
+            
+        }.frame(width: geo.size.width, height: geo.size.height, alignment: .center)
         }
 
     }

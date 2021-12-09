@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 class Calculator: ObservableObject {
     
     @Published var numbersArray:[Double] = []

@@ -12,7 +12,7 @@ struct OperatorButtonsView: View {
     @EnvironmentObject var calculator: Calculator
     
     var body: some View {
-        VStack {
+        HStack {
             ForEach(calculator.operatorButtons, id: \.rawValue) { button in
                 Button(action: {
                     print("Button: \(button.rawValue)")

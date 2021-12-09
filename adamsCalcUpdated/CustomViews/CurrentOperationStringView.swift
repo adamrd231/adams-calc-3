@@ -16,15 +16,25 @@ struct CurrentOperationStringView: View {
     }
     var body: some View {
         HStack {
+            // Use a spacer to align to the right
+            Spacer()
+            
+            // Display all of the calculations and operators input thus far
+            // Start by looping through the numbers array by index
             ForEach(calculator.numbersArray.indices, id: \.self) { index in
                 
-                Text(String(format: "%.2f", calculator.numbersArray[index]))
+                // Show the number inside the array based on the index
+                CalculationText(text: String(format: "%.2f", calculator.numbersArray[index]))
                 
+                // If the index is less than operators array, skip showing operator
                 if index < calculator.operatorsArray.count {
-                    Text(String(calculator.operatorsArray[index]))
+                    CalculationText(text: calculator.operatorsArray[index])
                 }
             }
-            Text(calculator.currentInput)
+            
+            // Show the current input from the user at the end of the output
+            CalculationText(text: calculator.currentInput)
+
         }.frame(minWidth: 1, idealWidth: 100, maxWidth: 1000, minHeight: 1, idealHeight: 50, maxHeight: 100, alignment: .center)
         .background(Color(.gray))
     }
