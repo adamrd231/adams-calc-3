@@ -57,12 +57,6 @@ class Calculator: ObservableObject {
 
     let operatorButtons: [Operator] = [.add, .subtract, .multiply, .divide]
     let accessoryButtons: [AccessoryButtons] = [.period, .backspace, .negativePostive, .clear]
-
-    func equalsButton(number: Double) {
-        numbersArray = []
-        operatorsArray = []
-        currentInput = String(number)
-    }
     
     
     func MathWithPEMDAS(arr: [Double], oper: [String]) -> Double {

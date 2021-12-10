@@ -27,14 +27,46 @@ struct OperatorButton: View {
         }
     }
     
+    func pressedClearButton() {
+        calculator.currentInput = ""
+        calculator.currentOperator = ""
+        calculator.operatorsArray = []
+        calculator.numbersArray = []
+    }
+    
+    func pressedBackSpaceClearButton() {
+        if calculator.currentInput.count >= 1 && calculator.currentOperator == "" {
+            calculator.currentInput.popLast()
+        }
+        
+    }
+    
+    func pressedPeriodButton() {
+        if !calculator.currentInput.contains(".") && calculator.currentInput.count > 0 {
+            calculator.currentInput.append(".")
+        }
+        
+
+    }
+    
+    func pressedNegativePositiveButton() {
+        if calculator.currentOperator == "" {
+            var number = Double(calculator.currentInput)
+            var stringNumber = String(number! * -1)
+            calculator.currentInput = stringNumber
+        }
+        
+        
+    }
+    
     var body: some View {
         
         Button(button) {
             switch button {
-            case ".": print("pressed .")
-            case "<": print("pressed <")
-            case "+/-": print("pressed +/-")
-            case "A/C": print("Pressed A/C")
+            case ".": pressedPeriodButton()
+            case "<": pressedBackSpaceClearButton()
+            case "+/-": pressedNegativePositiveButton()
+            case "A/C": pressedClearButton()
             case "+": pressedOperator(newOperator: button)
             case "-": pressedOperator(newOperator: button)
             case "x": pressedOperator(newOperator: button)

@@ -13,12 +13,18 @@ struct CalculateButtonView: View {
     
     @EnvironmentObject var calculator: Calculator
     
+    func doMath() {
+        calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
+        let result = calculator.MathWithPEMDAS(arr: calculator.numbersArray, oper: calculator.operatorsArray)
+        calculator.numbersArray = []
+        calculator.operatorsArray = []
+        calculator.currentInput = String(result)
+    }
+    
     var body: some View {
         
         Button(action: {
-            calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
-            let result = calculator.MathWithPEMDAS(arr: calculator.numbersArray, oper: calculator.operatorsArray)
-            calculator.equalsButton(number: result)
+            doMath()
         }) {
             Text("Calc")
                 .frame(minWidth: 300, maxWidth: .infinity, minHeight: 40, maxHeight: 75)
