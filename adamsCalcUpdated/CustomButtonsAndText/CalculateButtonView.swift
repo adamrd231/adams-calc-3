@@ -13,12 +13,29 @@ struct CalculateButtonView: View {
     
     @EnvironmentObject var calculator: Calculator
     
+    @State var numberOfDecimals = 3
+    
+    func formatNumber(number: Double) -> String {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = numberOfDecimals
+        
+        let number = NSNumber(value: number)
+        let formattedValue = formatter.string(from: number)!
+        
+        return formattedValue
+    }
+    
     func doMath() {
-        calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
-        let result = calculator.MathWithPEMDAS(arr: calculator.numbersArray, oper: calculator.operatorsArray)
-        calculator.numbersArray = []
-        calculator.operatorsArray = []
-        calculator.currentInput = String(result)
+        if calculator.numbersArray.count != 0 && calculator.operatorsArray.count != 0 {
+            calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
+            let result = calculator.MathWithPEMDAS(arr: calculator.numbersArray, oper: calculator.operatorsArray)
+            calculator.numbersArray = []
+            calculator.operatorsArray = []
+            calculator.currentInput = formatNumber(number: result)
+        }
+        
     }
     
     var body: some View {

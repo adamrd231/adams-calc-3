@@ -10,18 +10,19 @@ import SwiftUI
 struct NumberPadButtonsView: View {
     
     @EnvironmentObject var calculator: Calculator
-    
 
     func pressedNumberButton(number: Double) {
+        // If no operator, then enter inputs into the current input variable
         if calculator.currentOperator == "" {
             calculator.currentInput.append(String(format: "%.0f", number))
         }
         
         else {
+            // if there is an operator, push the operator and current Inputs to the arrays, then clear the current operator
             calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
             calculator.operatorsArray.append(calculator.currentOperator)
             calculator.currentOperator = ""
-            calculator.currentInput = String(number)
+            calculator.currentInput = String(format: "%.0f", number)
         }
         
 
@@ -46,6 +47,8 @@ struct NumberPadButtonsView: View {
                                     
                             }
                             .frame(minWidth: 50, maxWidth: .infinity, minHeight: 50, maxHeight: .infinity, alignment: .center)
+                            .contentShape(Rectangle())
+                            .padding()
                             
                         }
                     }

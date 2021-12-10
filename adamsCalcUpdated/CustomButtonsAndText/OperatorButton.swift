@@ -50,7 +50,7 @@ struct OperatorButton: View {
     }
     
     func pressedNegativePositiveButton() {
-        if calculator.currentOperator == "" {
+        if calculator.currentOperator == "" && calculator.currentInput != "" {
             var number = Double(calculator.currentInput)
             var stringNumber = String(number! * -1)
             calculator.currentInput = stringNumber
@@ -61,25 +61,24 @@ struct OperatorButton: View {
     
     var body: some View {
         
-        Button(button) {
+        Button(action: {
             switch button {
-            case ".": pressedPeriodButton()
-            case "<": pressedBackSpaceClearButton()
-            case "+/-": pressedNegativePositiveButton()
-            case "A/C": pressedClearButton()
-            case "+": pressedOperator(newOperator: button)
-            case "-": pressedOperator(newOperator: button)
-            case "x": pressedOperator(newOperator: button)
-            case "/": pressedOperator(newOperator: button)
-            
-            
-            default: print("Didnt press anything I expected")
+                case ".": pressedPeriodButton()
+                case "<": pressedBackSpaceClearButton()
+                case "+/-": pressedNegativePositiveButton()
+                case "A/C": pressedClearButton()
+                case "+": pressedOperator(newOperator: button)
+                case "-": pressedOperator(newOperator: button)
+                case "x": pressedOperator(newOperator: button)
+                case "/": pressedOperator(newOperator: button)
+                default: print("Didnt press anything I expected")
             }
-            
-            
+        }) {
+            Text(button).bold()
         }
         .font(.title3)
-        .frame(minWidth: 10, idealWidth: 150, maxWidth: .infinity, minHeight: 40, maxHeight: 60, alignment: .center)
+        .frame(minWidth: 10, idealWidth: 150, maxWidth: .infinity, minHeight: 40, maxHeight: 50, alignment: .center)
+        .contentShape(Rectangle())
         .foregroundColor(.white)
         .background(Color(.darkGray))
         .cornerRadius(25.0)

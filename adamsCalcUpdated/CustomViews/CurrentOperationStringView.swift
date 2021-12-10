@@ -11,9 +11,21 @@ struct CurrentOperationStringView: View {
     
     @EnvironmentObject var calculator: Calculator
 
-    func printIndex() {
+    @State var numberOfDecimals = 3
+    
+    func formatNumber(number: Double) -> String {
         
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = numberOfDecimals
+        
+        let number = NSNumber(value: number)
+        let formattedValue = formatter.string(from: number)!
+        
+        return formattedValue
     }
+    
+    
     var body: some View {
         HStack {
             // Use a spacer to align to the right
@@ -24,7 +36,7 @@ struct CurrentOperationStringView: View {
             ForEach(calculator.numbersArray.indices, id: \.self) { index in
                 
                 // Show the number inside the array based on the index
-                CalculationText(text: String(format: "%.2f", calculator.numbersArray[index]))
+                CalculationText(text: formatNumber(number: calculator.numbersArray[index]))
                 
                 // If the index is less than operators array, skip showing operator
                 if index < calculator.operatorsArray.count {
@@ -33,7 +45,7 @@ struct CurrentOperationStringView: View {
             }
             
             // Show the current input from the user at the end of the output
-            CalculationText(text: calculator.currentInput)
+            CalculationText(text: formatNumber(number: Double(calculator.currentInput) ?? 0))
             CalculationText(text: calculator.currentOperator).padding(.trailing)
 
         }.frame(minHeight: 100, maxHeight: 125)
