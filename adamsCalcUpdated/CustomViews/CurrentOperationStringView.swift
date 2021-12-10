@@ -34,9 +34,10 @@ struct CurrentOperationStringView: View {
             
             // Show the current input from the user at the end of the output
             CalculationText(text: calculator.currentInput)
+            CalculationText(text: calculator.currentOperator).padding(.trailing)
 
-        }.frame(minWidth: 1, idealWidth: 100, maxWidth: 1000, minHeight: 1, idealHeight: 50, maxHeight: 100, alignment: .center)
-        .background(Color(.gray))
+        }.frame(minHeight: 100, maxHeight: 125)
+        .background(Color(.lightGray))
     }
 }
 

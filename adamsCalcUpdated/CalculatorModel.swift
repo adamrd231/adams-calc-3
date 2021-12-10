@@ -14,6 +14,7 @@ class Calculator: ObservableObject {
     @Published var numbersArray:[Double] = []
     @Published var operatorsArray:[String] = []
     @Published var currentInput = ""
+    @Published var currentOperator = ""
     
     enum NumberPad: Double {
         case zero = 0

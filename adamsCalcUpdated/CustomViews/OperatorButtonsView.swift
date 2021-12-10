@@ -14,26 +14,7 @@ struct OperatorButtonsView: View {
     var body: some View {
         HStack {
             ForEach(calculator.operatorButtons, id: \.rawValue) { button in
-                Button(action: {
-                    print("Button: \(button.rawValue)")
-                    
-                    calculator.operatorsArray.append(button.rawValue)
-                    if let currentInput = Double(calculator.currentInput) {
-                        calculator.numbersArray.append(currentInput)
-                        calculator.currentInput = ""
-                        
-                        print(calculator.numbersArray)
-                    }
-                    print("Operator Array: \(calculator.operatorsArray)")
-               
-                }) {
-                    Text(button.rawValue)
-                        .padding()
-                        .padding(.horizontal)
-                        .background(Color(.darkGray))
-                        .foregroundColor(.white)
-                        .cornerRadius(50.0)
-                }
+                OperatorButton(button: button.rawValue)
             }
         }
     }
@@ -41,6 +22,6 @@ struct OperatorButtonsView: View {
 
 struct OperatorButtonsView_Previews: PreviewProvider {
     static var previews: some View {
-        OperatorButtonsView()
+        OperatorButtonsView().environmentObject(Calculator())
     }
 }

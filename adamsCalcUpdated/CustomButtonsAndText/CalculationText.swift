@@ -14,7 +14,7 @@ struct CalculationText: View {
     var body: some View {
         Text(text)
             .foregroundColor(.white)
-            .font(.title2)
+            .font(.title)
             .bold()
     }
 }

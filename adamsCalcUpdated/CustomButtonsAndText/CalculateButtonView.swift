@@ -21,8 +21,7 @@ struct CalculateButtonView: View {
             calculator.equalsButton(number: result)
         }) {
             Text("Calc")
-                .padding()
-                .frame(minWidth: 300, maxWidth: .infinity)
+                .frame(minWidth: 300, maxWidth: .infinity, minHeight: 40, maxHeight: 75)
                 .background(Color(.black))
                 .foregroundColor(.white)
                 .cornerRadius(50.0)

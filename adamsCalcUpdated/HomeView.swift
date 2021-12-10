@@ -13,25 +13,19 @@ struct HomeView: View {
     @EnvironmentObject var calculator: Calculator
 
     var body: some View {
-        GeometryReader { geo in
+
         VStack {
           
-            // Current Operations Log
             CurrentOperationStringView()
+            VStack {
+                ExtraOperatorsView().padding()
+                OperatorButtonsView().padding(.horizontal)
+                NumberPadButtonsView().padding(.top)
+            }
             
-            ExtraOperatorsView()
+            CalculateButtonView().padding(.top)
             
-            OperatorButtonsView()
-
-            // Number Pad Buttons
-            NumberPadButtonsView()
-            // Operator Buttons
-            
-            CalculateButtonView()
-            
-        }.frame(width: geo.size.width, height: geo.size.height, alignment: .center)
         }
-
     }
 }
 

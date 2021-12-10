@@ -12,34 +12,46 @@ struct NumberPadButtonsView: View {
     @EnvironmentObject var calculator: Calculator
     
 
-    
+    func pressedNumberButton(number: Double) {
+        if calculator.currentOperator == "" {
+            calculator.currentInput.append(String(format: "%.0f", number))
+        }
+        
+        else {
+            calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
+            calculator.operatorsArray.append(calculator.currentOperator)
+            calculator.currentOperator = ""
+            calculator.currentInput = String(number)
+        }
+        
+
+        
+    }
     
     var body: some View {
-        GeometryReader { geo in
-            VStack(alignment: .center) {
-               
+        VStack(alignment: .center) {
+
+            VStack {
                 ForEach(calculator.numberPadButtons, id: \.self) { row in
                     HStack {
                         ForEach(row, id: \.rawValue) { item in
                             Button(action: {
-                                calculator.currentInput.append(String(format: "%.0f", item.rawValue))
+                                pressedNumberButton(number: item.rawValue)
                             }) {
                                 Text(String(format: "%.0f", item.rawValue))
                                     .font(.title)
                                     .bold()
-                                    .frame(width: geo.size.width / 3 - 25, height: geo.size.height * 0.16)
                                     .foregroundColor(.white)
-                                    .background(Color(.gray))
-                                    .cornerRadius(35.0)
-                                    .padding(1)
+                                    
                                     
                             }
+                            .frame(minWidth: 50, maxWidth: .infinity, minHeight: 50, maxHeight: .infinity, alignment: .center)
+                            
                         }
                     }
                 }
             }
-            
-            .frame(width: geo.size.width)
+            .background(Color(.darkGray))
             
         }
     }
