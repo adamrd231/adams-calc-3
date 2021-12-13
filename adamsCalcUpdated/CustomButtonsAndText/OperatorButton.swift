@@ -35,7 +35,7 @@ struct OperatorButton: View {
     }
     
     func pressedBackSpaceClearButton() {
-        if calculator.currentInput.count >= 1 && calculator.currentOperator == "" {
+        if calculator.currentInput.count > 0 && calculator.currentOperator == "" {
             calculator.currentInput.popLast()
         }
         
@@ -44,6 +44,10 @@ struct OperatorButton: View {
     func pressedPeriodButton() {
         if !calculator.currentInput.contains(".") && calculator.currentInput.count > 0 {
             calculator.currentInput.append(".")
+            print(calculator.currentInput)
+         print("does not contains a period and greater than 1")
+        } else {
+            print("contains a period")
         }
         
 

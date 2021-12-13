@@ -33,6 +33,7 @@ struct CalculateButtonView: View {
             let result = calculator.MathWithPEMDAS(arr: calculator.numbersArray, oper: calculator.operatorsArray)
             calculator.numbersArray = []
             calculator.operatorsArray = []
+            print(formatNumber(number: result))
             calculator.currentInput = formatNumber(number: result)
         }
         

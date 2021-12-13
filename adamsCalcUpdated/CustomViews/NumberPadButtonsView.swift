@@ -46,7 +46,8 @@ struct NumberPadButtonsView: View {
                                     
                                     
                             }
-                            .frame(minWidth: 50, maxWidth: .infinity, minHeight: 50, maxHeight: .infinity, alignment: .center)
+                            .frame(minWidth: 75, maxWidth: .infinity, minHeight: 50, maxHeight: .infinity, alignment: .center)
+                            
                             .contentShape(Rectangle())
                             .padding()
                             

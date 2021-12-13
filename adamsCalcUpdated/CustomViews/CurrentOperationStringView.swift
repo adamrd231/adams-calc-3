@@ -45,7 +45,18 @@ struct CurrentOperationStringView: View {
             }
             
             // Show the current input from the user at the end of the output
-            CalculationText(text: formatNumber(number: Double(calculator.currentInput) ?? 0))
+            if calculator.currentInput.last == "." {
+                
+                if let newNumber = Double(calculator.currentInput) {
+                    CalculationText(text: formatNumber(number: newNumber) + ".")
+                }
+            } else {
+                if let newNumber = Double(calculator.currentInput) {
+                    CalculationText(text: formatNumber(number: newNumber))
+                }
+            }
+            
+            
             CalculationText(text: calculator.currentOperator).padding(.trailing)
 
         }.frame(minHeight: 100, maxHeight: 125)

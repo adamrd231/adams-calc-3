@@ -13,18 +13,6 @@ struct CalculationText: View {
     
     var numberOfDecimals = 3
     
-    func formatNumber(number: Double) -> String {
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = numberOfDecimals
-        
-        let number = NSNumber(value: number)
-        let formattedValue = formatter.string(from: number)!
-        
-        return formattedValue
-    }
-    
     
     var body: some View {
         Text(text)
@@ -36,6 +24,6 @@ struct CalculationText: View {
 
 struct CalculationText_Previews: PreviewProvider {
     static var previews: some View {
-        CalculationText(text: "Test")
+        CalculationText(text: "3.")
     }
 }
