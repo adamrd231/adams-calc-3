@@ -29,14 +29,36 @@ struct CalculateButtonView: View {
     
     func doMath() {
         if calculator.numbersArray.count != 0 && calculator.operatorsArray.count != 0 {
+            
+            let comma: Set<Character> = [","]
+            calculator.currentInput.removeAll(where: {comma.contains($0)})
+            
             calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
             let result = calculator.MathWithPEMDAS(arr: calculator.numbersArray, oper: calculator.operatorsArray)
+            
+            // Reset numbers and operators array to empty
             calculator.numbersArray = []
             calculator.operatorsArray = []
-            print(formatNumber(number: result))
+            calculator.currentOperator = ""
+            // Save value to the result of the math operation
             calculator.currentInput = formatNumber(number: result)
+            fillSavedButtons(number: result)
+            
+            
         }
         
+    }
+    
+    func fillSavedButtons(number: Double) {
+        if calculator.saveButtonOneLocked == false {
+            calculator.saveButtonOne = formatNumber(number: number)
+            print("save One")
+        } else if calculator.saveButtonTwoLocked == false {
+            calculator.saveButtonTwo = formatNumber(number: number)
+            print("save two")
+        } else {
+            return
+        }
     }
     
     var body: some View {
@@ -44,12 +66,21 @@ struct CalculateButtonView: View {
         Button(action: {
             doMath()
         }) {
-            Text("Calc")
-                .frame(minWidth: 300, maxWidth: .infinity, minHeight: 40, maxHeight: 75)
-                .background(Color(.black))
-                .foregroundColor(.white)
-                .cornerRadius(50.0)
-                .padding(.horizontal)
+            ZStack {
+                RoundedRectangle(cornerRadius: 25.0)
+                    .stroke(Color.black, lineWidth: 3)
+                Text("Calculate")
+                    .foregroundColor(.black)
+                    .font(.largeTitle)
+                    .bold()
+               
+            }.frame(minHeight: 35, maxHeight: 50)
+            
+                
+                
+                
+
+      
         }
     }
 }

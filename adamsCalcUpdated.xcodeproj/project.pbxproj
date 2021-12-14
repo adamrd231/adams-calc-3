@@ -11,6 +11,7 @@
 		662F6BDF276267B0002B5D26 /* ExtraOperatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662F6BDE276267B0002B5D26 /* ExtraOperatorsView.swift */; };
 		662F6BE727628F7F002B5D26 /* CalculationText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662F6BE627628F7F002B5D26 /* CalculationText.swift */; };
 		662F6BE927630F2B002B5D26 /* OperatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662F6BE827630F2B002B5D26 /* OperatorButton.swift */; };
+		66618C49276829AA0061E47D /* ReusableButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66618C48276829AA0061E47D /* ReusableButtons.swift */; };
 		668AED502758487D0059F7A9 /* adamsCalcUpdatedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668AED4F2758487D0059F7A9 /* adamsCalcUpdatedApp.swift */; };
 		668AED522758487D0059F7A9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668AED512758487D0059F7A9 /* HomeView.swift */; };
 		668AED542758487F0059F7A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668AED532758487F0059F7A9 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		662F6BDE276267B0002B5D26 /* ExtraOperatorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraOperatorsView.swift; sourceTree = "<group>"; };
 		662F6BE627628F7F002B5D26 /* CalculationText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationText.swift; sourceTree = "<group>"; };
 		662F6BE827630F2B002B5D26 /* OperatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorButton.swift; sourceTree = "<group>"; };
+		66618C48276829AA0061E47D /* ReusableButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableButtons.swift; sourceTree = "<group>"; };
 		668AED4C2758487D0059F7A9 /* adamsCalcUpdated.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = adamsCalcUpdated.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		668AED4F2758487D0059F7A9 /* adamsCalcUpdatedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = adamsCalcUpdatedApp.swift; sourceTree = "<group>"; };
 		668AED512758487D0059F7A9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 				662F6BDC276266EE002B5D26 /* CalculateButtonView.swift */,
 				662F6BE627628F7F002B5D26 /* CalculationText.swift */,
 				662F6BE827630F2B002B5D26 /* OperatorButton.swift */,
+				66618C48276829AA0061E47D /* ReusableButtons.swift */,
 			);
 			path = CustomButtonsAndText;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 				662F6BE727628F7F002B5D26 /* CalculationText.swift in Sources */,
 				668AED66275887E10059F7A9 /* OperatorButtonsView.swift in Sources */,
 				662F6BDF276267B0002B5D26 /* ExtraOperatorsView.swift in Sources */,
+				66618C49276829AA0061E47D /* ReusableButtons.swift in Sources */,
 				668AED5F275848B40059F7A9 /* CalculatorModel.swift in Sources */,
 				668AED522758487D0059F7A9 /* HomeView.swift in Sources */,
 				662F6BE927630F2B002B5D26 /* OperatorButton.swift in Sources */,

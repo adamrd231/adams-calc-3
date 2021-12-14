@@ -17,15 +17,43 @@ struct HomeView: View {
         VStack {
           
             CurrentOperationStringView()
-            VStack {
-                ExtraOperatorsView().padding()
-                OperatorButtonsView().padding(.horizontal)
-                NumberPadButtonsView().padding(.top)
+            
+            // Add in save / reusable buttons here
+            
+            HStack {
+                ReusableButtons(text: calculator.saveButtonOne, locked: $calculator.saveButtonOneLocked)
+                ReusableButtons(text: calculator.saveButtonTwo, locked: $calculator.saveButtonTwoLocked)
+                
             }
             
-            CalculateButtonView().padding(.top)
+            .padding(.top, 5)
+            .padding(.horizontal)
+            
+            VStack {
+                ExtraOperatorsView()
+                    .padding(.horizontal)
+                    .padding(.bottom, 2)
+                OperatorButtonsView().padding(.horizontal)
+            }
+            NumberPadButtonsView().padding(.horizontal, 9)
+            
+            CalculateButtonView()
+                .padding(.horizontal)
+                .padding(.top, 5)
+                .padding(.bottom, 5)
+            
+            // Google Admob
+            ZStack {
+                Rectangle()
+                    .frame(minWidth: 50, idealWidth: 50, maxWidth: .infinity, minHeight: 50, idealHeight: 60, maxHeight: 75)
+                Text("AdMob").foregroundColor(.white)
+            }
+           
             
         }
+        .background(
+            LinearGradient(gradient: Gradient(colors: [.white, Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        .ignoresSafeArea()
     }
 }
 

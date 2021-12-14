@@ -19,6 +19,9 @@ struct NumberPadButtonsView: View {
         
         else {
             // if there is an operator, push the operator and current Inputs to the arrays, then clear the current operator
+            let comma: Set<Character> = [","]
+            calculator.currentInput.removeAll(where: {comma.contains($0)})
+
             calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
             calculator.operatorsArray.append(calculator.currentOperator)
             calculator.currentOperator = ""
@@ -36,27 +39,36 @@ struct NumberPadButtonsView: View {
                 ForEach(calculator.numberPadButtons, id: \.self) { row in
                     HStack {
                         ForEach(row, id: \.rawValue) { item in
+                            
+ 
                             Button(action: {
                                 pressedNumberButton(number: item.rawValue)
                             }) {
-                                Text(String(format: "%.0f", item.rawValue))
-                                    .font(.title)
-                                    .bold()
-                                    .foregroundColor(.white)
+                                
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .stroke(Color.black, lineWidth: 3)
+                                    Text(String(format: "%.0f", item.rawValue))
+                                        .font(.title)
+                                        .bold()
+                                        .frame(minWidth: 50, maxWidth: .infinity, minHeight: 40, maxHeight: .infinity)
+                                        .cornerRadius(25)
+                                        .foregroundColor(.black)
+                                }
+                                
+                                    
                                     
                                     
                             }
-                            .frame(minWidth: 75, maxWidth: .infinity, minHeight: 50, maxHeight: .infinity, alignment: .center)
+                            .frame(minWidth: 75, maxWidth: .infinity, minHeight: 25, maxHeight: .infinity, alignment: .center)
                             
-                            .contentShape(Rectangle())
-                            .padding()
-                            
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 5)
+
                         }
                     }
                 }
             }
-            .background(Color(.darkGray))
-            
         }
     }
 }

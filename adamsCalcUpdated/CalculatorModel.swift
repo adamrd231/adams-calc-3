@@ -15,6 +15,10 @@ class Calculator: ObservableObject {
     @Published var operatorsArray:[String] = []
     @Published var currentInput = ""
     @Published var currentOperator = ""
+    @Published var saveButtonOne = ""
+    @Published var saveButtonOneLocked = false
+    @Published var saveButtonTwo = ""
+    @Published var saveButtonTwoLocked = false
     
     enum NumberPad: Double {
         case zero = 0

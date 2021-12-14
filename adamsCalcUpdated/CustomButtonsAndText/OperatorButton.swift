@@ -30,6 +30,12 @@ struct OperatorButton: View {
     func pressedClearButton() {
         calculator.currentInput = ""
         calculator.currentOperator = ""
+        if calculator.saveButtonOneLocked == false {
+            calculator.saveButtonOne = ""
+        }
+        if calculator.saveButtonTwoLocked == false {
+            calculator.saveButtonTwo = ""
+        }
         calculator.operatorsArray = []
         calculator.numbersArray = []
     }
@@ -78,13 +84,18 @@ struct OperatorButton: View {
                 default: print("Didnt press anything I expected")
             }
         }) {
-            Text(button).bold()
+            ZStack {
+                RoundedRectangle(cornerRadius: 25.0)
+                    .stroke(Color("Blue"), lineWidth: 3)
+                Text(button).bold()
+            }
+            
         }
-        .font(.title3)
-        .frame(minWidth: 10, idealWidth: 150, maxWidth: .infinity, minHeight: 40, maxHeight: 50, alignment: .center)
+        .font(.title2)
+        .frame(minWidth: 10, maxWidth: .infinity, minHeight: 15, maxHeight: 50, alignment: .center)
         .contentShape(Rectangle())
         .foregroundColor(.white)
-        .background(Color(.darkGray))
+        .background(Color("Blue"))
         .cornerRadius(25.0)
     }
 }

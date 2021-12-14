@@ -45,22 +45,14 @@ struct CurrentOperationStringView: View {
             }
             
             // Show the current input from the user at the end of the output
-            if calculator.currentInput.last == "." {
-                
-                if let newNumber = Double(calculator.currentInput) {
-                    CalculationText(text: formatNumber(number: newNumber) + ".")
-                }
-            } else {
-                if let newNumber = Double(calculator.currentInput) {
-                    CalculationText(text: formatNumber(number: newNumber))
-                }
-            }
+            CalculationText(text: calculator.currentInput)
             
             
-            CalculationText(text: calculator.currentOperator).padding(.trailing)
-
-        }.frame(minHeight: 100, maxHeight: 125)
-        .background(Color(.lightGray))
+            CalculationText(text: calculator.currentOperator)
+                .padding(.trailing)
+        }
+        .frame(minHeight: 75, maxHeight: 140)
+        .background(Color(.darkGray))
     }
 }
 
