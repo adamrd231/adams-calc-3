@@ -67,12 +67,12 @@ struct CalculateButtonView: View {
             doMath()
         }) {
             ZStack {
-                RoundedRectangle(cornerRadius: 25.0)
-                    .stroke(Color.black, lineWidth: 3)
+                RoundedRectangle(cornerRadius: 20.0)
+                    .foregroundColor(Color("Blue"))
                 Text("Calculate")
-                    .foregroundColor(.black)
-                    .font(.largeTitle)
+                    .foregroundColor(.white)
                     .bold()
+                    .font(.title2)
                
             }.frame(minHeight: 35, maxHeight: 50)
             

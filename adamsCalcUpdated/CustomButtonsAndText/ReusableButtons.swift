@@ -54,13 +54,13 @@ struct ReusableButtons: View {
                 if locked == true {
                     Image(systemName: "lock.fill")
                         .resizable()
-                        .foregroundColor(Color(.darkGray))
+                        .foregroundColor(Color(.black))
                         .frame(minWidth: 10, maxWidth: 30, minHeight: 30, maxHeight: 50, alignment: .center)
                       
                 } else {
                     Image(systemName: "lock")
                         .resizable()
-                        .foregroundColor(Color(.darkGray))
+                        .foregroundColor(Color(.black))
                         .frame(minWidth: 10, maxWidth: 30, minHeight: 30, maxHeight: 50, alignment: .center)
                 }
                 
