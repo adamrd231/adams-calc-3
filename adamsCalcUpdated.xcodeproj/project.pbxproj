@@ -3,10 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		504BE744898FC5AEA37DA7CB /* Pods_adamsCalcUpdated.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB4690FD4550CE1A10050E4 /* Pods_adamsCalcUpdated.framework */; };
+		6627E0042773D7D600B03DAC /* AdMobBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6627E0032773D7D600B03DAC /* AdMobBanner.swift */; };
+		6627E007277419E500B03DAC /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6627E006277419E500B03DAC /* StoreManager.swift */; };
 		662F6BDD276266EE002B5D26 /* CalculateButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662F6BDC276266EE002B5D26 /* CalculateButtonView.swift */; };
 		662F6BDF276267B0002B5D26 /* ExtraOperatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662F6BDE276267B0002B5D26 /* ExtraOperatorsView.swift */; };
 		662F6BE727628F7F002B5D26 /* CalculationText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662F6BE627628F7F002B5D26 /* CalculationText.swift */; };
@@ -23,6 +26,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B51096CBEB4FFDC81BDA26E /* Pods-adamsCalcUpdated.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-adamsCalcUpdated.debug.xcconfig"; path = "Target Support Files/Pods-adamsCalcUpdated/Pods-adamsCalcUpdated.debug.xcconfig"; sourceTree = "<group>"; };
+		6627E0032773D7D600B03DAC /* AdMobBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdMobBanner.swift; sourceTree = "<group>"; };
+		6627E006277419E500B03DAC /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		662F6BDC276266EE002B5D26 /* CalculateButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateButtonView.swift; sourceTree = "<group>"; };
 		662F6BDE276267B0002B5D26 /* ExtraOperatorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraOperatorsView.swift; sourceTree = "<group>"; };
 		662F6BE627628F7F002B5D26 /* CalculationText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationText.swift; sourceTree = "<group>"; };
@@ -38,6 +44,8 @@
 		668AED61275856B90059F7A9 /* CurrentOperationStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentOperationStringView.swift; sourceTree = "<group>"; };
 		668AED63275887A00059F7A9 /* NumberPadButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPadButtonsView.swift; sourceTree = "<group>"; };
 		668AED65275887E10059F7A9 /* OperatorButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorButtonsView.swift; sourceTree = "<group>"; };
+		6FC4FA40FC042307359CFDBC /* Pods-adamsCalcUpdated.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-adamsCalcUpdated.release.xcconfig"; path = "Target Support Files/Pods-adamsCalcUpdated/Pods-adamsCalcUpdated.release.xcconfig"; sourceTree = "<group>"; };
+		ADB4690FD4550CE1A10050E4 /* Pods_adamsCalcUpdated.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_adamsCalcUpdated.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,12 +53,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				504BE744898FC5AEA37DA7CB /* Pods_adamsCalcUpdated.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B6F2FB36D664D4B3B88C95A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0B51096CBEB4FFDC81BDA26E /* Pods-adamsCalcUpdated.debug.xcconfig */,
+				6FC4FA40FC042307359CFDBC /* Pods-adamsCalcUpdated.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6627E0022773D7B200B03DAC /* GoogleAdMob */ = {
+			isa = PBXGroup;
+			children = (
+				6627E0032773D7D600B03DAC /* AdMobBanner.swift */,
+			);
+			path = GoogleAdMob;
+			sourceTree = "<group>";
+		};
+		6627E005277419D200B03DAC /* InAppPurchases */ = {
+			isa = PBXGroup;
+			children = (
+				6627E006277419E500B03DAC /* StoreManager.swift */,
+			);
+			path = InAppPurchases;
+			sourceTree = "<group>";
+		};
 		662F6BE527628F6B002B5D26 /* CustomButtonsAndText */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +101,8 @@
 			children = (
 				668AED4E2758487D0059F7A9 /* adamsCalcUpdated */,
 				668AED4D2758487D0059F7A9 /* Products */,
+				3B6F2FB36D664D4B3B88C95A /* Pods */,
+				6CC3046C2F1C9BAE94D459CA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,6 +117,8 @@
 		668AED4E2758487D0059F7A9 /* adamsCalcUpdated */ = {
 			isa = PBXGroup;
 			children = (
+				6627E005277419D200B03DAC /* InAppPurchases */,
+				6627E0022773D7B200B03DAC /* GoogleAdMob */,
 				662F6BE527628F6B002B5D26 /* CustomButtonsAndText */,
 				668AED60275856AC0059F7A9 /* CustomViews */,
 				668AED4F2758487D0059F7A9 /* adamsCalcUpdatedApp.swift */,
@@ -112,6 +150,14 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
+		6CC3046C2F1C9BAE94D459CA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADB4690FD4550CE1A10050E4 /* Pods_adamsCalcUpdated.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -119,9 +165,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 668AED5B2758487F0059F7A9 /* Build configuration list for PBXNativeTarget "adamsCalcUpdated" */;
 			buildPhases = (
+				A6FB9E62845EEFFACC66E92B /* [CP] Check Pods Manifest.lock */,
 				668AED482758487D0059F7A9 /* Sources */,
 				668AED492758487D0059F7A9 /* Frameworks */,
 				668AED4A2758487D0059F7A9 /* Resources */,
+				734AC4927112F6C135F8283C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -176,6 +224,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		734AC4927112F6C135F8283C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-adamsCalcUpdated/Pods-adamsCalcUpdated-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-adamsCalcUpdated/Pods-adamsCalcUpdated-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-adamsCalcUpdated/Pods-adamsCalcUpdated-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A6FB9E62845EEFFACC66E92B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-adamsCalcUpdated-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		668AED482758487D0059F7A9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -189,7 +279,9 @@
 				668AED522758487D0059F7A9 /* HomeView.swift in Sources */,
 				662F6BE927630F2B002B5D26 /* OperatorButton.swift in Sources */,
 				668AED62275856B90059F7A9 /* CurrentOperationStringView.swift in Sources */,
+				6627E007277419E500B03DAC /* StoreManager.swift in Sources */,
 				668AED502758487D0059F7A9 /* adamsCalcUpdatedApp.swift in Sources */,
+				6627E0042773D7D600B03DAC /* AdMobBanner.swift in Sources */,
 				668AED64275887A00059F7A9 /* NumberPadButtonsView.swift in Sources */,
 				662F6BDD276266EE002B5D26 /* CalculateButtonView.swift in Sources */,
 			);
@@ -316,6 +408,7 @@
 		};
 		668AED5C2758487F0059F7A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0B51096CBEB4FFDC81BDA26E /* Pods-adamsCalcUpdated.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -338,6 +431,7 @@
 		};
 		668AED5D2758487F0059F7A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6FC4FA40FC042307359CFDBC /* Pods-adamsCalcUpdated.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

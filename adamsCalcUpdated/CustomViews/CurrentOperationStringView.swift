@@ -52,7 +52,8 @@ struct CurrentOperationStringView: View {
                 .padding(.trailing)
         }
         .frame(minHeight: 75, maxHeight: 140)
-        .background(Color(.darkGray))
+        .background(
+            LinearGradient(gradient: Gradient(colors: [.black, Color(.darkGray)]), startPoint: .topTrailing, endPoint: .bottomLeading))
     }
 }
 

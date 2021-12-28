@@ -87,7 +87,21 @@ struct OperatorButton: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 25.0)
                     .stroke(Color("Blue"), lineWidth: 3)
-                Text(button).bold()
+                
+                if button == "+" {
+                    Image(systemName: "plus")
+                } else if button == "-" {
+                    Image(systemName: "minus")
+
+                } else if button == "x" {
+                    Image(systemName: "multiply")
+                    
+                } else if button == "/" {
+                    Image(systemName: "divide")
+                } else {
+                    Text(button).bold()
+                }
+               
             }
             
         }

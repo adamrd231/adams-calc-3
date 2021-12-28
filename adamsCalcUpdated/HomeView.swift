@@ -11,6 +11,7 @@ import SwiftUI
 struct HomeView: View {
     
     @EnvironmentObject var calculator: Calculator
+    @StateObject var storeManager: StoreManager
 
     var body: some View {
         TabView {
@@ -44,19 +45,14 @@ struct HomeView: View {
                     .padding(.bottom, 5)
                 
                 // Google Admob
-                ZStack {
-                    Rectangle()
-                        .frame(minWidth: 50, idealWidth: 50, maxWidth: .infinity, minHeight: 50, idealHeight: 60, maxHeight: 75)
-                    Text("AdMob").foregroundColor(.white)
-                }
-               
+                AdMobBanner()
                 
             }
             .background(
                 LinearGradient(gradient: Gradient(colors: [.white, Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
             .tabItem {
-                Image(systemName: "house").frame(width: 15, height: 15, alignment: .center)
-                Text("Home")
+                Image(systemName: "plus.rectangle").frame(width: 15, height: 15, alignment: .center)
+                Text("Calculator")
                 
             }
             
@@ -68,7 +64,7 @@ struct HomeView: View {
             }
             
             .tabItem {
-                Image(systemName: "house").frame(width: 15, height: 15, alignment: .center)
+                Image(systemName: "creditcard").frame(width: 15, height: 15, alignment: .center)
                 Text("In-App Purchase")
                 
             }
@@ -79,6 +75,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView().environmentObject(Calculator())
+        HomeView(storeManager: StoreManager()).environmentObject(Calculator())
     }
 }
