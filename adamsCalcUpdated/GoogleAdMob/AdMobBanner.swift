@@ -31,6 +31,8 @@ final private class BannerVC: UIViewControllerRepresentable  {
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
+
+
 struct AdMobBanner: View {
     var body: some View {
         HStack(alignment: .center) {

@@ -12,6 +12,8 @@ struct HomeView: View {
     
     @EnvironmentObject var calculator: Calculator
     @StateObject var storeManager: StoreManager
+    
+    var padding: CGFloat = 2
 
     var body: some View {
         TabView {
@@ -35,19 +37,19 @@ struct HomeView: View {
                 VStack {
                     ExtraOperatorsView()
                         .padding(.horizontal)
-                        .padding(.bottom, 2)
+                        .padding(.bottom, padding)
                     OperatorButtonsView().padding(.horizontal)
                 }
                 NumberPadButtonsView().padding(.horizontal, 10)
                 
                 CalculateButtonView()
                     .padding(.horizontal)
-                    .padding(.bottom, 5)
                 
                 // Google Admob
                 AdMobBanner()
                 
             }
+            .edgesIgnoringSafeArea(.bottom)
             .background(
                 LinearGradient(gradient: Gradient(colors: [.white, Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
             .tabItem {

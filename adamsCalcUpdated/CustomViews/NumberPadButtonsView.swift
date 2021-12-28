@@ -60,10 +60,10 @@ struct NumberPadButtonsView: View {
                                     
                                     
                             }
-                            .frame(minWidth: 75, maxWidth: .infinity, minHeight: 25, maxHeight: .infinity, alignment: .center)
+                            .frame(minWidth: 75, maxWidth: .infinity, minHeight: 25, maxHeight: 75, alignment: .center)
                             
                             .padding(.horizontal, 2)
-                            .padding(.vertical, 2)
+                            .padding(.vertical, 5)
 
                         }
                     }

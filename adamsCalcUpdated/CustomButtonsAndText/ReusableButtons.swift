@@ -45,7 +45,7 @@ struct ReusableButtons: View {
                 }
                 
             }
-            .frame(minWidth: 10, idealWidth: 150, maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .center)
+            .frame(minWidth: 10, idealWidth: 150, maxWidth: .infinity, minHeight: 40, maxHeight: 50, alignment: .center)
 
             
             Button(action: {

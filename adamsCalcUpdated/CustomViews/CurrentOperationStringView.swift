@@ -25,6 +25,42 @@ struct CurrentOperationStringView: View {
         return formattedValue
     }
     
+    func addCommasToString(string: String) -> String {
+        
+        let stringLength = string.count
+        var newString = string
+        
+        if stringLength == 3 {
+            newString.append(",")
+            calculator.currentInput = newString
+            return newString
+        } else if stringLength == 7 {
+            newString.append(",")
+            calculator.currentInput = newString
+            return newString
+        } else if stringLength == 11 {
+            newString.append(",")
+            calculator.currentInput = newString
+            return newString
+        } else if stringLength == 15 {
+            newString.append(",")
+            calculator.currentInput = newString
+            return newString
+        } else if stringLength == 19 {
+            newString.append(",")
+            calculator.currentInput = newString
+            return newString
+        } else if stringLength == 23 {
+            newString.append(",")
+            calculator.currentInput = newString
+            return newString
+        } else {
+            return string
+        }
+        
+
+    }
+    
     
     var body: some View {
         HStack {
@@ -45,7 +81,7 @@ struct CurrentOperationStringView: View {
             }
             
             // Show the current input from the user at the end of the output
-            CalculationText(text: calculator.currentInput)
+            CalculationText(text: addCommasToString(string: calculator.currentInput))
             
             
             CalculationText(text: calculator.currentOperator)

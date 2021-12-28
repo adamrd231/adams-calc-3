@@ -106,7 +106,7 @@ struct OperatorButton: View {
             
         }
         .font(.title2)
-        .frame(minWidth: 10, maxWidth: .infinity, minHeight: 15, maxHeight: 50, alignment: .center)
+        .frame(minWidth: 40, maxWidth: .infinity, minHeight: 25, maxHeight: 50, alignment: .center)
         .contentShape(Rectangle())
         .foregroundColor(.white)
         .background(Color("Blue"))
