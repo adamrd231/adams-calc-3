@@ -29,29 +29,15 @@ struct CurrentOperationStringView: View {
         
         let stringLength = string.count
         var newString = string
+        var indexedString = newString.index(newString.startIndex, offsetBy: 0)
         
-        if stringLength == 3 {
-            newString.append(",")
-            calculator.currentInput = newString
-            return newString
-        } else if stringLength == 7 {
-            newString.append(",")
-            calculator.currentInput = newString
-            return newString
-        } else if stringLength == 11 {
-            newString.append(",")
-            calculator.currentInput = newString
-            return newString
-        } else if stringLength == 15 {
-            newString.append(",")
-            calculator.currentInput = newString
-            return newString
-        } else if stringLength == 19 {
-            newString.append(",")
-            calculator.currentInput = newString
-            return newString
-        } else if stringLength == 23 {
-            newString.append(",")
+        if newString != "" {
+            indexedString = newString.index(newString.startIndex, offsetBy: 1)
+        }
+        
+        
+        if stringLength == 4 {
+            newString.insert(",", at: indexedString)
             calculator.currentInput = newString
             return newString
         } else {
@@ -81,7 +67,7 @@ struct CurrentOperationStringView: View {
             }
             
             // Show the current input from the user at the end of the output
-            CalculationText(text: addCommasToString(string: calculator.currentInput))
+            CalculationText(text: String(format: "\(calculator.currentInput)"))
             
             
             CalculationText(text: calculator.currentOperator)

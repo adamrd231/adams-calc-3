@@ -49,9 +49,9 @@ struct HomeView: View {
                 AdMobBanner()
                 
             }
-            .edgesIgnoringSafeArea(.bottom)
+            
             .background(
-                LinearGradient(gradient: Gradient(colors: [.white, Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                LinearGradient(gradient: Gradient(colors: [.white, Color(.lightGray)]), startPoint: .bottomLeading, endPoint: .top))
             .tabItem {
                 Image(systemName: "plus.rectangle").frame(width: 15, height: 15, alignment: .center)
                 Text("Calculator")

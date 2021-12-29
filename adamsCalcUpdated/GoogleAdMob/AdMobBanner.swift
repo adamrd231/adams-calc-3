@@ -16,19 +16,21 @@ final private class BannerVC: UIViewControllerRepresentable  {
     var realBannerAdId = "ca-app-pub-4186253562269967/3971400494"
 
     func makeUIViewController(context: Context) -> UIViewController {
-        let view = GADBannerView(adSize: kGADAdSizeBanner)
+        let view = GADBannerView(adSize: GADAdSizeBanner)
 
         let viewController = UIViewController()
         view.adUnitID = testBannerAdId
         view.rootViewController = viewController
         viewController.view.addSubview(view)
-        viewController.view.frame = CGRect(origin: .zero, size: kGADAdSizeBanner.size)
+        viewController.view.frame = CGRect(origin: .zero, size: GADAdSizeBanner.size)
         view.load(GADRequest())
 
         return viewController
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        print("Updating UIViewController")
+    }
 }
 
 
@@ -36,7 +38,7 @@ final private class BannerVC: UIViewControllerRepresentable  {
 struct AdMobBanner: View {
     var body: some View {
         HStack(alignment: .center) {
-            BannerVC().frame(width: 320, height: 100, alignment: .center)
+            BannerVC().frame(width: 320, height: 55, alignment: .center)
         }
     }
 }
