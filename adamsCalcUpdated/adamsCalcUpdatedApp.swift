@@ -28,32 +28,43 @@ struct adamsCalcUpdatedApp: App {
       ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
         // Tracking authorization completed. Start loading ads here.
 
-//        let request = GADRequest()
-//            GADInterstitialAd.load(
-//                withAdUnitID:"ca-app-pub-3940256099942544/1033173712",
-//                request: request,
-//                completionHandler: { [self] ad, error in
-//                    // Check if there is an error
-//                    if let error = error {
-//                        return
-//                    }
-//                    // If no errors, create an ad and serve it
-//                    interstitial = ad
-//                    let root = UIApplication.shared.windows.first?.rootViewController
-//                    self.interstitial!.present(fromRootViewController: root!)
-//
-//                    }
-//                )
+        if storeManager.purchasedRemoveAds == false && storeManager.showedAdvertising == false {
+            
+            storeManager.showedAdvertising = true
+            
+            let request = GADRequest()
+                GADInterstitialAd.load(
+                    withAdUnitID:"ca-app-pub-3940256099942544/1033173712",
+                    request: request,
+                    completionHandler: { [self] ad, error in
+                        // Check if there is an error
+                        if let error = error {
+                            return
+                        }
+                        // If no errors, create an ad and serve it
+                        interstitial = ad
+                        let root = UIApplication.shared.windows.first?.rootViewController
+                        self.interstitial!.present(fromRootViewController: root!)
+
+                        }
+                    )
+        }
+
       })
     }
     
     var body: some Scene {
         WindowGroup {
-            HomeView(storeManager: storeManager).environmentObject(calculator).onAppear(perform: {
-                requestIDFA()
-                SKPaymentQueue.default().add(storeManager)
-                storeManager.getProducts(productIDs: productIds)
-            })
+            HomeView(storeManager: storeManager)
+                .environmentObject(calculator)
+                .onAppear(perform: {
+                    requestIDFA()
+                    SKPaymentQueue.default().add(storeManager)
+                    storeManager.getProducts(productIDs: productIds)
+                })
+                .onDisappear(perform: {
+                    storeManager.showedAdvertising = false
+                })
         }
     }
 }

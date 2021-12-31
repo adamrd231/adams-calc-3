@@ -19,11 +19,12 @@ struct CalculateButtonView: View {
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = numberOfDecimals
+//        formatter.maximumFractionDigits = numberOfDecimals
         
         let number = NSNumber(value: number)
+        print(number)
         let formattedValue = formatter.string(from: number)!
-        
+        print("Formatted Value: \(formattedValue)")
         return formattedValue
     }
     

@@ -25,27 +25,7 @@ struct CurrentOperationStringView: View {
         return formattedValue
     }
     
-    func addCommasToString(string: String) -> String {
-        
-        let stringLength = string.count
-        var newString = string
-        var indexedString = newString.index(newString.startIndex, offsetBy: 0)
-        
-        if newString != "" {
-            indexedString = newString.index(newString.startIndex, offsetBy: 1)
-        }
-        
-        
-        if stringLength == 4 {
-            newString.insert(",", at: indexedString)
-            calculator.currentInput = newString
-            return newString
-        } else {
-            return string
-        }
-        
 
-    }
     
     
     var body: some View {
@@ -67,13 +47,23 @@ struct CurrentOperationStringView: View {
             }
             
             // Show the current input from the user at the end of the output
-            CalculationText(text: String(format: "\(calculator.currentInput)"))
+            if let doubled = Double(calculator.currentInput) {
+                if calculator.currentInput.last == "." {
+                    CalculationText(text: calculator.currentInput)
+                } else {
+                    CalculationText(text: formatNumber(number: doubled))
+                }
+                
+            } else {
+                CalculationText(text: calculator.currentInput)
+            }
+            
             
             
             CalculationText(text: calculator.currentOperator)
                 .padding(.trailing)
         }
-        .frame(minHeight: 75, maxHeight: 140)
+        .frame(minHeight: 70, idealHeight: 100, maxHeight: 150)
         .background(
             LinearGradient(gradient: Gradient(colors: [.black, Color(.darkGray)]), startPoint: .topTrailing, endPoint: .bottomLeading))
     }

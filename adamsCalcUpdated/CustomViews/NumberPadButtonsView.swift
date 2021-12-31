@@ -40,7 +40,6 @@ struct NumberPadButtonsView: View {
                     HStack {
                         ForEach(row, id: \.rawValue) { item in
                             
- 
                             Button(action: {
                                 pressedNumberButton(number: item.rawValue)
                             }) {
@@ -51,20 +50,11 @@ struct NumberPadButtonsView: View {
                                     Text(String(format: "%.0f", item.rawValue))
                                         .font(.title)
                                         .bold()
-                                        .frame(minWidth: 50, maxWidth: .infinity, minHeight: 40, maxHeight: .infinity)
+                                        .frame(minWidth: 50, maxWidth: 100, minHeight: 40, idealHeight: 55, maxHeight: 75)
                                         .cornerRadius(25)
                                         .foregroundColor(.black)
                                 }
-                                
-                                    
-                                    
-                                    
                             }
-                            .frame(minWidth: 75, maxWidth: .infinity, minHeight: 25, maxHeight: 75, alignment: .center)
-                            
-                            .padding(.horizontal, 2)
-                            .padding(.vertical, 5)
-
                         }
                     }
                 }

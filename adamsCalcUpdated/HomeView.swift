@@ -23,47 +23,43 @@ struct HomeView: View {
               
                 CurrentOperationStringView()
                 
-                // Add in save / reusable buttons here
-                
-                HStack {
-                    ReusableButtons(text: calculator.saveButtonOne, locked: $calculator.saveButtonOneLocked)
-                    ReusableButtons(text: calculator.saveButtonTwo, locked: $calculator.saveButtonTwoLocked)
-                    
-                }
-                
-                .padding(.top, 5)
-                .padding(.horizontal)
-                
                 VStack {
+                    // Add in save / reusable buttons here
+                    
+                    HStack {
+                        ReusableButtons(text: calculator.saveButtonOne, locked: $calculator.saveButtonOneLocked)
+                        ReusableButtons(text: calculator.saveButtonTwo, locked: $calculator.saveButtonTwoLocked)
+                        
+                    }
+
                     ExtraOperatorsView()
-                        .padding(.horizontal)
-                        .padding(.bottom, padding)
-                    OperatorButtonsView().padding(.horizontal)
+                        
+                    HStack {
+                        NumberPadButtonsView()
+                        OperatorButtonsView()
+                    }
+
+                    CalculateButtonView()
+                       
                 }
-                NumberPadButtonsView().padding(.horizontal, 10)
-                
-                CalculateButtonView()
-                    .padding(.horizontal)
+                .padding(.leading)
+                .padding(.trailing)
+                .padding(.top, 2)
+               
                 
                 // Google Admob
                 AdMobBanner()
                 
             }
-            
-            .background(
-                LinearGradient(gradient: Gradient(colors: [.white, Color(.lightGray)]), startPoint: .bottomLeading, endPoint: .top))
+            .background(Color("gray-color"))
             .tabItem {
                 Image(systemName: "plus.rectangle").frame(width: 15, height: 15, alignment: .center)
                 Text("Calculator")
-                
             }
             
-            
-            
+
             // First Screen
-            HStack {
-                Text("Remove Ads")
-            }
+            InAppStorePurchasesView(storeManager: storeManager).background(Color("dark-gray"))
             
             .tabItem {
                 Image(systemName: "creditcard").frame(width: 15, height: 15, alignment: .center)

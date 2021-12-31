@@ -11,10 +11,8 @@ struct CalculationText: View {
     
     var text: String
     
-    var numberOfDecimals = 3
-    
-    
     var body: some View {
+        
         Text(text)
             .foregroundColor(.white)
             .font(.title)

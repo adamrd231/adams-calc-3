@@ -59,11 +59,25 @@ struct OperatorButton: View {
 
     }
     
+    func formatNumber(number: Double) -> String {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        
+        let number = NSNumber(value: number)
+        let formattedValue = formatter.string(from: number)!
+        
+        return formattedValue
+    }
+    
     func pressedNegativePositiveButton() {
         if calculator.currentOperator == "" && calculator.currentInput != "" {
+            let comma: Set<Character> = [","]
+            calculator.currentInput.removeAll(where: {comma.contains($0)})
             var number = Double(calculator.currentInput)
-            var stringNumber = String(number! * -1)
-            calculator.currentInput = stringNumber
+            var stringNumber = number! * -1
+            calculator.currentInput = formatNumber(number: stringNumber)
         }
         
         
@@ -89,25 +103,25 @@ struct OperatorButton: View {
                     .stroke(Color("Blue"), lineWidth: 3)
                 
                 if button == "+" {
-                    Image(systemName: "plus")
+                    Image(systemName: "plus").resizable().frame(width: 20, height: 20)
                 } else if button == "-" {
-                    Image(systemName: "minus")
+                    Image(systemName: "minus").resizable().frame(width: 20, height: 3)
 
                 } else if button == "x" {
-                    Image(systemName: "multiply")
+                    Image(systemName: "multiply").resizable().frame(width: 18, height: 18)
                     
                 } else if button == "/" {
-                    Image(systemName: "divide")
+                    Image(systemName: "divide").resizable().frame(width: 20, height: 20)
                 } else {
                     Text(button).bold()
+               
                 }
                
             }
             
         }
-        .font(.title2)
-        .frame(minWidth: 40, maxWidth: .infinity, minHeight: 25, maxHeight: 50, alignment: .center)
-        .contentShape(Rectangle())
+        
+        .frame(minWidth: 50, maxWidth: 100, minHeight: 40, idealHeight: 55, maxHeight: 75, alignment: .center)
         .foregroundColor(.white)
         .background(Color("Blue"))
         .cornerRadius(25.0)

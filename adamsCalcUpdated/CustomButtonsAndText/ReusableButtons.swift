@@ -45,7 +45,7 @@ struct ReusableButtons: View {
                 }
                 
             }
-            .frame(minWidth: 10, idealWidth: 150, maxWidth: .infinity, minHeight: 40, maxHeight: 50, alignment: .center)
+            .frame(minWidth: 10, idealWidth: 150, maxWidth: .infinity, minHeight: 40, maxHeight: 65, alignment: .center)
 
             
             Button(action: {
@@ -55,13 +55,13 @@ struct ReusableButtons: View {
                     Image(systemName: "lock.fill")
                         .resizable()
                         .foregroundColor(Color(.black))
-                        .frame(minWidth: 10, maxWidth: 30, minHeight: 30, maxHeight: 50, alignment: .center)
+                        .frame(minWidth: 10, maxWidth: 30, minHeight: 40, maxHeight: 60, alignment: .center)
                       
                 } else {
                     Image(systemName: "lock")
                         .resizable()
                         .foregroundColor(Color(.black))
-                        .frame(minWidth: 10, maxWidth: 30, minHeight: 30, maxHeight: 50, alignment: .center)
+                        .frame(minWidth: 10, maxWidth: 30, minHeight: 40, maxHeight: 60, alignment: .center)
                 }
                 
             }
