@@ -91,26 +91,33 @@ struct HomeView: View {
                         .background(Color.gray.opacity(0.3))
                         
                         
-                    LazyVGrid(columns: threeColumnGrid, spacing: 25) {
+                    LazyVGrid(columns: threeColumnGrid, alignment: .center) {
                         ForEach(calcArray, id: \.id) { button in
-                            ZStack {
-                                Circle()
-                                    .fill(button.buttonColor)
-                                Text(button.name)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(button.type == .number ? .black : .white)
-                                    .padding()
+               
+                            Button {
+                                
+                            } label: {
+                                ZStack {
+                                    Circle()
+                                        .fill(button.buttonColor)
+                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: geo.size.height * 0.1, maxHeight: .infinity)
+                                    Text(button.name)
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(button.type == .number ? .black : .white)
+                                        
+                                }
+                                
                             }
-
                         }
                     }
-                    .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.6)
+                    .padding()
+//                    .frame(width: geo.size.width * 0.95, height: geo.size.height * 0.6)
+                    Spacer()
                 }
-                .edgesIgnoringSafeArea(.all)
+                .edgesIgnoringSafeArea(.top)
                 .frame(width: geo.size.width, height: geo.size.height)
             }
-            
             
             .tabItem {
                 Image(systemName: "plus.rectangle").frame(width: 15, height: 15, alignment: .center)
@@ -132,6 +139,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(storeManager: StoreManager())
+        HomeView(storeManager: StoreManager()).environmentObject(Calculator())
     }
 }

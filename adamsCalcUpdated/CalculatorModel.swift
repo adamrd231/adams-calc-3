@@ -31,47 +31,6 @@ class Calculator: ObservableObject {
     @Published(key: "SaveButtonTwo") var saveButtonTwo = ""
     @Published(key: "SaveButtonTwoLocked") var saveButtonTwoLocked = false
     
-    enum NumberPad: Double {
-        case zero = 0
-        case one = 1
-        case two = 2
-        case three = 3
-        case four = 4
-        case five = 5
-        case six = 6
-        case seven = 7
-        case eight = 8
-        case nine = 9
-        
-        func getNumber() -> Double {
-            return self.rawValue
-        }
-    }
-    
-    let numberPadButtons: [[NumberPad]] = [
-        [.seven, .eight, .nine],
-        [.four, .five, .six],
-        [.one, .two, .three],
-        [.zero]
-    ]
-
-   
-    enum Operator: String {
-        case add = "+"
-        case subtract = "-"
-        case multiply = "x"
-        case divide = "/"
-    }
-    
-    enum AccessoryButtons: String {
-        case clear = "A/C"
-        case backspace = "<"
-        case negativePostive = "+/-"
-        case period = "."
-    }
-
-    let operatorButtons: [Operator] = [.add, .subtract, .multiply, .divide]
-    let accessoryButtons: [AccessoryButtons] = [.period, .backspace, .negativePostive, .clear]
     
     
     func MathWithPEMDAS(arr: [Double], oper: [String]) -> Double {

@@ -36,27 +36,27 @@ struct CurrentOperationStringView: View {
             ForEach(calculator.numbersArray.indices, id: \.self) { index in
                 
                 // Show the number inside the array based on the index
-                CalculationText(text: formatNumber(number: calculator.numbersArray[index]))
+                Text(formatNumber(number: calculator.numbersArray[index]))
                 
                 // If the index is less than operators array, skip showing operator
                 if index < calculator.operatorsArray.count {
-                    CalculationText(text: calculator.operatorsArray[index])
+                    Text(calculator.operatorsArray[index])
                 }
             }
             
             // Show the current input from the user at the end of the output
             if let doubled = Double(calculator.currentInput) {
                 if calculator.currentInput.last == "." {
-                    CalculationText(text: calculator.currentInput)
+                    Text(calculator.currentInput)
                 } else {
-                    CalculationText(text: formatNumber(number: doubled))
+                    Text(formatNumber(number: doubled))
                 }
                 
             } else {
-                CalculationText(text: calculator.currentInput)
+                Text(calculator.currentInput)
             }
             
-            CalculationText(text: calculator.currentOperator)
+                Text(calculator.currentOperator)
                 .padding(.trailing)
         }
     }
