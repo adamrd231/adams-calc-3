@@ -13,7 +13,7 @@ struct InAppStorePurchasesView: View {
     // Store Manager object for making in app purchases
     @StateObject var storeManager: StoreManager
     
-    
+
     var body: some View {
 
         VStack(alignment: .leading) {
@@ -34,9 +34,10 @@ struct InAppStorePurchasesView: View {
             List(self.storeManager.myProducts, id: \.self) { product in
                 VStack(alignment: .leading) {
                     
+                    
                     Text("\(product.localizedTitle)").bold()
                     Text("$\(product.price)").font(.caption)
-                    Text("\(product.description)").fixedSize(horizontal: false, vertical: true)
+                    Text("\(product.localizedDescription)").fixedSize(horizontal: false, vertical: true)
                     
                     Button( action: {
                         storeManager.purchaseProduct(product: product)
@@ -47,7 +48,7 @@ struct InAppStorePurchasesView: View {
                             } else {
                                 Text("\(product.localizedTitle)")
                                     .bold()
-                                    .frame(minWidth: 50, idealWidth: .infinity, maxWidth: .infinity, minHeight: 15, idealHeight: 25, maxHeight: 35, alignment: .center)
+                                    .frame(minWidth: 50, idealWidth: .infinity, maxWidth: .infinity, minHeight: 10, idealHeight: 20, maxHeight: 30, alignment: .center)
                                     .padding()
                                     .background(Color(.systemGray))
                                     .foregroundColor(.white)

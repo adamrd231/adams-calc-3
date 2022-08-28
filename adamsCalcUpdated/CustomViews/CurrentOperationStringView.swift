@@ -25,8 +25,6 @@ struct CurrentOperationStringView: View {
         return formattedValue
     }
     
-
-    
     
     var body: some View {
         HStack {
@@ -58,14 +56,9 @@ struct CurrentOperationStringView: View {
                 CalculationText(text: calculator.currentInput)
             }
             
-            
-            
             CalculationText(text: calculator.currentOperator)
                 .padding(.trailing)
         }
-        .frame(minHeight: 70, idealHeight: 100, maxHeight: 150)
-        .background(
-            LinearGradient(gradient: Gradient(colors: [.black, Color(.darkGray)]), startPoint: .topTrailing, endPoint: .bottomLeading))
     }
 }
 

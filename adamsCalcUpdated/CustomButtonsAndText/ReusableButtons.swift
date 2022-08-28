@@ -38,10 +38,11 @@ struct ReusableButtons: View {
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 25.0)
-                        .stroke(Color.black, lineWidth: 3)
+                        .stroke(Color("button-color"), lineWidth: 3)
                     Text(text)
                         .font(.title3)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("button-color"))
+                        
                 }
                 
             }
@@ -54,13 +55,13 @@ struct ReusableButtons: View {
                 if locked == true {
                     Image(systemName: "lock.fill")
                         .resizable()
-                        .foregroundColor(Color(.black))
+                        .foregroundColor(Color("button-color"))
                         .frame(minWidth: 10, maxWidth: 30, minHeight: 40, maxHeight: 60, alignment: .center)
                       
                 } else {
                     Image(systemName: "lock")
                         .resizable()
-                        .foregroundColor(Color(.black))
+                        .foregroundColor(Color("button-color"))
                         .frame(minWidth: 10, maxWidth: 30, minHeight: 40, maxHeight: 60, alignment: .center)
                 }
                 

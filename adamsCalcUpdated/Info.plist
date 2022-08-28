@@ -24,6 +24,10 @@
 	<true/>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This app advertises using GoogleAdMob, which delivers personalized ads to your phone.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DS-DIGI.TTF</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

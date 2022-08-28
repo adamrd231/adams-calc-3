@@ -19,6 +19,7 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
             UserDefaults.standard.setValue(self.purchasedRemoveAds, forKey: "purchasedRemoveAds")
         }
     }
+//    @Published var purchasedRemoveAds = true
     
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         print("Did receive response")

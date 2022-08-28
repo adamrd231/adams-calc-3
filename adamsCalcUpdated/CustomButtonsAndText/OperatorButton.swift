@@ -48,13 +48,40 @@ struct OperatorButton: View {
     }
     
     func pressedPeriodButton() {
-        if !calculator.currentInput.contains(".") && calculator.currentInput.count > 0 {
-            calculator.currentInput.append(".")
-            print(calculator.currentInput)
-         print("does not contains a period and greater than 1")
+        
+        
+        if calculator.currentOperator == "" {
+            
+            
+            if calculator.currentInput == "" {
+                calculator.currentInput = "0."
+                return
+            }
+            
+            if !calculator.currentInput.contains(".") && calculator.currentInput.count > 0 {
+                calculator.currentInput.append(".")
+                print(calculator.currentInput)
+             print("does not contains a period and greater than 1")
+            } else {
+                print("""
+                        Contains a Period.
+                        Current Input: \(calculator.currentInput)
+                        Count: \(calculator.currentInput.count)
+                        """)
+            }
+            
         } else {
-            print("contains a period")
+            let comma: Set<Character> = [","]
+            calculator.currentInput.removeAll(where: {comma.contains($0)})
+
+            calculator.numbersArray.append(Double(calculator.currentInput) ?? 0)
+            calculator.operatorsArray.append(calculator.currentOperator)
+            calculator.currentOperator = ""
+            calculator.currentInput = "0."
         }
+        
+        
+      
         
 
     }
@@ -116,13 +143,11 @@ struct OperatorButton: View {
                     Text(button).bold()
                
                 }
-               
             }
-            
         }
         
         .frame(minWidth: 50, maxWidth: 100, minHeight: 40, idealHeight: 55, maxHeight: 75, alignment: .center)
-        .foregroundColor(.white)
+        .foregroundColor(Color(.white))
         .background(Color("Blue"))
         .cornerRadius(25.0)
     }

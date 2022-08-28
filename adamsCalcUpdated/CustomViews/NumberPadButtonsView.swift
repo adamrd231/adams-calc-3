@@ -46,13 +46,12 @@ struct NumberPadButtonsView: View {
                                 
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 25.0)
-                                        .stroke(Color.black, lineWidth: 3)
+                                        .stroke(Color("button-color"), lineWidth: 3)
                                     Text(String(format: "%.0f", item.rawValue))
                                         .font(.title)
                                         .bold()
-                                        .frame(minWidth: 50, maxWidth: 100, minHeight: 40, idealHeight: 55, maxHeight: 75)
                                         .cornerRadius(25)
-                                        .foregroundColor(.black)
+                                        .foregroundColor(Color("button-color"))
                                 }
                             }
                         }

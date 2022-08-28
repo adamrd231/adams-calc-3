@@ -6,20 +6,30 @@
 //
 
 import SwiftUI
+import Combine
 
+extension Published {
+    init(wrappedValue value: Value, key: String) {
+        let value = UserDefaults.standard.object(forKey: key) as? Value ?? value
+        self.init(initialValue: value)
+//        cancellable[key] = projectedValue.sink { val in
+//            UserDefaults.standard.set(val, forKey: key)
+//        }
+    }
+}
 
 
 class Calculator: ObservableObject {
     
-    @Published var numbersArray:[Double] = []
-    @Published var operatorsArray:[String] = []
-    @Published var currentInput = ""
+    @Published(key: "NumbersArray") var numbersArray:[Double] = []
+    @Published(key: "OperatorsArray") var operatorsArray:[String] = []
+    @Published(key: "CurrentInput") var currentInput = ""
     
-    @Published var currentOperator = ""
-    @Published var saveButtonOne = ""
-    @Published var saveButtonOneLocked = false
-    @Published var saveButtonTwo = ""
-    @Published var saveButtonTwoLocked = false
+    @Published(key: "CurrentOperator") var currentOperator = ""
+    @Published(key: "SaveButtonOne") var saveButtonOne = ""
+    @Published(key: "SaveButtonOneLocked") var saveButtonOneLocked = false
+    @Published(key: "SaveButtonTwo") var saveButtonTwo = ""
+    @Published(key: "SaveButtonTwoLocked") var saveButtonTwoLocked = false
     
     enum NumberPad: Double {
         case zero = 0

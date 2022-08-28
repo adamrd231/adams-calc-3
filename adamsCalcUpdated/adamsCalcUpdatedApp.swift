@@ -23,18 +23,23 @@ struct adamsCalcUpdatedApp: App {
     // Interstitial object for Google Ad Mobs to play video advertising
     @State var interstitial: GADInterstitialAd?
     
+    #if targetEnvironment(simulator)
+        // Test Ad
+        var googleBannerInterstitialAdID = "ca-app-pub-3940256099942544/1033173712"
+    #else
+        // Real Ad
+        var googleBannerInterstitialAdID = "ca-app-pub-4186253562269967/2135766372"
+    #endif
+    
+    
     // App Tracking Transparency - Request permission and play ads on open only
     func requestIDFA() {
       ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-        // Tracking authorization completed. Start loading ads here.
-
-        if storeManager.purchasedRemoveAds == false && storeManager.showedAdvertising == false {
-            
-            storeManager.showedAdvertising = true
+        // Tracking authorization completed. Start loading ads here
             
             let request = GADRequest()
                 GADInterstitialAd.load(
-                    withAdUnitID:"ca-app-pub-3940256099942544/1033173712",
+                    withAdUnitID: googleBannerInterstitialAdID,
                     request: request,
                     completionHandler: { [self] ad, error in
                         // Check if there is an error
@@ -48,8 +53,6 @@ struct adamsCalcUpdatedApp: App {
 
                         }
                     )
-        }
-
       })
     }
     
@@ -58,13 +61,19 @@ struct adamsCalcUpdatedApp: App {
             HomeView(storeManager: storeManager)
                 .environmentObject(calculator)
                 .onAppear(perform: {
-                    requestIDFA()
-                    SKPaymentQueue.default().add(storeManager)
-                    storeManager.getProducts(productIDs: productIds)
+//                    if storeManager.showedAdvertising == false && storeManager.purchasedRemoveAds == false {
+//                        storeManager.showedAdvertising = true
+//                        requestIDFA()
+//                    }
+                    
+                    
+                    if storeManager.myProducts.isEmpty {
+                        SKPaymentQueue.default().add(storeManager)
+                        storeManager.getProducts(productIDs: productIds)
+                    }
+                    
                 })
-                .onDisappear(perform: {
-                    storeManager.showedAdvertising = false
-                })
+                
         }
     }
 }

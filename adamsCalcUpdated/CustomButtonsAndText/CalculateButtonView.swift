@@ -66,6 +66,7 @@ struct CalculateButtonView: View {
         
         Button(action: {
             doMath()
+           
         }) {
             ZStack {
                 RoundedRectangle(cornerRadius: 20.0)
