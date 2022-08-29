@@ -18,120 +18,8 @@ extension Published {
 }
 
 class CalculatorViewModel: ObservableObject {
-    
-    @Published(key: "NumbersArray") var numbersArray:[Double] = []
-    @Published(key: "OperatorsArray") var operatorsArray:[String] = []
-    @Published(key: "CurrentInput") var currentInput = ""
-    
-    @Published(key: "CurrentOperator") var currentOperator = ""
-    @Published(key: "SaveButtonOne") var saveButtonOne = ""
-    @Published(key: "SaveButtonOneLocked") var saveButtonOneLocked = false
-    @Published(key: "SaveButtonTwo") var saveButtonTwo = ""
-    @Published(key: "SaveButtonTwoLocked") var saveButtonTwoLocked = false
-    
-    
-    
-    func MathWithPEMDAS(arr: [Double], oper: [String]) -> Double {
-        
-        var result:Double = 42.0
-        var array: [Double] = arr
-        var operators: [String] = oper
-        
-        while array.count > 1 {
-            // PEMDAS Math, start with multiplication and division, from left to right.
-            if operators.contains("x") || operators.contains("/") {
-                
-                let multiplyIndex = operators.firstIndex(of: "x")
-                let divisorIndex = operators.firstIndex(of: "/")
-                
-                if divisorIndex == nil && multiplyIndex != nil {
-                    // multiply the numbers
-                    let firstNumber = array.remove(at: multiplyIndex!)
-                    let secondNumber = array.remove(at: multiplyIndex!)
-                    result = firstNumber * secondNumber
-                    array.insert(result, at: multiplyIndex!)
-                    operators.remove(at: multiplyIndex!)
-                    print("Multiply numbers")
-                    
-                }
-                
-                else if multiplyIndex == nil && divisorIndex != nil {
-                    // dividde the numbers
-                    let firstNumber = array.remove(at: divisorIndex!)
-                    let secondNumber = array.remove(at: divisorIndex!)
-                    result = firstNumber / secondNumber
-                    array.insert(result, at: divisorIndex!)
-                    operators.remove(at: divisorIndex!)
-                    print("Divide numbers")
-                    
-                }
-                
-                else if multiplyIndex != nil && divisorIndex != nil {
-                    // Get the first index of both and use whichever is lower
-                    if multiplyIndex! < divisorIndex! {
-                        let firstNumber = array.remove(at: multiplyIndex!)
-                        let secondNumber = array.remove(at: multiplyIndex!)
-                        result = firstNumber * secondNumber
-                        array.insert(result, at: multiplyIndex!)
-                        operators.remove(at: multiplyIndex!)
-                        print("Multiply First")
-                    } else {
-                        let firstNumber = array.remove(at: divisorIndex!)
-                        let secondNumber = array.remove(at: divisorIndex!)
-                        result = firstNumber / secondNumber
-                        array.insert(result, at: divisorIndex!)
-                        operators.remove(at: divisorIndex!)
-                        print("Dvivde First")
-                    }
-                }
-                
-            } else {
-                let addIndex = operators.firstIndex(of: "+")
-                let subtractIndex = operators.firstIndex(of: "-")
-                
-                if addIndex != nil && subtractIndex == nil {
-                    let firstNumber = array.remove(at: addIndex!)
-                    let secondNumber = array.remove(at: addIndex!)
-                    result = firstNumber + secondNumber
-                    array.insert(result, at: addIndex!)
-                    operators.remove(at: addIndex!)
-                    print("Add Numbers")
-                    
-                } else if addIndex == nil && subtractIndex != nil {
-                    let firstNumber = array.remove(at: subtractIndex!)
-                    let secondNumber = array.remove(at: subtractIndex!)
-                    result = firstNumber - secondNumber
-                    array.insert(result, at: subtractIndex!)
-                    operators.remove(at: subtractIndex!)
-                    print("Subtract Numbers")
-                    
-                }
-                
-                else if addIndex != nil && subtractIndex != nil {
-                    if addIndex! < subtractIndex! {
-                        let firstNumber = array.remove(at: addIndex!)
-                        let secondNumber = array.remove(at: addIndex!)
-                        result = firstNumber + secondNumber
-                        array.insert(result, at: addIndex!)
-                        operators.remove(at: addIndex!)
-                        print("Add first")
-                    } else {
-                        let firstNumber = array.remove(at: subtractIndex!)
-                        let secondNumber = array.remove(at: subtractIndex!)
-                        result = firstNumber - secondNumber
-                        array.insert(result, at: subtractIndex!)
-                        operators.remove(at: subtractIndex!)
-                        print("subtract first")
-                        
-                    }
-                }
-            }
-        }
-        
-        return result
-    }
+    @Published var calculator = Calculator()
 
-    
 }
 
 
@@ -151,6 +39,7 @@ struct CalculatorInputButton: Hashable {
         case .buttonOperator:   buttonColor = Color.theme.blue
         case .buttonFunction:   buttonColor = Color.theme.darkGray
         case .equalsButton:     buttonColor = Color.theme.blue
+        case .variable:         buttonColor = Color.blue
         case .clear:            buttonColor = Color.clear
         }
         self.isZero = isZero
@@ -163,6 +52,7 @@ enum ButtonType {
     case buttonOperator
     case buttonFunction
     case equalsButton
+    case variable
     case clear
 }
 
@@ -175,9 +65,15 @@ struct HomeView: View {
     @State var numberOfDecimals = 3
     @State var finalAnswer:Double?
     
-
+    var savedArray = [
+        CalculatorInputButton(name: "Var", type: .variable, isZero: false),
+        CalculatorInputButton(name: "Var", type: .variable, isZero: false),
+        CalculatorInputButton(name: "Var", type: .variable, isZero: false),
+        CalculatorInputButton(name: "Var", type: .variable, isZero: false),
+    ]
 
     var calcArray = [
+        
         CalculatorInputButton(name: "AC", type: .buttonFunction, isZero: false),
         CalculatorInputButton(name: "+/-", type: .buttonFunction, isZero: false),
         CalculatorInputButton(name: "%", type: .buttonFunction, isZero: false),
@@ -205,14 +101,13 @@ struct HomeView: View {
         CalculatorInputButton(name: ".", type: .number, isZero: false),
         CalculatorInputButton(name: "=", type: .buttonOperator, isZero: false),
 
-
     ]
 
     var threeColumnGrid = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible()),
+        GridItem(.flexible(), spacing: -15),
+        GridItem(.flexible(), spacing: -15),
+        GridItem(.flexible(), spacing: -15),
+        GridItem(.flexible(), spacing: -15),
     ]
 
     
@@ -220,61 +115,37 @@ struct HomeView: View {
         TabView {
             GeometryReader { geo in
                 VStack {
-                    
-                    if let answer = finalAnswer {
-                        Text(answer.description)
-                    } else {
-                        HStack {
-                            // Use a spacer to align to the right
-                            Spacer()
-                            
-                            // Display all of the calculations and operators input thus far
-                            // Start by looping through the numbers array by index
-                            ForEach(vm.numbersArray.indices, id: \.self) { index in
-                                
-                                // Show the number inside the array based on the index
-                                Text(formatNumber(number: vm.numbersArray[index]))
-                                
-                                // If the index is less than operators array, skip showing operator
-                                if index < vm.operatorsArray.count {
-                                    Text(vm.operatorsArray[index])
-                                }
+        
+                    // Answers
+                    ZStack(alignment: .bottomTrailing) {
+                        Rectangle()
+                            .fill(Color.theme.lightGray)
+                            .frame(width: geo.size.width, height: geo.size.height * 0.33)
+                        VStack {
+                            ForEach(savedArray, id: \.self) { savedAnswer in
+                                Text(savedAnswer.name)
                             }
-                            
-                            // Show the current input from the user at the end of the output
-                            if let doubled = Double(vm.currentInput) {
-                                if vm.currentInput.last == "." {
-                                    Text(vm.currentInput)
-                                } else {
-                                    Text(formatNumber(number: doubled))
-                                }
-                                
-                            } else {
-                                Text(vm.currentInput)
-                            }
-                            
-                            Text(vm.currentOperator)
-                                .padding(.trailing)
+                            Text("28 + 5")
+                                .font(.largeTitle)
+                                .padding()
                         }
-                            .frame(height: geo.size.height * 0.4)
-                            .background(Color.gray.opacity(0.3))
+                        
                     }
-                    
                         
-                        
-                    LazyVGrid(columns: threeColumnGrid, alignment: .center) {
+                    LazyVGrid(columns: threeColumnGrid, alignment: .center, spacing: 10) {
                         ForEach(calcArray, id: \.id) { button in
                             Button {
                                 switch button.type {
-                                case .number: vm.numbersArray.append(Double(button.name) ?? 0)
-                                case .buttonOperator: vm.operatorsArray.append(button.name)
+                                case .number: vm.calculator.numbersArray.append(Double(button.name) ?? 0)
+                                case .buttonOperator: vm.calculator.operatorsArray.append(button.name)
                                 case .buttonFunction: print("Do something")
-                                case .equalsButton: finalAnswer = vm.MathWithPEMDAS(arr: vm.numbersArray, oper: vm.operatorsArray)
+                                case .variable: print("use variable")
+                                case .equalsButton: finalAnswer = vm.calculator.MathWithPEMDAS(arr: vm.calculator.numbersArray, oper: vm.calculator.operatorsArray)
                                 case .clear: print("do nothing")
 
                                 }
                                 
-                                print("numbers array: \(vm.numbersArray.count)")
+                                print("numbers array: \(vm.calculator.numbersArray.count)")
                             } label: {
                                 ZStack {
                                     Circle()
@@ -290,7 +161,7 @@ struct HomeView: View {
                             }
                         }
                     }
-                    .padding()
+                    .padding(.top)
 //                    .frame(width: geo.size.width * 0.95, height: geo.size.height * 0.6)
                     Spacer()
                 }
