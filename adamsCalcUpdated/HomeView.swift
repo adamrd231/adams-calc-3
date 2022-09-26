@@ -23,38 +23,111 @@ class CalculatorViewModel: ObservableObject {
 }
 
 
-struct CalculatorInputButton: Hashable {
-    var id = UUID()
-    var name: String
-    var type: ButtonType
-    var isZero: Bool
-    var buttonColor: Color
+enum Digit: Int, CaseIterable, CustomStringConvertible {
+    case zero, one, two, three, four, five, six, seven, eight, nine
     
-    
-    init(name: String, type: ButtonType, isZero: Bool) {
-        self.name = name
-        self.type = type
-        switch type {
-        case .number:           buttonColor = Color.theme.lightGray
-        case .buttonOperator:   buttonColor = Color.theme.blue
-        case .buttonFunction:   buttonColor = Color.theme.darkGray
-        case .equalsButton:     buttonColor = Color.theme.blue
-        case .variable:         buttonColor = Color.blue
-        case .clear:            buttonColor = Color.clear
-        }
-        self.isZero = isZero
-        
+    var description: String {
+        "\(rawValue)"
     }
 }
 
-enum ButtonType {
-    case number
-    case buttonOperator
-    case buttonFunction
-    case equalsButton
-    case variable
-    case clear
+enum ArithmeticOperation: CaseIterable, CustomStringConvertible {
+    case addition, subtraction, multiplication, division
+    
+    var description: String {
+        switch self {
+        case .addition: return "+"
+        case .subtraction: return "-"
+        case .multiplication: return "x"
+        case .division: return "/"
+        }
+    }
 }
+
+enum ButtonType: Hashable, CustomStringConvertible {
+
+    case digit(_ digit: Digit)
+    case operation(_ operation: ArithmeticOperation)
+    case negative
+    case percent
+    case decimal
+    case equals
+    case allClear
+    case clear
+    
+    var description: String {
+        switch self {
+        case .digit(let digit): return digit.description
+        case .operation(let operation): return operation.description
+        case .negative: return "+/-"
+        case .percent: return "%"
+        case .decimal: return "."
+        case .equals: return "="
+        case .allClear: return "A/C"
+        case .clear: return "<-"
+        }
+    }
+    
+    var backGroundColor: Color {
+        switch self {
+        case .allClear, .clear, .negative, .percent: return Color.theme.blue
+        case .operation, .equals: return Color.theme.darkGray
+        case .digit, .decimal: return Color.theme.lightGray
+        }
+    }
+    
+    var foreGroundColor: Color {
+        switch self {
+        case .allClear, .clear, .negative, .percent, .operation, .equals: return .white
+        default: return .black
+        }
+    }
+}
+
+struct CalculatorButtonStyle: ButtonStyle {
+    var size: CGFloat
+    var backgroundColor: Color
+    var foregroundColor: Color
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 32, weight: .bold))
+            .frame(width: size, height: size)
+            .background(backgroundColor)
+            .foregroundColor(foregroundColor)
+            .overlay {
+                if configuration.isPressed {
+                    Color(white: 1.0, opacity: 0.2)
+                }
+            }
+            .clipShape(Capsule())
+    }
+}
+
+extension HomeView {
+    struct CalculatorButton: View {
+        let buttonType: ButtonType
+        
+        var body: some View {
+            Button(buttonType.description) { }
+                .buttonStyle(
+                    CalculatorButtonStyle(
+                        size: getButtonSize(),
+                        backgroundColor: buttonType.backGroundColor,
+                        foregroundColor: buttonType.foreGroundColor)
+                )
+        }
+        
+        private func getButtonSize() -> CGFloat {
+            let screenWidth = UIScreen.main.bounds.width
+            let buttonCount: CGFloat = 4.0
+            let spacingCount = buttonCount + 1
+            return (screenWidth - (spacingCount * Constants.padding)) / buttonCount
+        }
+    }
+}
+
+
 
 struct HomeView: View {
     
@@ -65,125 +138,27 @@ struct HomeView: View {
     @State var numberOfDecimals = 3
     @State var finalAnswer:Double?
     
-    var savedArray = [
-        CalculatorInputButton(name: "Var", type: .variable, isZero: false),
-        CalculatorInputButton(name: "Var", type: .variable, isZero: false),
-        CalculatorInputButton(name: "Var", type: .variable, isZero: false),
-        CalculatorInputButton(name: "Var", type: .variable, isZero: false),
-    ]
-
-    var calcArray = [
-        
-        CalculatorInputButton(name: "AC", type: .buttonFunction, isZero: false),
-        CalculatorInputButton(name: "+/-", type: .buttonFunction, isZero: false),
-        CalculatorInputButton(name: "%", type: .buttonFunction, isZero: false),
-        CalculatorInputButton(name: "/", type: .buttonOperator, isZero: false),
-        
-        
-        CalculatorInputButton(name: "7", type: .number, isZero: false),
-        CalculatorInputButton(name: "8", type: .number, isZero: false),
-        CalculatorInputButton(name: "9", type: .number, isZero: false),
-        CalculatorInputButton(name: "X", type: .buttonOperator, isZero: false),
-        
-        CalculatorInputButton(name: "4", type: .number, isZero: false),
-        CalculatorInputButton(name: "5", type: .number, isZero: false),
-        CalculatorInputButton(name: "6", type: .number, isZero: false),
-        CalculatorInputButton(name: "-", type: .buttonOperator, isZero: false),
-        
-        
-        CalculatorInputButton(name: "1", type: .number, isZero: false),
-        CalculatorInputButton(name: "2", type: .number, isZero: false),
-        CalculatorInputButton(name: "3", type: .number, isZero: false),
-        CalculatorInputButton(name: "+", type: .buttonOperator, isZero: false),
-        
-        CalculatorInputButton(name: "0", type: .number, isZero: true),
-        CalculatorInputButton(name: "", type: .clear, isZero: true),
-        CalculatorInputButton(name: ".", type: .number, isZero: false),
-        CalculatorInputButton(name: "=", type: .buttonOperator, isZero: false),
-
-    ]
-
-    var threeColumnGrid = [
-        GridItem(.flexible(), spacing: -15),
-        GridItem(.flexible(), spacing: -15),
-        GridItem(.flexible(), spacing: -15),
-        GridItem(.flexible(), spacing: -15),
-    ]
-
+    var buttonTypes: [[ButtonType]] {
+        [
+            [.allClear, .negative, .percent, .operation(.division)],
+            [.digit(.seven), .digit(.eight), .digit(.nine), .operation(.multiplication)],
+            [.digit(.four), .digit(.five), .digit(.six), .operation(.subtraction)],
+            [.digit(.one), .digit(.two), .digit(.three), .operation(.addition)],
+            [.digit(.zero), .decimal, .equals]
+        ]
+    }
     
+
     @ViewBuilder var body: some View {
-        TabView {
-            GeometryReader { geo in
-                VStack {
-        
-                    // Answers
-                    ZStack(alignment: .bottomTrailing) {
-                        Rectangle()
-                            .fill(Color.theme.lightGray)
-                            .frame(width: geo.size.width, height: geo.size.height * 0.33)
-                        VStack {
-                            ForEach(savedArray, id: \.self) { savedAnswer in
-                                Text(savedAnswer.name)
-                            }
-                            Text("28 + 5")
-                                .font(.largeTitle)
-                                .padding()
-                        }
-                        
-                    }
-                        
-                    LazyVGrid(columns: threeColumnGrid, alignment: .center, spacing: 10) {
-                        ForEach(calcArray, id: \.id) { button in
-                            Button {
-                                switch button.type {
-                                case .number: vm.calculator.numbersArray.append(Double(button.name) ?? 0)
-                                case .buttonOperator: vm.calculator.operatorsArray.append(button.name)
-                                case .buttonFunction: print("Do something")
-                                case .variable: print("use variable")
-                                case .equalsButton: finalAnswer = vm.calculator.MathWithPEMDAS(arr: vm.calculator.numbersArray, oper: vm.calculator.operatorsArray)
-                                case .clear: print("do nothing")
 
-                                }
-                                
-                                print("numbers array: \(vm.calculator.numbersArray.count)")
-                            } label: {
-                                ZStack {
-                                    Circle()
-                                        .fill(button.buttonColor)
-                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: geo.size.height * 0.1, maxHeight: .infinity)
-                                    Text(button.name)
-                                        .font(.title3)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(button.type == .number ? .black : .white)
-                                        
-                                }
-                                
-                            }
-                        }
-                    }
-                    .padding(.top)
-//                    .frame(width: geo.size.width * 0.95, height: geo.size.height * 0.6)
-                    Spacer()
-                }
-                .edgesIgnoringSafeArea(.top)
-                .frame(width: geo.size.width, height: geo.size.height)
-            }
-            
-            .tabItem {
-                Image(systemName: "plus.rectangle").frame(width: 15, height: 15, alignment: .center)
-                Text("Calculator")
-            }
-            
-
-            // First Screen
-            InAppStorePurchasesView(storeManager: storeManager).background(Color("dark-gray"))
-            
-            .tabItem {
-                Image(systemName: "creditcard").frame(width: 15, height: 15, alignment: .center)
-                Text("In-App Purchase")
-            }
+        VStack {
+            Spacer()
+            displayText
+            buttonPad
         }
-
+        .padding()
+        .background(Color.black)
+        
     }
 }
 
@@ -206,5 +181,30 @@ extension HomeView {
         let formattedValue = formatter.string(from: number)!
         
         return formattedValue
+    }
+    
+    private var buttonPad: some View {
+        VStack(spacing: Constants.padding) {
+            ForEach(buttonTypes, id: \.self) { buttonRow in
+                HStack(spacing: Constants.padding) {
+                    ForEach(buttonRow, id: \.self) { buttonType in
+                        CalculatorButton(buttonType: buttonType)
+                    }
+                }
+            }
+        }
+    }
+    
+    private var displayText: some View {
+        // Answers
+        VStack {
+            Text("28 + 5")
+                .padding()
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .font(.largeTitle)
+        }
     }
 }
