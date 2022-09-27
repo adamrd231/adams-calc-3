@@ -7,15 +7,32 @@
 
 import SwiftUI
 
+class HomeViewViewModel: ObservableObject {
+    @StateObject var calculator = Calculator()
+    
+    @Published(key: "NumbersArray") var numbersArray:[Double] = []
+    @Published(key: "OperatorsArray") var operatorsArray:[String] = []
+    @Published(key: "CurrentInput") var currentInput = ""
+    @Published(key: "CurrentOperator") var currentOperator = ""
+
+    var performingMath = false
+    var isInputingNumber = false
+    
+    @Published(key: "SaveButtonOne") var saveButtonOne = ""
+    @Published(key: "SaveButtonOneLocked") var saveButtonOneLocked = false
+    @Published(key: "SaveButtonTwo") var saveButtonTwo = ""
+    @Published(key: "SaveButtonTwoLocked") var saveButtonTwoLocked = false
+}
+
 struct HomeView: View {
     
-    @EnvironmentObject var calculator: Calculator
+    @ObservedObject var vm = HomeViewViewModel()
     @StateObject var storeManager: StoreManager
     @State var numberOfDecimals = 3
-    @State var finalAnswer:Double?
+    @State var finalAnswer: Double?
     
-    @State var variableButtonOne = 0
-    @State var variableButtonTwo = 12
+    @State var variableButtonOne: Double = 0
+    @State var variableButtonTwo: Double = 32.2443
     
     var buttonTypes: [[ButtonType]] {
         [
@@ -40,31 +57,6 @@ struct HomeView: View {
     }
 }
 
-//MARK: Calculator Button Extensions
-extension HomeView {
-    struct CalculatorButton: View {
-        let buttonType: ButtonType
-        
-        var body: some View {
-            Button(buttonType.description) { }
-                .buttonStyle(
-                    CalculatorButtonStyle(
-                        size: getButtonSize(),
-                        backgroundColor: buttonType.backGroundColor,
-                        foregroundColor: buttonType.foreGroundColor,
-                        isWide: buttonType != .decimal && buttonType != .equals)
-                )
-        }
-        
-        private func getButtonSize() -> CGFloat {
-            let screenWidth = UIScreen.main.bounds.width
-            let buttonCount: CGFloat = 4.0
-            let spacingCount = buttonCount + 1
-            return (screenWidth - (spacingCount * Constants.padding)) / buttonCount
-        }
-    }
-    
-}
 
 //MARK: Views
 extension HomeView {
@@ -86,7 +78,7 @@ extension HomeView {
             ForEach(buttonTypes, id: \.self) { buttonRow in
                 HStack(spacing: Constants.padding) {
                     ForEach(buttonRow, id: \.self) { buttonType in
-                        CalculatorButton(buttonType: buttonType)
+                        CalculatorButton(buttonType: buttonType, vm: vm)
                     }
                 }
             }
@@ -96,7 +88,7 @@ extension HomeView {
     private var displayText: some View {
         // Answers
         VStack {
-            Text("28 + 5")
+            Text(vm.currentInput)
                 .padding()
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -105,6 +97,36 @@ extension HomeView {
                 .font(.largeTitle)
         }
     }
+}
+
+//MARK: Calculator Button Extensions
+extension HomeView {
+    struct CalculatorButton: View {
+        let buttonType: ButtonType
+        let vm: HomeViewViewModel
+        
+        var body: some View {
+            Button(buttonType.description) {
+                print("Pressed \(buttonType.description), which is a \(buttonType)")
+                vm.currentInput = buttonType.description
+            }
+            .buttonStyle(
+                CalculatorButtonStyle(
+                    size: getButtonSize(),
+                    backgroundColor: buttonType.backGroundColor,
+                    foregroundColor: buttonType.foreGroundColor,
+                    isWide: buttonType != .decimal && buttonType != .equals)
+            )
+        }
+        
+        private func getButtonSize() -> CGFloat {
+            let screenWidth = UIScreen.main.bounds.width
+            let buttonCount: CGFloat = 4.0
+            let spacingCount = buttonCount + 1
+            return (screenWidth - (spacingCount * Constants.padding)) / buttonCount
+        }
+    }
+    
 }
 
 

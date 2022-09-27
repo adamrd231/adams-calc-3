@@ -13,8 +13,6 @@ import StoreKit
 @main
 struct adamsCalcUpdatedApp: App {
     
-    // Model for calculator to run app
-    @StateObject var calculator = Calculator()
     // StoreManager object to make in-app purchases
     @StateObject var storeManager = StoreManager()
     // Advertising Product Id's
@@ -59,7 +57,6 @@ struct adamsCalcUpdatedApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView(storeManager: storeManager)
-                .environmentObject(calculator)
                 .onAppear(perform: {
 //                    if storeManager.showedAdvertising == false && storeManager.purchasedRemoveAds == false {
 //                        storeManager.showedAdvertising = true
