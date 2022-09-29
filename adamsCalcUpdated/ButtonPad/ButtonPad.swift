@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+struct VariableButton {
+    var isLocked: Bool
+    var value: String
+}
+
+
 enum Digit: Int, CaseIterable, CustomStringConvertible {
     case zero, one, two, three, four, five, six, seven, eight, nine
     
@@ -32,7 +38,7 @@ enum ButtonType: Hashable, CustomStringConvertible {
 
     case digit(_ digit: Digit)
     case operation(_ operation: ArithmeticOperation)
-    case variable(value: Double)
+    case variable(value: String)
     case negative
     case percent
     case decimal

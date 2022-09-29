@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 class HomeViewViewModel: ObservableObject {
     @StateObject var calculator = Calculator()
     
@@ -14,14 +15,11 @@ class HomeViewViewModel: ObservableObject {
     @Published(key: "OperatorsArray") var operatorsArray:[String] = []
     @Published(key: "CurrentInput") var currentInput = ""
     @Published(key: "CurrentOperator") var currentOperator = ""
-    @Published var finalAnswer: String = ""
 
-    @Published var isPerformingMath = false
-    @Published var isEnteringNumber = false
-    @Published var isInputingNumber = false
+    @Published var isDisplayingFinalAnswer = false
     
-    @Published var variableButtonOne: Double = 0
-    @Published var variableButtonTwo: Double = 32.2443
+    @Published var variableButtonOne = VariableButton(isLocked: false, value: "")
+    @Published var variableButtonTwo = VariableButton(isLocked: false, value: "")
     
     @Published(key: "SaveButtonOne") var saveButtonOne = ""
     @Published(key: "SaveButtonOneLocked") var saveButtonOneLocked = false
@@ -50,7 +48,7 @@ class HomeViewViewModel: ObservableObject {
             
         case .allClear: allClearInput()
         // Variable Buttons
-        case .variable(value: variableButtonOne), .variable(value: variableButtonTwo): variableInput(buttonInput)
+        case .variable(value: variableButtonOne.value), .variable(value: variableButtonTwo.value): variableInput(buttonInput)
         case .equals: equalsButtonPressed()
         default: print("Something else")
         }
@@ -60,34 +58,60 @@ class HomeViewViewModel: ObservableObject {
         // variable
     }
     
+    func updateVariableButtons() {
+        // if both locked
+        // do nothing
+        
+        // if one locked and one unlocked
+        // always update unlocked
+        
+        // if both empty and unlocked
+        // fill first
+        
+        // if one full and other empty both unlocked
+        // fill second
+        
+        // if both full and both unlocked
+        // replace first
+        
+        
+        
+        if !variableButtonOne.isLocked && variableButtonOne.value == "" {
+            variableButtonOne.value = currentInput
+        } else if !variableButtonTwo.isLocked {
+            variableButtonTwo.value = currentInput
+        }
+    }
+    
     func equalsButtonPressed() {
         numbersArray.append(currentInput)
         operatorsArray.append(currentOperator)
-        finalAnswer = calculator.MathWithPEMDAS(arr: numbersArray, oper: operatorsArray)
+        currentInput = calculator.MathWithPEMDAS(arr: numbersArray, oper: operatorsArray)
         clearWorkingInputs()
+        updateVariableButtons()
+        isDisplayingFinalAnswer = true
+        
     }
     
     func variableInput(_ input: ButtonType) {
-
         currentInput = input.description
     }
     
     func operatorInput(_ input: ButtonType) {
+
         // if operator button pressed...
         print("Pressed operator button")
         // if no inputs yet, just ignore the input
-        guard !currentInput.isEmpty else {
-            print("do nothing, no numbers")
+        if currentInput.isEmpty {
             return
+        } else {
+            currentOperator = input.description
         }
-        // if user has been typing in current operator,
-        currentOperator = input.description
-        // -> move current operator to array
-        // -> clear current input,
+
     }
     
     func numberInput(input: ButtonType) {
-        finalAnswer = ""
+        
         if input == .decimal && currentInput.contains(".") {
             return
         }
@@ -99,20 +123,30 @@ class HomeViewViewModel: ObservableObject {
             }
         }
         
-        if currentOperator.isEmpty {
-            currentInput += input.description
-        } else {
+        
+        if isDisplayingFinalAnswer && currentOperator == "" {
+            currentInput = input.description
+            
+        } else if isDisplayingFinalAnswer {
+            numbersArray.append(currentInput)
             operatorsArray.append(currentOperator)
             currentOperator = ""
-            numbersArray.append(currentInput.description)
             currentInput = input.description
+            isDisplayingFinalAnswer = false
+            
+        } else {
+            if currentOperator == "" {
+                currentInput += input.description
+            } else {
+                operatorsArray.append(currentOperator)
+                currentOperator = ""
+                numbersArray.append(currentInput)
+                currentInput = input.description
+            }
         }
-        
-       
     }
     
     func clearWorkingInputs() {
-        currentInput = ""
         currentOperator = ""
         numbersArray = []
         operatorsArray = []
@@ -121,7 +155,6 @@ class HomeViewViewModel: ObservableObject {
     func allClearInput() {
         currentInput = ""
         currentOperator = ""
-        finalAnswer = ""
         numbersArray = []
         operatorsArray = []
     }
@@ -138,7 +171,7 @@ struct HomeView: View {
     
     var buttonTypes: [[ButtonType]] {
         [
-            [.variable(value: vm.variableButtonOne), .variable(value: vm.variableButtonTwo)],
+            [.variable(value: vm.variableButtonOne.value), .variable(value: vm.variableButtonTwo.value)],
             [.allClear, .clear, .negative, .operation(.division)],
             [.digit(.seven), .digit(.eight), .digit(.nine), .operation(.multiplication)],
             [.digit(.four), .digit(.five), .digit(.six), .operation(.subtraction)],
@@ -180,29 +213,23 @@ extension HomeView {
     
     private var displayText: some View {
         // Answers
-        ZStack {
-            Text(vm.finalAnswer.formattedAsNumber())
-                .foregroundColor(.red)
-                .font(.largeTitle)
-               
                 
         HStack {
             ForEach(vm.numbersArray.indices, id: \.self) { index in
-                Text(vm.numbersArray[index].formattedAsNumber())
+                Text(vm.numbersArray[index].formattedAsNumber()).foregroundColor(.yellow)
                 if index < vm.operatorsArray.count {
-                    Text(vm.operatorsArray[index])
+                    Text(vm.operatorsArray[index]).foregroundColor(.red)
                 }
             }
-            Text(vm.currentInput.formattedAsNumber())
-            Text(vm.currentOperator)
-        }
+            Text(vm.currentInput.formattedAsNumber()).foregroundColor(.white)
+            Text(vm.currentOperator).foregroundColor(.blue)
         }
         .lineLimit(1)
         .minimumScaleFactor(0.5)
         .font(.title)
         .frame(maxWidth: .infinity, alignment: .trailing)
         .padding()
-        .foregroundColor(.white)
+//        .foregroundColor(.white)
     }
 }
 
