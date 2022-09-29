@@ -13,10 +13,12 @@ import Combine
 class Calculator: ObservableObject {
     
     
-    func MathWithPEMDAS(arr: [Double], oper: [String]) -> Double {
+    func MathWithPEMDAS(arr: [String], oper: [String]) -> String {
 
         var result:Double = 42.0
-        var array: [Double] = arr
+        var array: [Double] = arr.map { string in
+            Double(string) ?? 0
+        }
         var operators: [String] = oper
 
         while array.count > 1 {
@@ -111,7 +113,7 @@ class Calculator: ObservableObject {
             }
         }
 
-        return result
+        return result.description
     }
 
 

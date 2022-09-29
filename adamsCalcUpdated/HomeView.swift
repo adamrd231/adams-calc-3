@@ -10,10 +10,11 @@ import SwiftUI
 class HomeViewViewModel: ObservableObject {
     @StateObject var calculator = Calculator()
     
-    @Published(key: "NumbersArray") var numbersArray:[Double] = []
+    @Published(key: "NumbersArray") var numbersArray:[String] = []
     @Published(key: "OperatorsArray") var operatorsArray:[String] = []
     @Published(key: "CurrentInput") var currentInput = ""
     @Published(key: "CurrentOperator") var currentOperator = ""
+    @Published var finalAnswer: String = ""
 
     @Published var isPerformingMath = false
     @Published var isEnteringNumber = false
@@ -43,13 +44,14 @@ class HomeViewViewModel: ObservableObject {
             .digit(.eight),
             .digit(.nine),
             .decimal:
-                updateCurrentInput(input: buttonInput)
+                numberInput(input: buttonInput)
         // Operator Buttons
         case .operation(.addition), .operation(.subtraction), .operation(.multiplication), .operation(.division): operatorInput(buttonInput)
             
         case .allClear: allClearInput()
         // Variable Buttons
         case .variable(value: variableButtonOne), .variable(value: variableButtonTwo): variableInput(buttonInput)
+        case .equals: equalsButtonPressed()
         default: print("Something else")
         }
         
@@ -58,7 +60,15 @@ class HomeViewViewModel: ObservableObject {
         // variable
     }
     
+    func equalsButtonPressed() {
+        numbersArray.append(currentInput)
+        operatorsArray.append(currentOperator)
+        finalAnswer = calculator.MathWithPEMDAS(arr: numbersArray, oper: operatorsArray)
+        allClearInput()
+    }
+    
     func variableInput(_ input: ButtonType) {
+
         currentInput = input.description
     }
     
@@ -76,22 +86,36 @@ class HomeViewViewModel: ObservableObject {
         // -> clear current input,
     }
     
-    func updateCurrentInput(input: ButtonType) {
+    func numberInput(input: ButtonType) {
+
         if input == .decimal && currentInput.contains(".") {
             return
         }
-        if input == .decimal {
+        if input == .decimal && currentInput.isEmpty {
             print(currentInput.isEmpty)
             guard !currentInput.isEmpty else {
                 currentInput = "0."
                 return
             }
         }
-        currentInput += input.description
+        
+        if currentOperator.isEmpty {
+            currentInput += input.description
+        } else {
+            operatorsArray.append(currentOperator)
+            currentOperator = ""
+            numbersArray.append(currentInput.description)
+            currentInput = input.description
+        }
+        
+       
     }
     
     func allClearInput() {
         currentInput = ""
+        currentOperator = ""
+        numbersArray = []
+        operatorsArray = []
     }
 }
 
@@ -100,7 +124,7 @@ struct HomeView: View {
     @ObservedObject var vm = HomeViewViewModel()
     @StateObject var storeManager: StoreManager
     @State var numberOfDecimals = 3
-    @State var finalAnswer: Double?
+    
     
 
     
@@ -146,6 +170,7 @@ extension HomeView {
     }
     
     private var buttonPad: some View {
+
         VStack(spacing: Constants.padding) {
             ForEach(buttonTypes, id: \.self) { buttonRow in
                 HStack(spacing: Constants.padding) {
@@ -159,9 +184,18 @@ extension HomeView {
     
     private var displayText: some View {
         // Answers
+        ZStack {
+            Text(vm.finalAnswer.description).foregroundColor(.red)
         HStack {
+            ForEach(vm.numbersArray.indices, id: \.self) { index in
+                Text(vm.numbersArray[index].description)
+                if index < vm.operatorsArray.count {
+                    Text(vm.operatorsArray[index])
+                }
+            }
             Text(vm.currentInput)
             Text(vm.currentOperator)
+        }
         }
         .lineLimit(1)
         .minimumScaleFactor(0.5)
