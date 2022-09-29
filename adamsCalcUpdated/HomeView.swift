@@ -15,13 +15,84 @@ class HomeViewViewModel: ObservableObject {
     @Published(key: "CurrentInput") var currentInput = ""
     @Published(key: "CurrentOperator") var currentOperator = ""
 
-    var performingMath = false
-    var isInputingNumber = false
+    @Published var isPerformingMath = false
+    @Published var isEnteringNumber = false
+    @Published var isInputingNumber = false
+    
+    @Published var variableButtonOne: Double = 0
+    @Published var variableButtonTwo: Double = 32.2443
     
     @Published(key: "SaveButtonOne") var saveButtonOne = ""
     @Published(key: "SaveButtonOneLocked") var saveButtonOneLocked = false
     @Published(key: "SaveButtonTwo") var saveButtonTwo = ""
     @Published(key: "SaveButtonTwoLocked") var saveButtonTwoLocked = false
+    
+    
+    func handleButtonInput(_ buttonInput: ButtonType) {
+        // if user presses button with input
+        // get the type of input
+        switch buttonInput {
+        case
+            .digit(.one),
+            .digit(.two),
+            .digit(.three),
+            .digit(.four),
+            .digit(.five),
+            .digit(.six),
+            .digit(.seven),
+            .digit(.eight),
+            .digit(.nine),
+            .decimal:
+                updateCurrentInput(input: buttonInput)
+        // Operator Buttons
+        case .operation(.addition), .operation(.subtraction), .operation(.multiplication), .operation(.division): operatorInput(buttonInput)
+            
+        case .allClear: allClearInput()
+        // Variable Buttons
+        case .variable(value: variableButtonOne), .variable(value: variableButtonTwo): variableInput(buttonInput)
+        default: print("Something else")
+        }
+        
+        // number
+        // operator
+        // variable
+    }
+    
+    func variableInput(_ input: ButtonType) {
+        currentInput = input.description
+    }
+    
+    func operatorInput(_ input: ButtonType) {
+        // if operator button pressed...
+        print("Pressed operator button")
+        // if no inputs yet, just ignore the input
+        guard !currentInput.isEmpty else {
+            print("do nothing, no numbers")
+            return
+        }
+        // if user has been typing in current operator,
+        currentOperator = input.description
+        // -> move current operator to array
+        // -> clear current input,
+    }
+    
+    func updateCurrentInput(input: ButtonType) {
+        if input == .decimal && currentInput.contains(".") {
+            return
+        }
+        if input == .decimal {
+            print(currentInput.isEmpty)
+            guard !currentInput.isEmpty else {
+                currentInput = "0."
+                return
+            }
+        }
+        currentInput += input.description
+    }
+    
+    func allClearInput() {
+        currentInput = ""
+    }
 }
 
 struct HomeView: View {
@@ -31,12 +102,11 @@ struct HomeView: View {
     @State var numberOfDecimals = 3
     @State var finalAnswer: Double?
     
-    @State var variableButtonOne: Double = 0
-    @State var variableButtonTwo: Double = 32.2443
+
     
     var buttonTypes: [[ButtonType]] {
         [
-            [.variable(value: variableButtonOne), .variable(value: variableButtonTwo)],
+            [.variable(value: vm.variableButtonOne), .variable(value: vm.variableButtonTwo)],
             [.allClear, .clear, .negative, .operation(.division)],
             [.digit(.seven), .digit(.eight), .digit(.nine), .operation(.multiplication)],
             [.digit(.four), .digit(.five), .digit(.six), .operation(.subtraction)],
@@ -44,6 +114,8 @@ struct HomeView: View {
             [.digit(.zero), .decimal, .equals]
         ]
     }
+    
+ 
     
     @ViewBuilder var body: some View {
         VStack {
@@ -87,15 +159,16 @@ extension HomeView {
     
     private var displayText: some View {
         // Answers
-        VStack {
+        HStack {
             Text(vm.currentInput)
-                .padding()
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-                .font(.largeTitle)
+            Text(vm.currentOperator)
         }
+        .lineLimit(1)
+        .minimumScaleFactor(0.5)
+        .font(.largeTitle)
+        .frame(maxWidth: .infinity, alignment: .trailing)
+        .padding()
+        .foregroundColor(.white)
     }
 }
 
@@ -107,8 +180,7 @@ extension HomeView {
         
         var body: some View {
             Button(buttonType.description) {
-                print("Pressed \(buttonType.description), which is a \(buttonType)")
-                vm.currentInput = buttonType.description
+                vm.handleButtonInput(buttonType)
             }
             .buttonStyle(
                 CalculatorButtonStyle(
