@@ -11,6 +11,7 @@
 		660DBC5028E24D51008DDF41 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660DBC4F28E24D51008DDF41 /* Constants.swift */; };
 		660DBC5228E25D3F008DDF41 /* Published.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660DBC5128E25D3F008DDF41 /* Published.swift */; };
 		660DBC5528E25E04008DDF41 /* ButtonPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660DBC5428E25E04008DDF41 /* ButtonPad.swift */; };
+		660DBC5728E61790008DDF41 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660DBC5628E61790008DDF41 /* String.swift */; };
 		6627E0042773D7D600B03DAC /* AdMobBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6627E0032773D7D600B03DAC /* AdMobBanner.swift */; };
 		6627E007277419E500B03DAC /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6627E006277419E500B03DAC /* StoreManager.swift */; };
 		662A522428BC082A003A9296 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662A522328BC082A003A9296 /* Color.swift */; };
@@ -29,6 +30,7 @@
 		660DBC4F28E24D51008DDF41 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		660DBC5128E25D3F008DDF41 /* Published.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Published.swift; sourceTree = "<group>"; };
 		660DBC5428E25E04008DDF41 /* ButtonPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonPad.swift; sourceTree = "<group>"; };
+		660DBC5628E61790008DDF41 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		6627E0032773D7D600B03DAC /* AdMobBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdMobBanner.swift; sourceTree = "<group>"; };
 		6627E006277419E500B03DAC /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		662A522328BC082A003A9296 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				662A522328BC082A003A9296 /* Color.swift */,
 				660DBC4F28E24D51008DDF41 /* Constants.swift */,
 				660DBC5128E25D3F008DDF41 /* Published.swift */,
+				660DBC5628E61790008DDF41 /* String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				663C5519277E4425004248B1 /* InAppPurchasesView.swift in Sources */,
 				662A522428BC082A003A9296 /* Color.swift in Sources */,
 				668AED62275856B90059F7A9 /* CurrentOperationStringView.swift in Sources */,
+				660DBC5728E61790008DDF41 /* String.swift in Sources */,
 				660DBC5528E25E04008DDF41 /* ButtonPad.swift in Sources */,
 				6627E007277419E500B03DAC /* StoreManager.swift in Sources */,
 				668AED502758487D0059F7A9 /* adamsCalcUpdatedApp.swift in Sources */,

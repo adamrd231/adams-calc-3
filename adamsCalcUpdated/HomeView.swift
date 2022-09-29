@@ -64,7 +64,7 @@ class HomeViewViewModel: ObservableObject {
         numbersArray.append(currentInput)
         operatorsArray.append(currentOperator)
         finalAnswer = calculator.MathWithPEMDAS(arr: numbersArray, oper: operatorsArray)
-        allClearInput()
+        clearWorkingInputs()
     }
     
     func variableInput(_ input: ButtonType) {
@@ -87,7 +87,7 @@ class HomeViewViewModel: ObservableObject {
     }
     
     func numberInput(input: ButtonType) {
-
+        finalAnswer = ""
         if input == .decimal && currentInput.contains(".") {
             return
         }
@@ -111,9 +111,17 @@ class HomeViewViewModel: ObservableObject {
        
     }
     
+    func clearWorkingInputs() {
+        currentInput = ""
+        currentOperator = ""
+        numbersArray = []
+        operatorsArray = []
+    }
+    
     func allClearInput() {
         currentInput = ""
         currentOperator = ""
+        finalAnswer = ""
         numbersArray = []
         operatorsArray = []
     }
@@ -157,18 +165,6 @@ struct HomeView: View {
 //MARK: Views
 extension HomeView {
     
-    func formatNumber(number: Double) -> String {
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = numberOfDecimals
-        
-        let number = NSNumber(value: number)
-        let formattedValue = formatter.string(from: number)!
-        
-        return formattedValue
-    }
-    
     private var buttonPad: some View {
 
         VStack(spacing: Constants.padding) {
@@ -185,21 +181,25 @@ extension HomeView {
     private var displayText: some View {
         // Answers
         ZStack {
-            Text(vm.finalAnswer.description).foregroundColor(.red)
+            Text(vm.finalAnswer.formattedAsNumber())
+                .foregroundColor(.red)
+                .font(.largeTitle)
+               
+                
         HStack {
             ForEach(vm.numbersArray.indices, id: \.self) { index in
-                Text(vm.numbersArray[index].description)
+                Text(vm.numbersArray[index].formattedAsNumber())
                 if index < vm.operatorsArray.count {
                     Text(vm.operatorsArray[index])
                 }
             }
-            Text(vm.currentInput)
+            Text(vm.currentInput.formattedAsNumber())
             Text(vm.currentOperator)
         }
         }
         .lineLimit(1)
         .minimumScaleFactor(0.5)
-        .font(.largeTitle)
+        .font(.title)
         .frame(maxWidth: .infinity, alignment: .trailing)
         .padding()
         .foregroundColor(.white)
