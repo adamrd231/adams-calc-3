@@ -8,6 +8,12 @@
 import SwiftUI
 
 
+struct VariableButton {
+    let id: Int
+    var value: String
+    var isLocked: Bool
+}
+
 class HomeViewViewModel: ObservableObject {
     @StateObject var calculator = Calculator()
     
@@ -18,8 +24,8 @@ class HomeViewViewModel: ObservableObject {
 
     @Published var isDisplayingFinalAnswer = false
     
-    @Published var variableButtonOne = VariableButton(isLocked: false, value: "")
-    @Published var variableButtonTwo = VariableButton(isLocked: false, value: "")
+    @Published var variableButtonOne = VariableButton(id: 1, value: "42", isLocked: false)
+    @Published var variableButtonTwo = VariableButton(id: 2, value: "24", isLocked: false)
     
     @Published(key: "SaveButtonOne") var saveButtonOne = ""
     @Published(key: "SaveButtonOneLocked") var saveButtonOneLocked = false
@@ -47,39 +53,49 @@ class HomeViewViewModel: ObservableObject {
         case .operation(.addition), .operation(.subtraction), .operation(.multiplication), .operation(.division): operatorInput(buttonInput)
             
         case .allClear: allClearInput()
-        // Variable Buttons
-        case .variable(value: variableButtonOne.value), .variable(value: variableButtonTwo.value): variableInput(buttonInput)
         case .equals: equalsButtonPressed()
         default: print("Something else")
         }
+    }
+    
+    func handleVariableButtonInput() {
         
-        // number
-        // operator
-        // variable
     }
     
     func updateVariableButtons() {
         // if both locked
         // do nothing
-        
+        print("one: \(variableButtonOne.isLocked) and two: \(variableButtonTwo.isLocked)")
+        if variableButtonOne.isLocked && variableButtonTwo.isLocked {
+            return
+            
         // if one locked and one unlocked
         // always update unlocked
-        
+        } else if variableButtonOne.isLocked && !variableButtonTwo.isLocked {
+            variableButtonTwo.value = currentInput
+        } else if !variableButtonOne.isLocked && variableButtonTwo.isLocked {
+            variableButtonOne.value = currentInput
+            
+            
         // if both empty and unlocked
         // fill first
-        
-        // if one full and other empty both unlocked
-        // fill second
-        
-        // if both full and both unlocked
-        // replace first
-        
-        
-        
-        if !variableButtonOne.isLocked && variableButtonOne.value == "" {
-            variableButtonOne.value = currentInput
-        } else if !variableButtonTwo.isLocked {
-            variableButtonTwo.value = currentInput
+        } else if !variableButtonOne.isLocked && !variableButtonTwo.isLocked {
+            if variableButtonOne.value == "" {
+                variableButtonOne.value = currentInput
+            } else if variableButtonTwo.value == "" {
+                variableButtonTwo.value = currentInput
+            } else {
+                variableButtonOne.value = currentInput
+            }
+        }
+    }
+    
+    func clearVariableButtons() {
+        if !variableButtonOne.isLocked {
+            variableButtonOne.value = ""
+        }
+        if !variableButtonTwo.isLocked {
+            variableButtonTwo.value = ""
         }
     }
     
@@ -157,6 +173,7 @@ class HomeViewViewModel: ObservableObject {
         currentOperator = ""
         numbersArray = []
         operatorsArray = []
+        clearVariableButtons()
     }
 }
 
@@ -166,12 +183,8 @@ struct HomeView: View {
     @StateObject var storeManager: StoreManager
     @State var numberOfDecimals = 3
     
-    
-
-    
     var buttonTypes: [[ButtonType]] {
         [
-            [.variable(value: vm.variableButtonOne.value), .variable(value: vm.variableButtonTwo.value)],
             [.allClear, .clear, .negative, .operation(.division)],
             [.digit(.seven), .digit(.eight), .digit(.nine), .operation(.multiplication)],
             [.digit(.four), .digit(.five), .digit(.six), .operation(.subtraction)],
@@ -179,8 +192,6 @@ struct HomeView: View {
             [.digit(.zero), .decimal, .equals]
         ]
     }
-    
- 
     
     @ViewBuilder var body: some View {
         VStack {
@@ -190,7 +201,6 @@ struct HomeView: View {
         }
         .padding()
         .background(Color.black)
-        
     }
 }
 
@@ -201,10 +211,14 @@ extension HomeView {
     private var buttonPad: some View {
 
         VStack(spacing: Constants.padding) {
+            
+            VariableButton(vm: vm, function: getButtonSize)
+            
+            .foregroundColor(.white)
             ForEach(buttonTypes, id: \.self) { buttonRow in
                 HStack(spacing: Constants.padding) {
                     ForEach(buttonRow, id: \.self) { buttonType in
-                        CalculatorButton(buttonType: buttonType, vm: vm)
+                        CalculatorButton(buttonType: buttonType, vm: vm, function: getButtonSize)
                     }
                 }
             }
@@ -226,7 +240,7 @@ extension HomeView {
         }
         .lineLimit(1)
         .minimumScaleFactor(0.5)
-        .font(.title)
+        .font(.system(size: 50))
         .frame(maxWidth: .infinity, alignment: .trailing)
         .padding()
 //        .foregroundColor(.white)
@@ -235,31 +249,68 @@ extension HomeView {
 
 //MARK: Calculator Button Extensions
 extension HomeView {
+    
+    func getButtonSize() -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.width
+        let buttonCount: CGFloat = 4.0
+        let spacingCount = buttonCount + 1
+        return (screenWidth - (spacingCount * Constants.padding)) / buttonCount
+    }
+    
+    struct VariableButton: View {
+
+        let vm: HomeViewViewModel
+        var function: () -> CGFloat
+        
+        var body: some View {
+            HStack {
+                Text(vm.variableButtonOne.value.formattedAsNumber())
+                .modifier(
+                    VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonOne.isLocked))
+                .onTapGesture {
+                    print("short press button one")
+                }
+                .onLongPressGesture(minimumDuration: 0.3) {
+                    print("Long press button one")
+                    vm.variableButtonOne.isLocked.toggle()
+                }
+                
+                Text(vm.variableButtonTwo.value.formattedAsNumber())
+                .modifier(
+                    VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonTwo.isLocked))
+                .onTapGesture {
+                    print("short press button two")
+                }
+                .onLongPressGesture(minimumDuration: 0.3) {
+                    print("Long press button two")
+                    vm.variableButtonTwo.isLocked.toggle()
+                }
+            }
+           
+        }
+    }
+    
     struct CalculatorButton: View {
         let buttonType: ButtonType
         let vm: HomeViewViewModel
+        var function: () -> CGFloat
         
         var body: some View {
+        
             Button(buttonType.description) {
                 vm.handleButtonInput(buttonType)
             }
             .buttonStyle(
                 CalculatorButtonStyle(
-                    size: getButtonSize(),
+                    size: self.function(),
                     backgroundColor: buttonType.backGroundColor,
                     foregroundColor: buttonType.foreGroundColor,
                     isWide: buttonType != .decimal && buttonType != .equals)
             )
         }
         
-        private func getButtonSize() -> CGFloat {
-            let screenWidth = UIScreen.main.bounds.width
-            let buttonCount: CGFloat = 4.0
-            let spacingCount = buttonCount + 1
-            return (screenWidth - (spacingCount * Constants.padding)) / buttonCount
-        }
+       
     }
-    
 }
 
 

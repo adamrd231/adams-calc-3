@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct VariableButton {
-    var isLocked: Bool
-    var value: String
-}
-
-
 enum Digit: Int, CaseIterable, CustomStringConvertible {
     case zero, one, two, three, four, five, six, seven, eight, nine
     
@@ -38,7 +32,6 @@ enum ButtonType: Hashable, CustomStringConvertible {
 
     case digit(_ digit: Digit)
     case operation(_ operation: ArithmeticOperation)
-    case variable(value: String)
     case negative
     case percent
     case decimal
@@ -50,7 +43,6 @@ enum ButtonType: Hashable, CustomStringConvertible {
         switch self {
         case .digit(let digit): return digit.description
         case .operation(let operation): return operation.description
-        case .variable(let variable): return variable.description
         case .negative: return "+/-"
         case .percent: return "%"
         case .decimal: return "."
@@ -62,7 +54,6 @@ enum ButtonType: Hashable, CustomStringConvertible {
     
     var backGroundColor: Color {
         switch self {
-        case .variable: return Color.red
         case .allClear, .clear, .negative, .percent: return Color.theme.blue
         case .operation, .equals: return Color.theme.darkGray
         case .digit, .decimal: return Color.theme.lightGray
@@ -71,7 +62,7 @@ enum ButtonType: Hashable, CustomStringConvertible {
     
     var foreGroundColor: Color {
         switch self {
-        case .allClear, .clear, .negative, .percent, .operation, .equals, .variable: return .white
+        case .allClear, .clear, .negative, .percent, .operation, .equals: return .white
         default: return .black
         }
     }
@@ -101,3 +92,39 @@ struct CalculatorButtonStyle: ButtonStyle {
     }
 }
 
+struct VariableButtonStyle: ViewModifier {
+    
+    var size: CGFloat
+    var isLocked: Bool
+    
+    func body(content: Content) -> some View {
+        ZStack {
+            Rectangle()
+                .foregroundColor(isLocked ? Color.blue.opacity(0.5) :  Color.blue)
+                .frame(height: size)
+                .frame(maxWidth: .infinity)
+                .clipShape(Capsule())
+            content
+                .foregroundColor(.white)
+                .font(.system(size: 26, weight: .bold))
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+        }
+    }
+}
+
+
+//content.label
+//    .font(.system(size: 26, weight: .bold))
+//    .frame(width: size, height: size)
+//    .frame(maxWidth: .infinity)
+//    .lineLimit(1)
+//    .minimumScaleFactor(0.5)
+//    .background(.red)
+//    .foregroundColor(.white)
+//    .overlay {
+//        if configuration.isPressed {
+//            Color.gray.opacity(0.4)
+//        }
+//    }
+//    .clipShape(Capsule())
