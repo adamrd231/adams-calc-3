@@ -13,8 +13,20 @@ extension String {
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 3
         
+        if self == "." {
+            return "0."
+        }
+        
+        
         if let number = Double(self) {
-            return numberFormatter.string(from: NSNumber(value: number)) ?? ""
+            let lastStringCharacter = self.last
+            if lastStringCharacter == "." {
+                let numberString = numberFormatter.string(from: NSNumber(value: number)) ?? ""
+                return "\(numberString)."
+            } else {
+                return numberFormatter.string(from: NSNumber(value: number)) ?? ""
+            }
+            
         } else {
             return ""
         }

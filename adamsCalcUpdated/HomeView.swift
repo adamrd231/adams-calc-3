@@ -58,9 +58,7 @@ class HomeViewViewModel: ObservableObject {
         }
     }
     
-    func handleVariableButtonInput() {
-        
-    }
+    
     
     func updateVariableButtons() {
         // if both locked
@@ -126,24 +124,32 @@ class HomeViewViewModel: ObservableObject {
 
     }
     
+    
+    // TODO: Handle when user presses decimal first, currently shows nothing until number input
     func numberInput(input: ButtonType) {
         
+        if input == .decimal && isDisplayingFinalAnswer {
+            currentInput = "0."
+        }
+        
+        print("current input \(currentInput.description)")
         if input == .decimal && currentInput.contains(".") {
+            print("first")
             return
         }
         if input == .decimal && currentInput.isEmpty {
-            print(currentInput.isEmpty)
-            guard !currentInput.isEmpty else {
-                currentInput = "0."
-                return
-            }
+            print("second")
+            currentInput = "."
+            return
         }
         
-        
         if isDisplayingFinalAnswer && currentOperator == "" {
+            print("here")
             currentInput = input.description
+            isDisplayingFinalAnswer = false
             
         } else if isDisplayingFinalAnswer {
+            print("here isDisplaying")
             numbersArray.append(currentInput)
             operatorsArray.append(currentOperator)
             currentOperator = ""
@@ -152,8 +158,10 @@ class HomeViewViewModel: ObservableObject {
             
         } else {
             if currentOperator == "" {
+                print("here current operator")
                 currentInput += input.description
             } else {
+                print("here else")
                 operatorsArray.append(currentOperator)
                 currentOperator = ""
                 numbersArray.append(currentInput)
@@ -196,6 +204,8 @@ struct HomeView: View {
     @ViewBuilder var body: some View {
         VStack {
             Spacer()
+            Text("displaying final answer \(vm.isDisplayingFinalAnswer.description)")
+                .foregroundColor(.white)
             displayText
             buttonPad
         }
@@ -227,22 +237,26 @@ extension HomeView {
     
     private var displayText: some View {
         // Answers
-                
-        HStack {
-            ForEach(vm.numbersArray.indices, id: \.self) { index in
-                Text(vm.numbersArray[index].formattedAsNumber()).foregroundColor(.yellow)
-                if index < vm.operatorsArray.count {
-                    Text(vm.operatorsArray[index]).foregroundColor(.red)
+        VStack {
+            HStack {
+                ForEach(vm.numbersArray.indices, id: \.self) { index in
+                    Text(vm.numbersArray[index].formattedAsNumber()).foregroundColor(.yellow)
+                    if index < vm.operatorsArray.count {
+                        Text(vm.operatorsArray[index]).foregroundColor(.red)
+                    }
                 }
+                Text(vm.currentInput.formattedAsNumber()).foregroundColor(.white)
+                Text(vm.currentOperator).foregroundColor(.blue)
             }
-            Text(vm.currentInput.formattedAsNumber()).foregroundColor(.white)
-            Text(vm.currentOperator).foregroundColor(.blue)
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
+            .font(.system(size: 50))
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .padding()
         }
-        .lineLimit(1)
-        .minimumScaleFactor(0.5)
-        .font(.system(size: 50))
-        .frame(maxWidth: .infinity, alignment: .trailing)
-        .padding()
+        
+        
+        
 //        .foregroundColor(.white)
     }
 }
@@ -262,6 +276,31 @@ extension HomeView {
         let vm: HomeViewViewModel
         var function: () -> CGFloat
         
+        func handleVariableButtonInput(button: Int) {
+            
+            if vm.currentOperator != "" {
+                vm.operatorsArray.append(vm.currentOperator)
+                vm.numbersArray.append(vm.currentInput)
+                vm.currentOperator = ""
+                switch button {
+                case 1: vm.currentInput = vm.variableButtonOne.value
+                case 2: vm.currentInput = vm.variableButtonTwo.value
+                default: print("You messed up homie")
+                }
+                
+            } else {
+              
+                switch button {
+                case 1: vm.currentInput = vm.variableButtonOne.value
+                case 2: vm.currentInput = vm.variableButtonTwo.value
+                default: print("You messed up homie")
+                }
+            }
+            
+            vm.isDisplayingFinalAnswer = true
+           
+        }
+        
         var body: some View {
             HStack {
                 Text(vm.variableButtonOne.value.formattedAsNumber())
@@ -269,6 +308,7 @@ extension HomeView {
                     VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonOne.isLocked))
                 .onTapGesture {
                     print("short press button one")
+                    handleVariableButtonInput(button: 1)
                 }
                 .onLongPressGesture(minimumDuration: 0.3) {
                     print("Long press button one")
@@ -280,6 +320,7 @@ extension HomeView {
                     VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonTwo.isLocked))
                 .onTapGesture {
                     print("short press button two")
+                    handleVariableButtonInput(button: 2)
                 }
                 .onLongPressGesture(minimumDuration: 0.3) {
                     print("Long press button two")
