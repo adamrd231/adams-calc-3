@@ -112,16 +112,16 @@ class Calculator: ObservableObject {
                 }
             }
         }
-        var answerOptional: String.SubSequence
-        let resultString = String(result)
-        if let index = resultString.range(of: ".")?.upperBound {
-            print(String(resultString.suffix(from: index)))
-            let everythingAfterPeriod = resultString.suffix(from: index)
-            if everythingAfterPeriod == "0" {
-                answerOptional = resultString.prefix(upTo: index)
-                return String(answerOptional)
-            }
-        }
+//        var answerOptional: String.SubSequence
+//        let resultString = String(result)
+//        if let index = resultString.range(of: ".")?.upperBound {
+//            print(String(resultString.suffix(from: index)))
+//            let everythingAfterPeriod = resultString.suffix(from: index)
+//            if everythingAfterPeriod == "0" {
+//                answerOptional = resultString.prefix(upTo: index)
+//                return String(answerOptional)
+//            }
+//        }
         
         
         
