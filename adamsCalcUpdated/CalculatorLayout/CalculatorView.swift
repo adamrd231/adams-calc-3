@@ -65,7 +65,6 @@ extension CalculatorView {
                 }
                 Text(vm.currentInput.formattedAsNumber())
                 Text(vm.currentOperator)
-                   
             }
             .lineLimit(1)
             .minimumScaleFactor(0.5)
@@ -95,6 +94,13 @@ extension CalculatorView {
         
         func handleVariableButtonInput(button: Int) {
             
+            if button == 1 {
+                guard vm.variableButtonOne.value != "" else { return }
+            }
+            if button == 2 {
+                guard vm.variableButtonTwo.value != "" else { return }
+            }
+            
             if vm.currentOperator != "" {
                 vm.operatorsArray.append(vm.currentOperator)
                 vm.numbersArray.append(vm.currentInput)
@@ -120,7 +126,7 @@ extension CalculatorView {
         var body: some View {
             HStack {
                 
-                Text(vm.variableButtonOne.value.formattedAsNumber())
+                Text(vm.variableButtonOne.value == "" ? "Empty" : vm.variableButtonOne.value.formattedAsNumber())
                 .modifier(
                     VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonOne.isLocked))
                 .onTapGesture {
@@ -132,7 +138,7 @@ extension CalculatorView {
                     vm.variableButtonOne.isLocked.toggle()
                 }
                 
-                Text(vm.variableButtonTwo.value.formattedAsNumber())
+                Text(vm.variableButtonTwo.value == "" ? "Empty" : vm.variableButtonTwo.value.formattedAsNumber())
                 .modifier(
                     VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonTwo.isLocked))
                 .onTapGesture {

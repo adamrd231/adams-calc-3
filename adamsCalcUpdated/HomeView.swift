@@ -15,7 +15,7 @@ struct HomeView: View {
             CalculatorView(storeManager: storeManager)
                 .tabItem {
                     VStack {
-                        Image(systemName: "circle")
+                        Image(systemName: "plusminus")
                         Text("Calc")
                     }
                 }
@@ -23,7 +23,7 @@ struct HomeView: View {
             OnboardingView()
                 .tabItem {
                     VStack {
-                        Image(systemName: "square")
+                        Image(systemName: "questionmark")
                         Text("About")
                     }
                 }
@@ -31,7 +31,7 @@ struct HomeView: View {
             InAppStorePurchasesView(storeManager: storeManager)
                 .tabItem {
                     VStack {
-                        Image(systemName: "square")
+                        Image(systemName: "creditcard")
                         Text("Ads")
                     }
                 }

@@ -56,7 +56,35 @@ class CalculatorViewViewModel: ObservableObject {
     }
     
     func singleClear() {
-
+        if currentInput.contains(".") {
+            if let range = currentInput.range(of: ".") {
+                let digitsAfterDecimal = currentInput[range.upperBound...]
+                print(digitsAfterDecimal)
+                if digitsAfterDecimal == "0" {
+                    currentInput.removeLast()
+                    currentInput.removeLast()
+                    currentInput.removeLast()
+                    return
+                }
+            }
+        }
+        
+        
+        if currentOperator != "" {
+            currentOperator = ""
+        } else if currentOperator == "" && currentInput != "" {
+            if currentInput.count == 2 && currentInput.contains("-") {
+                currentInput.removeAll()
+            } else {
+                currentInput.removeLast()
+            }
+            if currentInput == "" {
+                guard numbersArray.count > 0 else { return }
+                guard operatorsArray.count > 0 else { return }
+                currentInput = numbersArray.removeLast()
+                currentOperator = operatorsArray.removeLast()
+            }
+        }
     }
     
     func positiveNegative() {
@@ -64,6 +92,7 @@ class CalculatorViewViewModel: ObservableObject {
         let inputAsDouble = (Double(currentInput) ?? 0) * -1
         currentInput = String(inputAsDouble).formattedAsNumber()
     }
+    
     
     func updateVariableButtons() {
         // if both locked

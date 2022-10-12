@@ -27,7 +27,7 @@ struct OnboardingView: View {
             }
             
             Section(header: Text("Variable Button Demo")) {
-                VStack(alignment: .leading) {
+                VStack(alignment: .center) {
                     Text(pretendInput.formattedAsNumber())
                         .fontWeight(.heavy)
                         .frame(height: 100)
@@ -86,17 +86,22 @@ struct OnboardingView: View {
                         .background(Color(.lightGray))
                         .cornerRadius(15)
                     }
+                    Text("Demo calculations for demonstration")
+                        .font(.subheadline)
                     
                    
                     VStack(alignment: .leading, spacing: 9) {
                         Text("Short Press • Use number in field as input")
                         Text("Long Press • changes button status to saved or not saving number")
                         Text("• Saved variable button does not accept new inputs")
-                        Text("Feedback welcome at contact@rdconcepts.design")
+                        
                     }
+                    .font(.headline)
                     .padding(.vertical)
                     .fixedSize(horizontal: false, vertical: true)
-       
+                    Text("Feedback welcome at contact@rdconcepts.design")
+                        .font(.caption)
+                        .padding(.bottom)
                 }
             }
         }
