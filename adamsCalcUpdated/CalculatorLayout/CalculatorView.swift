@@ -119,6 +119,7 @@ extension CalculatorView {
         
         var body: some View {
             HStack {
+                
                 Text(vm.variableButtonOne.value.formattedAsNumber())
                 .modifier(
                     VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonOne.isLocked))

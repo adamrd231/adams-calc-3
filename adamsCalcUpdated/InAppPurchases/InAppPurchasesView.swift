@@ -61,9 +61,9 @@ struct InAppStorePurchasesView: View {
             // List of Products in store
             VStack(alignment: .leading) {
                 Text("Why In App Purchases?").font(.headline).bold().padding(.top)
-                Text("I am an independent designer and devleoper, working on apps that help people solve problems, have fun or automate work is my goal. Purchasing an in-app purchase helps me continue to work on projects and apps.").font(.footnote)
+                Text("My day job is a software engineer, this is my side hustle. Working on problems to help people in their daily lives is my sustenance. Any money spent on in-app purchases helps me out as a developer.").font(.footnote)
                 Text("Questions, Comments, Suggestions.").font(.subheadline).bold().padding(.top)
-                Text("New feature ideas and bug fixes are always welcome at 'adam@rdconcepts.design'").font(.footnote)
+                Text("New feature ideas and bug fixes are always welcome at contact@rdconcepts.design").font(.footnote)
                 
             }
         }

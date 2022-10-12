@@ -100,7 +100,7 @@ struct VariableButtonStyle: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             Rectangle()
-                .foregroundColor(isLocked ? Color.blue.opacity(0.5) :  Color.blue)
+                .foregroundColor(isLocked ? Color.blue.opacity(0.85) :  Color.blue)
                 .frame(height: size)
                 .frame(maxWidth: .infinity)
                 .clipShape(Capsule())
@@ -109,6 +109,18 @@ struct VariableButtonStyle: ViewModifier {
                 .font(.system(size: 26, weight: .bold))
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
+                .overlay((isLocked) ?
+                         Image("saved-icon")
+                            .resizable()
+                            .offset(y: -25)
+                            .frame(width: 20, height: 17)
+                            
+                         :
+                         Image("")
+                            .resizable()
+                            .offset(y: -25)
+                            .frame(width: 20, height: 17)
+                )
         }
     }
 }
