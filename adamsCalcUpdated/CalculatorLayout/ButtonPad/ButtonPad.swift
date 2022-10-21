@@ -69,7 +69,7 @@ enum ButtonType: Hashable, CustomStringConvertible {
 }
 
 struct CalculatorButtonStyle: ButtonStyle {
-    var size: CGFloat
+    var size: (height: CGFloat, width: CGFloat)
     var backgroundColor: Color
     var foregroundColor: Color
     var isWide: Bool = false
@@ -77,8 +77,8 @@ struct CalculatorButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(size: 26, weight: .bold))
-            .frame(width: size, height: size)
-            .frame(maxWidth: isWide ? .infinity : size)
+            .frame(width: size.width , height: size.height)
+            .frame(maxWidth: isWide ? .infinity : size.width)
             .lineLimit(1)
             .minimumScaleFactor(0.5)
             .background(backgroundColor)
@@ -94,14 +94,14 @@ struct CalculatorButtonStyle: ButtonStyle {
 
 struct VariableButtonStyle: ViewModifier {
     
-    var size: CGFloat
+    var size: (height: CGFloat, width: CGFloat)
     var isLocked: Bool
     
     func body(content: Content) -> some View {
         ZStack {
             Rectangle()
                 .foregroundColor(isLocked ? Color.blue.opacity(0.85) :  Color.blue)
-                .frame(height: size)
+                .frame(height: size.height)
                 .frame(maxWidth: .infinity)
                 .clipShape(Capsule())
             content

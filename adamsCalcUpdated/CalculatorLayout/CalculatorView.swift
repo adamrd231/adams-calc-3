@@ -12,6 +12,7 @@ struct CalculatorView: View {
     @StateObject var storeManager: StoreManager
     @State var numberOfDecimals = 3
     
+    
     var buttonTypes: [[ButtonType]] {
         [
             [.allClear, .clear, .negative, .operation(.division)],
@@ -79,18 +80,28 @@ extension CalculatorView {
 //MARK: Calculator Button Extensions
 extension CalculatorView {
     
-    func getButtonSize() -> CGFloat {
+    func getButtonSize() -> (height: CGFloat, width: CGFloat) {
+        // Width
         let screenWidth = UIScreen.main.bounds.width
-        let buttonCount: CGFloat = 4.0
-        let spacingCount = buttonCount + 1
-        return (screenWidth - (spacingCount * Constants.padding)) / buttonCount
+        let columnButtonCount: CGFloat = 4.0
+        let spacingCount = columnButtonCount + 1
+        let width = (screenWidth - (spacingCount * Constants.padding)) / columnButtonCount
+        let screenHeight = UIScreen.main.bounds.height
+        
+        // Height
+        let rowButtonCount: CGFloat = 6.0
+        let quarterScreen = screenHeight * 0.4
+        let heightSpacingCount = rowButtonCount + 1
+        let height = (screenHeight - quarterScreen) / rowButtonCount
+        
+        // Return Tuple
+        return (height, width)
     }
     
     struct VariableButton: View {
 
         let vm: CalculatorViewViewModel
-        var function: () -> CGFloat
-        
+        var function: () -> (height: CGFloat, width: CGFloat)
         
         func handleVariableButtonInput(button: Int) {
             
@@ -157,7 +168,7 @@ extension CalculatorView {
     struct CalculatorButton: View {
         let buttonType: ButtonType
         let vm: CalculatorViewViewModel
-        var function: () -> CGFloat
+        var function: () -> (height: CGFloat, width: CGFloat)
         
         var body: some View {
         
@@ -182,3 +193,4 @@ struct CalculatorView_Previews: PreviewProvider {
         CalculatorView(storeManager: StoreManager())
     }
 }
+

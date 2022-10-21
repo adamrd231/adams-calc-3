@@ -39,7 +39,7 @@ struct OnboardingView: View {
                     VStack {
                         Text(variableButton.value.formattedAsNumber())
                         .modifier(
-                            VariableButtonStyle(size: 100, isLocked: variableButton.isLocked))
+                            VariableButtonStyle(size: (100, 50), isLocked: variableButton.isLocked))
                         
                         .onTapGesture {
                             pretendInput = variableButton.value

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var storeManager: StoreManager
+    @State private var orientation = UIDeviceOrientation.unknown
     
     var body: some View {
         TabView {
@@ -19,7 +20,7 @@ struct HomeView: View {
                         Text("Calc")
                     }
                 }
-            
+
             OnboardingView()
                 .tabItem {
                     VStack {
@@ -45,3 +46,4 @@ struct HomeView_Previews: PreviewProvider {
         HomeView(storeManager: StoreManager())
     }
 }
+
