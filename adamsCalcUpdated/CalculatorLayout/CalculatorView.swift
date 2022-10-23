@@ -25,11 +25,21 @@ struct CalculatorView: View {
     
     @ViewBuilder var body: some View {
         VStack {
-            Spacer()
-            displayText
-            buttonPad
+            VStack {
+                Spacer()
+                displayText
+                buttonPad
+                
+               
+            }
+            .padding()
+            ZStack {
+                Rectangle()
+                    .foregroundColor(Color.theme.lightGray)
+                    .frame(height: 60)
+                Text("ads")
+            }
         }
-        .padding()
         .background(Color.theme.backgroundColor)
     }
 }
