@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var storeManager: StoreManager
-    @State private var orientation = UIDeviceOrientation.unknown
     
     var body: some View {
         TabView {
@@ -19,7 +18,7 @@ struct HomeView: View {
                         Image(systemName: "plusminus")
                         Text("Calc")
                     }
-                }
+                }            
 
             OnboardingView()
                 .tabItem {

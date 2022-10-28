@@ -12,7 +12,6 @@ struct CalculatorView: View {
     @StateObject var storeManager: StoreManager
     @State var numberOfDecimals = 3
     
-    
     var buttonTypes: [[ButtonType]] {
         [
             [.allClear, .clear, .negative, .operation(.division)],
@@ -33,36 +32,27 @@ struct CalculatorView: View {
                
             }
             .padding()
-            ZStack {
-                Rectangle()
-                    .foregroundColor(Color.theme.lightGray)
-                    .frame(height: 60)
-                Text("ads")
+            if storeManager.purchasedRemoveAds != true {
+                ZStack {
+                    Rectangle()
+                        .foregroundColor(Color.theme.lightGray)
+                        .frame(height: 60)
+                    Text("ads")
+                }
+                .onAppear {
+                    print("ad purchase status: \(storeManager.purchasedRemoveAds)")
+                }
+                
             }
         }
         .background(Color.theme.backgroundColor)
+        .edgesIgnoringSafeArea(.all)
+        .frame(height: UIScreen.main.bounds.height - 100, alignment: .bottom)
     }
 }
 
 //MARK: Views
 extension CalculatorView {
-    
-    private var buttonPad: some View {
-
-        VStack(spacing: Constants.padding) {
-            
-            VariableButton(vm: vm, function: getButtonSize)
-            
-            .foregroundColor(.white)
-            ForEach(buttonTypes, id: \.self) { buttonRow in
-                HStack(spacing: Constants.padding) {
-                    ForEach(buttonRow, id: \.self) { buttonType in
-                        CalculatorButton(buttonType: buttonType, vm: vm, function: getButtonSize)
-                    }
-                }
-            }
-        }
-    }
     
     private var displayText: some View {
         // Answers
@@ -85,6 +75,21 @@ extension CalculatorView {
         }
         .foregroundColor(Color.theme.textColor)
     }
+    
+    private var buttonPad: some View {
+        VStack {
+            VariableButton(vm: vm, function: getButtonSize)
+                .foregroundColor(.white)
+            
+            ForEach(buttonTypes, id: \.self) { buttonRow in
+                HStack(spacing: Constants.padding) {
+                    ForEach(buttonRow, id: \.self) { buttonType in
+                        CalculatorButton(buttonType: buttonType, vm: vm, function: getButtonSize)
+                    }
+                }
+            }
+        }
+    }
 }
 
 //MARK: Calculator Button Extensions
@@ -93,16 +98,20 @@ extension CalculatorView {
     func getButtonSize() -> (height: CGFloat, width: CGFloat) {
         // Width
         let screenWidth = UIScreen.main.bounds.width
-        let columnButtonCount: CGFloat = 4.0
+        // Number of buttons
+        let columnButtonCount: CGFloat = 4
+        // Number of spaces
         let spacingCount = columnButtonCount + 1
+        // individual button width
         let width = (screenWidth - (spacingCount * Constants.padding)) / columnButtonCount
-        let screenHeight = UIScreen.main.bounds.height
+        
         
         // Height
-        let rowButtonCount: CGFloat = 6.0
+        let screenHeight = UIScreen.main.bounds.height
+        let rowButtonCount: CGFloat = 4.0
         let quarterScreen = screenHeight * 0.4
         let heightSpacingCount = rowButtonCount + 1
-        let height = (screenHeight - quarterScreen) / rowButtonCount
+        let height = (screenHeight - (heightSpacingCount * Constants.padding) - (quarterScreen + 60)) / rowButtonCount
         
         // Return Tuple
         return (height, width)
@@ -187,6 +196,7 @@ extension CalculatorView {
             }
             .buttonStyle(
                 CalculatorButtonStyle(
+                    
                     size: self.function(),
                     backgroundColor: buttonType.backGroundColor,
                     foregroundColor: buttonType.foreGroundColor,
