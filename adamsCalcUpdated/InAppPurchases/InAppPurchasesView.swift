@@ -13,62 +13,91 @@ struct InAppStorePurchasesView: View {
     // Store Manager object for making in app purchases
     @StateObject var storeManager: StoreManager
     
-
     var body: some View {
-
-        VStack(alignment: .leading) {
-            HStack {
-                Link("Privacy Policy", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
-                    .padding(.vertical)
-                    .font(.body)
-                Spacer()
-                Button(action: {
-                    // Restore already purchased products
-                    storeManager.restoreProducts()
-                }) {
-                    Text("Restore Purchases")
+        NavigationView {
+            VStack(alignment: .leading) {
+                listOfPurchases
+                explanationForPurchases
+            }
+            .padding()
+            // Navigation Components
+            .navigationTitle("In-App Purchases")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Link("Privacy Policy", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Restore Purchases") {
+                        storeManager.restoreProducts()
+                    }
                 }
             }
+        }
+    }
+}
 
-            // List of Products in store
-            List(self.storeManager.myProducts, id: \.self) { product in
+extension InAppStorePurchasesView {
+    var listOfPurchases: some View {
+        List(self.storeManager.myProducts, id: \.self) { product in
+            HStack(alignment: .top, spacing: 15) {
+                Image("no-ads")
+                    .resizable()
+                    .frame(width: 50, height: 50, alignment: .leading)
                 VStack(alignment: .leading) {
-                    
-                    
-                    Text("\(product.localizedTitle)").bold()
-                    Text("$\(product.price)").font(.caption)
+                    Text("\(product.localizedTitle)")
+                        .font(.subheadline)
                     Text("\(product.localizedDescription)").fixedSize(horizontal: false, vertical: true)
-                    
+                        .font(.caption)
                     Button( action: {
                         storeManager.purchaseProduct(product: product)
                     }) {
                         VStack {
                             if storeManager.purchasedRemoveAds == true {
-                                Text("Purchased")
+                                Text("purchased")
                             } else {
-                                Text("\(product.localizedTitle)")
+                                Text("$\(product.price)")
                                     .bold()
-                                    .frame(minWidth: 50, idealWidth: .infinity, maxWidth: .infinity, minHeight: 10, idealHeight: 20, maxHeight: 30, alignment: .center)
-                                    .padding()
-                                    .background(Color(.systemGray))
-                                    .foregroundColor(.white)
-                                    .cornerRadius(15.0)
+                                    .padding(.horizontal)
+                                    .padding(.vertical, 5)
+                                    .background(Color.theme.lightGray)
+                                    .foregroundColor(Color.theme.blue)
+                                    .clipShape(Capsule())
                             }
                         }
                     }.disabled(storeManager.purchasedRemoveAds)
                 }
             }
-            // List of Products in store
-            VStack(alignment: .leading) {
-                Text("Why In App Purchases?").font(.headline).bold().padding(.top)
-                Text("My day job is a software engineer, this is my side hustle. Working on problems to help people in their daily lives is my sustenance. Any money spent on in-app purchases helps me out as a developer.").font(.footnote)
-                Text("Questions, Comments, Suggestions.").font(.subheadline).bold().padding(.top)
-                Text("New feature ideas and bug fixes are always welcome at contact@rdconcepts.design").font(.footnote)
-                
-            }
         }
-        
-        .padding()
+    }
+    
+    var explanationForPurchases: some View {
+        VStack(alignment: .leading) {
+            Text("About me")
+                .font(.subheadline)
+                .fontWeight(.heavy)
+                .foregroundColor(.gray)
+                .padding(.top)
+                .textCase(.uppercase)
+            Text("Hello, My name is Adam Reed and I am a full-time software engineer, dog-dad and believe code is where I can make my mark and help the world.")
+                .font(.footnote)
+            Text("How this works")
+                .font(.subheadline)
+                .fontWeight(.heavy)
+                .foregroundColor(.gray)
+                .padding(.top)
+                .textCase(.uppercase)
+            Text("Every 10 operations the app will show an interstitial ad (video) and banner ads play at the bottom. This purchase disables all advertising.")
+                .font(.footnote)
+            Text("Feedback")
+                .font(.subheadline)
+                .fontWeight(.heavy)
+                .foregroundColor(.gray)
+                .textCase(.uppercase)
+                .padding(.top)
+            Link("contact@rdconcepts.design", destination: URL(string: "mailto:contact@rdconcepts.design")!)
+                .font(.footnote)
+                .padding(.bottom)
+        }
     }
 }
 

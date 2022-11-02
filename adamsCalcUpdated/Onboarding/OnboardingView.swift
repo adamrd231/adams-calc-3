@@ -19,6 +19,7 @@ struct OnboardingView: View {
                     Text("The big idea")
                         .font(.headline)
                         .fontWeight(.bold)
+                        .textCase(.uppercase)
                     Text("Adam's calculator is designed to help you remember, not your chores or to-do lists but the last inputs you entered. Calculating cost of internet for the year? Adam's calc saves answers from previous calculations to help, and you can use the saved answers as an input button.")
                         .fixedSize(horizontal: false, vertical: true)
                 }

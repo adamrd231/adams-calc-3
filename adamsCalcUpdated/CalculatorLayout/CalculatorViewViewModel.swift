@@ -32,6 +32,7 @@ class CalculatorViewViewModel: ObservableObject {
         didSet {
             print("\(interstitialCountdownToNextAd)")
             if interstitialCountdownToNextAd > 9 {
+                print("conditions true show interstitial")
                 showInterstitial = true
                 interstitialCountdownToNextAd = 0
             }
@@ -44,6 +45,7 @@ class CalculatorViewViewModel: ObservableObject {
                 interstitial.showAd()
                 showInterstitial = false
             } else {
+                print("Request ads")
                 interstitial.requestInterstitialAds()
             }
         }
@@ -91,8 +93,6 @@ class CalculatorViewViewModel: ObservableObject {
                 }
             }
         }
-        
-        
         if currentOperator != "" {
             currentOperator = ""
         } else if currentOperator == "" && currentInput != "" {
@@ -115,6 +115,7 @@ class CalculatorViewViewModel: ObservableObject {
         guard currentInput != "" else { return }
         let inputAsDouble = (Double(currentInput) ?? 0) * -1
         currentInput = String(inputAsDouble).formattedAsNumber()
+        interstitialCountdownToNextAd += 1
     }
     
     
@@ -168,6 +169,7 @@ class CalculatorViewViewModel: ObservableObject {
     
     func variableInput(_ input: ButtonType) {
         currentInput = input.description
+        interstitialCountdownToNextAd += 1
     }
     
     func operatorInput(_ input: ButtonType) {
@@ -252,5 +254,6 @@ class CalculatorViewViewModel: ObservableObject {
         numbersArray = []
         operatorsArray = []
         clearVariableButtons()
+        interstitialCountdownToNextAd += 1
     }
 }
