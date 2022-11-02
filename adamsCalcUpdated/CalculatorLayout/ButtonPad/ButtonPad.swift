@@ -124,19 +124,3 @@ struct VariableButtonStyle: ViewModifier {
         }
     }
 }
-
-
-//content.label
-//    .font(.system(size: 26, weight: .bold))
-//    .frame(width: size, height: size)
-//    .frame(maxWidth: .infinity)
-//    .lineLimit(1)
-//    .minimumScaleFactor(0.5)
-//    .background(.red)
-//    .foregroundColor(.white)
-//    .overlay {
-//        if configuration.isPressed {
-//            Color.gray.opacity(0.4)
-//        }
-//    }
-//    .clipShape(Capsule())

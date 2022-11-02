@@ -58,19 +58,12 @@ struct adamsCalcUpdatedApp: App {
         WindowGroup {
             HomeView(storeManager: storeManager)
                 .onAppear(perform: {
-//                    if storeManager.showedAdvertising == false && storeManager.purchasedRemoveAds == false {
-//                        storeManager.showedAdvertising = true
-//                        requestIDFA()
-//                    }
-                    
-                    
+                    requestIDFA()
                     if storeManager.myProducts.isEmpty {
                         SKPaymentQueue.default().add(storeManager)
                         storeManager.getProducts(productIDs: productIds)
                     }
-                    
                 })
-                
         }
     }
 }

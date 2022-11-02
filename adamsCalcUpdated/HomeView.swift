@@ -10,12 +10,13 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var storeManager: StoreManager
     
+    
     var body: some View {
         TabView {
             CalculatorView(storeManager: storeManager)
                 .tabItem {
                     VStack {
-                        Image(systemName: "plusminus")
+                        Image(systemName: "plusminus.circle")
                         Text("Calc")
                     }
                 }            
@@ -23,15 +24,15 @@ struct HomeView: View {
             OnboardingView()
                 .tabItem {
                     VStack {
-                        Image(systemName: "questionmark")
+                        Image(systemName: "questionmark.circle.fill")
                         Text("About")
                     }
                 }
 
             InAppStorePurchasesView(storeManager: storeManager)
                 .tabItem {
-                    VStack {
-                        Image(systemName: "creditcard")
+                    VStack(spacing: 0) {
+                        Image(systemName: "creditcard.circle.fill")
                         Text("Ads")
                     }
                 }

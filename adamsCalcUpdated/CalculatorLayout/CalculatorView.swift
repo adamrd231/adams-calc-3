@@ -6,11 +6,25 @@
 //
 
 import SwiftUI
+import Combine
+import GoogleMobileAds
+import AppTrackingTransparency
+
+struct Size: PreferenceKey {
+
+    typealias Value = [CGRect]
+    static var defaultValue: [CGRect] = []
+    static func reduce(value: inout [CGRect], nextValue: () -> [CGRect]) {
+        value.append(contentsOf: nextValue())
+    }
+}
+
 
 struct CalculatorView: View {
     @ObservedObject var vm = CalculatorViewViewModel()
     @StateObject var storeManager: StoreManager
     @State var numberOfDecimals = 3
+    @State var playerFrame = CGRect.zero
     
     var buttonTypes: [[ButtonType]] {
         [
@@ -23,31 +37,22 @@ struct CalculatorView: View {
     }
     
     @ViewBuilder var body: some View {
-        VStack {
+        GeometryReader { geo in
             VStack {
-                Spacer()
-                displayText
-                buttonPad
-                
-               
-            }
-            .padding()
-            if storeManager.purchasedRemoveAds != true {
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(Color.theme.lightGray)
+                VStack {
+                    Spacer()
+                    displayText
+                    buttonPad
+                }
+                .padding()
+                if storeManager.purchasedRemoveAds != true {
+                    AdMobBanner()
                         .frame(height: 60)
-                    Text("ads")
+                    
                 }
-                .onAppear {
-                    print("ad purchase status: \(storeManager.purchasedRemoveAds)")
-                }
-                
             }
+            .preference(key: Size.self, value: [geo.frame(in: CoordinateSpace.global)])
         }
-        .background(Color.theme.backgroundColor)
-        .edgesIgnoringSafeArea(.all)
-        .frame(height: UIScreen.main.bounds.height - 100, alignment: .bottom)
     }
 }
 
@@ -109,9 +114,9 @@ extension CalculatorView {
         // Height
         let screenHeight = UIScreen.main.bounds.height
         let rowButtonCount: CGFloat = 4.0
-        let quarterScreen = screenHeight * 0.4
+        let screenSize = screenHeight * 0.47
         let heightSpacingCount = rowButtonCount + 1
-        let height = (screenHeight - (heightSpacingCount * Constants.padding) - (quarterScreen + 60)) / rowButtonCount
+        let height = (screenHeight - (heightSpacingCount * Constants.padding) - (screenSize + 60)) / rowButtonCount
         
         // Return Tuple
         return (height, width)

@@ -20,6 +20,7 @@
 		662A522428BC082A003A9296 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662A522328BC082A003A9296 /* Color.swift */; };
 		663C5519277E4425004248B1 /* InAppPurchasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C5518277E4425004248B1 /* InAppPurchasesView.swift */; };
 		667CE86A277BD32E00638B58 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667CE869277BD32E00638B58 /* StoreKit.framework */; };
+		66831EE82911C7A500F482E8 /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66831EE72911C7A500F482E8 /* AdsManager.swift */; };
 		668AED502758487D0059F7A9 /* adamsCalcUpdatedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668AED4F2758487D0059F7A9 /* adamsCalcUpdatedApp.swift */; };
 		668AED522758487D0059F7A9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668AED512758487D0059F7A9 /* HomeView.swift */; };
 		668AED542758487F0059F7A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668AED532758487F0059F7A9 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 		662A522328BC082A003A9296 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		663C5518277E4425004248B1 /* InAppPurchasesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchasesView.swift; sourceTree = "<group>"; };
 		667CE869277BD32E00638B58 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		66831EE72911C7A500F482E8 /* AdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManager.swift; sourceTree = "<group>"; };
 		668AED4C2758487D0059F7A9 /* adamsCalcUpdated.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = adamsCalcUpdated.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		668AED4F2758487D0059F7A9 /* adamsCalcUpdatedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = adamsCalcUpdatedApp.swift; sourceTree = "<group>"; };
 		668AED512758487D0059F7A9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				6627E0032773D7D600B03DAC /* AdMobBanner.swift */,
+				66831EE72911C7A500F482E8 /* AdsManager.swift */,
 			);
 			path = GoogleAdMob;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				663C5519277E4425004248B1 /* InAppPurchasesView.swift in Sources */,
 				662A522428BC082A003A9296 /* Color.swift in Sources */,
 				660DBC5728E61790008DDF41 /* String.swift in Sources */,
+				66831EE82911C7A500F482E8 /* AdsManager.swift in Sources */,
 				660DBC5528E25E04008DDF41 /* ButtonPad.swift in Sources */,
 				660DBC5C28EB3B6E008DDF41 /* CalculatorView.swift in Sources */,
 				6627E007277419E500B03DAC /* StoreManager.swift in Sources */,
