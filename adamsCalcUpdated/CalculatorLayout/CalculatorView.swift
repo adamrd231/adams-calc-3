@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import Combine
-import GoogleMobileAds
-import AppTrackingTransparency
 
 struct Size: PreferenceKey {
 

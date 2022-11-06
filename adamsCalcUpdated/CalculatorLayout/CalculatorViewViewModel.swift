@@ -15,6 +15,7 @@ struct VariableButton {
 
 class CalculatorViewViewModel: ObservableObject {
     @Published var calculator = Calculator()
+    @Published var storeManager = StoreManager()
     
     @Published(key: "NumbersArray") var numbersArray:[String] = []
     @Published(key: "OperatorsArray") var operatorsArray:[String] = []
@@ -31,7 +32,7 @@ class CalculatorViewViewModel: ObservableObject {
     @Published var interstitialCountdownToNextAd = 0 {
         didSet {
             print("\(interstitialCountdownToNextAd)")
-            if interstitialCountdownToNextAd > 9 {
+            if interstitialCountdownToNextAd > 9 && storeManager.purchasedRemoveAds != true {
                 print("conditions true show interstitial")
                 showInterstitial = true
                 interstitialCountdownToNextAd = 0

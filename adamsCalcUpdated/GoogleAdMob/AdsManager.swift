@@ -21,7 +21,7 @@ class AdsManager: NSObject, ObservableObject {
             let request = GADRequest()
             request.scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
             ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-                GADInterstitialAd.load(withAdUnitID: Constants.AdmobInterstitialID, request: request, completionHandler: { [self] ad, error in
+                GADInterstitialAd.load(withAdUnitID: Constants.AdmobInterstitialID_TEST, request: request, completionHandler: { [self] ad, error in
                     if let error = error {
                         print("Failed to load interstitial ad, error: \(error)")
                         return
