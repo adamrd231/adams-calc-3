@@ -75,8 +75,9 @@ extension CalculatorView {
                     if vm.savedEquations.count == 0 {
                         Text("...")
                             .padding(10)
-                            .background(Color.gray.opacity(0.2))
+                            .background(Color.theme.darkGray)
                             .cornerRadius(5)
+                            .foregroundColor(Color.theme.lightGray)
                     } else {
                         ForEach(vm.savedEquations.reversed(), id: \.self) { saved in
                             Button(saved) {
@@ -89,7 +90,11 @@ extension CalculatorView {
                                     vm.currentInput = saved
                                 }
                             }
+                            .background(Color.theme.darkGray)
+                            .foregroundColor(Color.theme.lightGray)
+                            .font(.callout)
                             .buttonStyle(.bordered)
+                            .cornerRadius(5)
                         }
                     }
                 }
