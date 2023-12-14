@@ -1,20 +1,22 @@
-//
-//  CalculatorModel.swift
-//  adamsCalcUpdated
-//
-//  Created by Adam Reed on 12/1/21.
-//
-
 import SwiftUI
 import Combine
 
-
+enum Operators {
+    case none
+    case add
+    case subtract
+    case multiply
+    case divide
+}
 
 class Calculator: ObservableObject {
     
+    var numbersArray:[String] = []
+    var operatorsArray:[String] = []
+    var currentInput = ""
+    var currentOperator: Operators = .none
     
     func MathWithPEMDAS(arr: [String], oper: [String]) -> String {
-
         var result:Double = 42.0
         var array: [Double] = arr.map { string in
             Double(string) ?? 0
@@ -41,7 +43,7 @@ class Calculator: ObservableObject {
                 }
 
                 else if multiplyIndex == nil && divisorIndex != nil {
-                    // dividde the numbers
+                    // divide the numbers
                     let firstNumber = array.remove(at: divisorIndex!)
                     let secondNumber = array.remove(at: divisorIndex!)
                     result = firstNumber / secondNumber
@@ -59,14 +61,12 @@ class Calculator: ObservableObject {
                         result = firstNumber * secondNumber
                         array.insert(result, at: multiplyIndex!)
                         operators.remove(at: multiplyIndex!)
-                        print("Multiply First")
                     } else {
                         let firstNumber = array.remove(at: divisorIndex!)
                         let secondNumber = array.remove(at: divisorIndex!)
                         result = firstNumber / secondNumber
                         array.insert(result, at: divisorIndex!)
                         operators.remove(at: divisorIndex!)
-                        print("Dvivde First")
                     }
                 }
 
@@ -80,7 +80,6 @@ class Calculator: ObservableObject {
                     result = firstNumber + secondNumber
                     array.insert(result, at: addIndex!)
                     operators.remove(at: addIndex!)
-                    print("Add Numbers")
 
                 } else if addIndex == nil && subtractIndex != nil {
                     let firstNumber = array.remove(at: subtractIndex!)
@@ -88,8 +87,6 @@ class Calculator: ObservableObject {
                     result = firstNumber - secondNumber
                     array.insert(result, at: subtractIndex!)
                     operators.remove(at: subtractIndex!)
-                    print("Subtract Numbers")
-
                 }
 
                 else if addIndex != nil && subtractIndex != nil {
@@ -99,34 +96,16 @@ class Calculator: ObservableObject {
                         result = firstNumber + secondNumber
                         array.insert(result, at: addIndex!)
                         operators.remove(at: addIndex!)
-                        print("Add first")
                     } else {
                         let firstNumber = array.remove(at: subtractIndex!)
                         let secondNumber = array.remove(at: subtractIndex!)
                         result = firstNumber - secondNumber
                         array.insert(result, at: subtractIndex!)
                         operators.remove(at: subtractIndex!)
-                        print("subtract first")
-
                     }
                 }
             }
         }
-//        var answerOptional: String.SubSequence
-//        let resultString = String(result)
-//        if let index = resultString.range(of: ".")?.upperBound {
-//            print(String(resultString.suffix(from: index)))
-//            let everythingAfterPeriod = resultString.suffix(from: index)
-//            if everythingAfterPeriod == "0" {
-//                answerOptional = resultString.prefix(upTo: index)
-//                return String(answerOptional)
-//            }
-//        }
-        
-        
-        
-        print("result: \(String(result))")
-        print("result description: \(result.description)")
         return result.description
     }
 

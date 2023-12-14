@@ -1,20 +1,15 @@
 import Foundation
 
-struct VariableButton {
-    let id: Int
-    var value: String
-    var isLocked: Bool
-}
-
 class CalculatorViewViewModel: ObservableObject {
     @Published var calculator = Calculator()
-    
     @Published(key: "NumbersArray") var numbersArray:[String] = []
     @Published(key: "OperatorsArray") var operatorsArray:[String] = []
     @Published(key: "CurrentInput") var currentInput = ""
     @Published(key: "CurrentOperator") var currentOperator = ""
 
     @Published var isDisplayingFinalAnswer = false
+    
+    @Published var savedEquations: [String] = []
     
     @Published var variableButtonOne = VariableButton(id: 1, value: "", isLocked: false)
     @Published var variableButtonTwo = VariableButton(id: 2, value: "", isLocked: false)
@@ -87,7 +82,6 @@ class CalculatorViewViewModel: ObservableObject {
     func updateVariableButtons() {
         // if both locked
         // do nothing
-        print("one: \(variableButtonOne.isLocked) and two: \(variableButtonTwo.isLocked)")
         if variableButtonOne.isLocked && variableButtonTwo.isLocked {
             return
             
@@ -97,7 +91,6 @@ class CalculatorViewViewModel: ObservableObject {
             variableButtonTwo.value = currentInput
         } else if !variableButtonOne.isLocked && variableButtonTwo.isLocked {
             variableButtonOne.value = currentInput
-            
             
         // if both empty and unlocked
         // fill first
@@ -125,8 +118,9 @@ class CalculatorViewViewModel: ObservableObject {
         numbersArray.append(currentInput)
         operatorsArray.append(currentOperator)
         currentInput = calculator.MathWithPEMDAS(arr: numbersArray, oper: operatorsArray)
+        savedEquations.append(currentInput)
         clearWorkingInputs()
-        updateVariableButtons()
+//        updateVariableButtons()
         isDisplayingFinalAnswer = true
     }
     
@@ -135,9 +129,6 @@ class CalculatorViewViewModel: ObservableObject {
     }
     
     func operatorInput(_ input: ButtonType) {
-
-        // if operator button pressed...
-        print("Pressed operator button")
         // if no inputs yet, just ignore the input
         if currentInput.isEmpty {
             return
@@ -147,7 +138,6 @@ class CalculatorViewViewModel: ObservableObject {
     }
     
     func decimalInput() {
-        print("decimal pressed")
         if isDisplayingFinalAnswer {
             currentInput = "0."
             isDisplayingFinalAnswer = false
@@ -171,7 +161,6 @@ class CalculatorViewViewModel: ObservableObject {
             currentInput = "0."
         }
     }
-    
     
     // TODO: Handle when user presses decimal first, currently shows nothing until number input
     func numberInput(input: ButtonType) {

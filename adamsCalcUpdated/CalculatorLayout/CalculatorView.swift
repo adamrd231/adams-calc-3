@@ -42,11 +42,11 @@ struct CalculatorView: View {
                     buttonPad
                 }
                 .padding()
-//                if storeManager.purchasedRemoveAds != true {
-//                    AdMobBanner()
-//                        .frame(height: 60)
-//                    
-//                }
+
+                    AdMobBanner()
+                        .frame(height: 60)
+                    
+
             }
             .preference(key: Size.self, value: [geo.frame(in: CoordinateSpace.global)])
         }
@@ -80,8 +80,32 @@ extension CalculatorView {
     
     private var buttonPad: some View {
         VStack {
-            VariableButton(vm: vm, function: getButtonSize)
-                .foregroundColor(.white)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 15) {
+                        if vm.savedEquations.count == 0 {
+                            Text("...")
+                                .padding(10)
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(5)
+                        } else {
+                            ForEach(vm.savedEquations.reversed(), id: \.self) { saved in
+                                Button(saved) {
+                                    if vm.currentOperator == "" {
+                                        vm.currentInput = saved
+                                    } else {
+                                        print("Append current input, update with variable number")
+                                        vm.numbersArray.append(vm.currentInput)
+                                        vm.operatorsArray.append(vm.currentOperator)
+                                        vm.currentOperator = ""
+                                        vm.currentInput = saved
+                                    }
+                                }
+                                .buttonStyle(.bordered)
+                        }
+                    }
+                }
+            }
+            
             
             ForEach(buttonTypes, id: \.self) { buttonRow in
                 HStack(spacing: Constants.padding) {

@@ -52,30 +52,24 @@ extension InAppStorePurchasesView {
     }
     
     var explanationForPurchases: some View {
-        VStack(alignment: .leading) {
-            Text("About me")
-                .font(.subheadline)
-                .fontWeight(.heavy)
-                .foregroundColor(.gray)
-                .textCase(.uppercase)
-            Text("Hello, My name is Adam Reed and I am a full-time software engineer, dog-dad and believe code is where I can make my mark and help the world.")
-                .font(.footnote)
-            Text("How this works")
-                .font(.subheadline)
-                .fontWeight(.heavy)
-                .foregroundColor(.gray)
-                .padding(.top)
-                .textCase(.uppercase)
-            Text("Every 10 operations the app will show an interstitial ad (video) and banner ads play at the bottom. This purchase disables all advertising.")
-                .font(.footnote)
-            Text("Feedback")
-                .font(.subheadline)
-                .fontWeight(.heavy)
-                .foregroundColor(.gray)
-                .textCase(.uppercase)
-                .padding(.top)
-            Link("contact@rdconcepts.design", destination: URL(string: "mailto:contact@rdconcepts.design")!)
-                .font(.footnote)
+        VStack(alignment: .leading, spacing: 15) {
+            VStack(alignment: .leading) {
+                Text("About me")
+                    .fontWeight(.bold)
+                Text("Hello, My name is Adam Reed and I am a full-time software engineer, dog-dad and believe code is where I can make my mark and help the world.")
+            }
+            VStack(alignment: .leading) {
+                Text("How this works")
+                    .fontWeight(.bold)
+                Text("Every 10 operations the app will show an interstitial ad (video) and banner ads play at the bottom. This purchase disables all advertising.")
+            }
+            VStack(alignment: .leading) {
+                Text("Feedback")
+                    .fontWeight(.bold)
+                
+                Link("contact@rdconcepts.design", destination: URL(string: "mailto:contact@rdconcepts.design")!)
+   
+            }
         }
     }
 }

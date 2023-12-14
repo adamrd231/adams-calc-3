@@ -22,6 +22,7 @@
 		667CE86A277BD32E00638B58 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667CE869277BD32E00638B58 /* StoreKit.framework */; };
 		668275FA2B2B899200B5B548 /* AdMobInterstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668275F92B2B899200B5B548 /* AdMobInterstitial.swift */; };
 		668275FC2B2B8C7C00B5B548 /* AdvertisingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668275FB2B2B8C7C00B5B548 /* AdvertisingViewModel.swift */; };
+		668276022B2B90D800B5B548 /* VariableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668276012B2B90D800B5B548 /* VariableButton.swift */; };
 		668AED502758487D0059F7A9 /* adamsCalcUpdatedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668AED4F2758487D0059F7A9 /* adamsCalcUpdatedApp.swift */; };
 		668AED522758487D0059F7A9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668AED512758487D0059F7A9 /* HomeView.swift */; };
 		668AED542758487F0059F7A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668AED532758487F0059F7A9 /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 		668275F92B2B899200B5B548 /* AdMobInterstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdMobInterstitial.swift; sourceTree = "<group>"; };
 		668275FB2B2B8C7C00B5B548 /* AdvertisingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingViewModel.swift; sourceTree = "<group>"; };
 		668275FD2B2B8D0800B5B548 /* AdamsCalcStoreKit.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdamsCalcStoreKit.storekit; sourceTree = "<group>"; };
+		668276012B2B90D800B5B548 /* VariableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableButton.swift; sourceTree = "<group>"; };
 		668AED4C2758487D0059F7A9 /* adamsCalcUpdated.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = adamsCalcUpdated.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		668AED4F2758487D0059F7A9 /* adamsCalcUpdatedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = adamsCalcUpdatedApp.swift; sourceTree = "<group>"; };
 		668AED512758487D0059F7A9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -144,6 +146,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		668276002B2B90C900B5B548 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				668276012B2B90D800B5B548 /* VariableButton.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
 		668AED432758487D0059F7A9 = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +181,7 @@
 				6627E005277419D200B03DAC /* InAppPurchases */,
 				6627E0022773D7B200B03DAC /* GoogleAdMob */,
 				660DBC5D28EB3CC8008DDF41 /* Models */,
+				668276002B2B90C900B5B548 /* States */,
 				660DBC5828EB3B12008DDF41 /* CalculatorLayout */,
 				668AED512758487D0059F7A9 /* HomeView.swift */,
 				668AED532758487F0059F7A9 /* Assets.xcassets */,
@@ -313,6 +324,7 @@
 				668AED5F275848B40059F7A9 /* CalculatorModel.swift in Sources */,
 				668275FC2B2B8C7C00B5B548 /* AdvertisingViewModel.swift in Sources */,
 				668275FA2B2B899200B5B548 /* AdMobInterstitial.swift in Sources */,
+				668276022B2B90D800B5B548 /* VariableButton.swift in Sources */,
 				668AED522758487D0059F7A9 /* HomeView.swift in Sources */,
 				660DBC5228E25D3F008DDF41 /* Published.swift in Sources */,
 				660DBC6028EB3CEC008DDF41 /* OnboardingView.swift in Sources */,
