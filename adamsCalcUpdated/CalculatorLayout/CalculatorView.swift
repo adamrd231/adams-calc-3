@@ -1,10 +1,3 @@
-//
-//  CalculatorView.swift
-//  adamsCalcUpdated
-//
-//  Created by Adam Reed on 10/3/22.
-//
-
 import SwiftUI
 
 struct Size: PreferenceKey {
@@ -15,7 +8,6 @@ struct Size: PreferenceKey {
         value.append(contentsOf: nextValue())
     }
 }
-
 
 struct CalculatorView: View {
     @ObservedObject var vm = CalculatorViewViewModel()
@@ -39,14 +31,13 @@ struct CalculatorView: View {
                 VStack {
                     Spacer()
                     displayText
+                    variableInputs
+                        .padding(.leading)
                     buttonPad
+                        .padding(.horizontal)
                 }
-                .padding()
-
-                    AdMobBanner()
-                        .frame(height: 60)
-                    
-
+                AdMobBanner()
+                    .frame(height: 60)
             }
             .preference(key: Size.self, value: [geo.frame(in: CoordinateSpace.global)])
         }
@@ -55,7 +46,6 @@ struct CalculatorView: View {
 
 //MARK: Views
 extension CalculatorView {
-    
     private var displayText: some View {
         // Answers
         VStack {
@@ -78,40 +68,43 @@ extension CalculatorView {
         .foregroundColor(Color.theme.textColor)
     }
     
-    private var buttonPad: some View {
-        VStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 15) {
-                        if vm.savedEquations.count == 0 {
-                            Text("...")
-                                .padding(10)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(5)
-                        } else {
-                            ForEach(vm.savedEquations.reversed(), id: \.self) { saved in
-                                Button(saved) {
-                                    if vm.currentOperator == "" {
-                                        vm.currentInput = saved
-                                    } else {
-                                        print("Append current input, update with variable number")
-                                        vm.numbersArray.append(vm.currentInput)
-                                        vm.operatorsArray.append(vm.currentOperator)
-                                        vm.currentOperator = ""
-                                        vm.currentInput = saved
-                                    }
+    private var variableInputs: some View {
+//        VStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 15) {
+                    if vm.savedEquations.count == 0 {
+                        Text("...")
+                            .padding(10)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(5)
+                    } else {
+                        ForEach(vm.savedEquations.reversed(), id: \.self) { saved in
+                            Button(saved) {
+                                if vm.currentOperator == "" {
+                                    vm.currentInput = saved
+                                } else {
+                                    vm.numbersArray.append(vm.currentInput)
+                                    vm.operatorsArray.append(vm.currentOperator)
+                                    vm.currentOperator = ""
+                                    vm.currentInput = saved
                                 }
-                                .buttonStyle(.bordered)
+                            }
+                            .buttonStyle(.bordered)
                         }
                     }
                 }
             }
-            
-            
-            ForEach(buttonTypes, id: \.self) { buttonRow in
-                HStack(spacing: Constants.padding) {
-                    ForEach(buttonRow, id: \.self) { buttonType in
-                        CalculatorButton(buttonType: buttonType, vm: vm, function: getButtonSize)
-                    }
+            .background(.gray.opacity(0.1))
+            .cornerRadius(10)
+        
+//        }
+    }
+    
+    private var buttonPad: some View {
+        ForEach(buttonTypes, id: \.self) { buttonRow in
+            HStack(spacing: Constants.padding) {
+                ForEach(buttonRow, id: \.self) { buttonType in
+                    CalculatorButton(buttonType: buttonType, vm: vm, function: getButtonSize)
                 }
             }
         }
@@ -141,96 +134,6 @@ extension CalculatorView {
         
         // Return Tuple
         return (height, width)
-    }
-    
-    struct VariableButton: View {
-
-        let vm: CalculatorViewViewModel
-        var function: () -> (height: CGFloat, width: CGFloat)
-        
-        func handleVariableButtonInput(button: Int) {
-            
-            if button == 1 {
-                guard vm.variableButtonOne.value != "" else { return }
-            }
-            if button == 2 {
-                guard vm.variableButtonTwo.value != "" else { return }
-            }
-            
-            if vm.currentOperator != "" {
-                vm.operatorsArray.append(vm.currentOperator)
-                vm.numbersArray.append(vm.currentInput)
-                vm.currentOperator = ""
-                switch button {
-                case 1: vm.currentInput = vm.variableButtonOne.value
-                case 2: vm.currentInput = vm.variableButtonTwo.value
-                default: print("You messed up homie")
-                }
-                
-            } else {
-                switch button {
-                case 1: vm.currentInput = vm.variableButtonOne.value
-                case 2: vm.currentInput = vm.variableButtonTwo.value
-                default: print("You messed up homie")
-                }
-            }
-            
-            vm.isDisplayingFinalAnswer = true
-           
-        }
-        
-        var body: some View {
-            HStack {
-                
-                Text(vm.variableButtonOne.value == "" ? "Empty" : vm.variableButtonOne.value.formattedAsNumber())
-                .modifier(
-                    VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonOne.isLocked))
-                .onTapGesture {
-                    print("short press button one")
-                    handleVariableButtonInput(button: 1)
-                }
-                .onLongPressGesture(minimumDuration: 0.3) {
-                    print("Long press button one")
-                    vm.variableButtonOne.isLocked.toggle()
-                }
-                
-                Text(vm.variableButtonTwo.value == "" ? "Empty" : vm.variableButtonTwo.value.formattedAsNumber())
-                .modifier(
-                    VariableButtonStyle(size: self.function(), isLocked: vm.variableButtonTwo.isLocked))
-                .onTapGesture {
-                    print("short press button two")
-                    handleVariableButtonInput(button: 2)
-                }
-                .onLongPressGesture(minimumDuration: 0.3) {
-                    print("Long press button two")
-                    vm.variableButtonTwo.isLocked.toggle()
-                }
-            }
-           
-        }
-    }
-    
-    struct CalculatorButton: View {
-        let buttonType: ButtonType
-        let vm: CalculatorViewViewModel
-        var function: () -> (height: CGFloat, width: CGFloat)
-        
-        var body: some View {
-        
-            Button(buttonType.description) {
-                vm.handleButtonInput(buttonType)
-            }
-            .buttonStyle(
-                CalculatorButtonStyle(
-                    
-                    size: self.function(),
-                    backgroundColor: buttonType.backGroundColor,
-                    foregroundColor: buttonType.foreGroundColor,
-                    isWide: buttonType != .decimal && buttonType != .equals)
-            )
-        }
-        
-       
     }
 }
 

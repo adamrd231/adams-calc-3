@@ -8,11 +8,7 @@ class CalculatorViewViewModel: ObservableObject {
     @Published(key: "CurrentOperator") var currentOperator = ""
 
     @Published var isDisplayingFinalAnswer = false
-    
     @Published var savedEquations: [String] = []
-    
-    @Published var variableButtonOne = VariableButton(id: 1, value: "", isLocked: false)
-    @Published var variableButtonTwo = VariableButton(id: 2, value: "", isLocked: false)
     
     func handleButtonInput(_ buttonInput: ButtonType) {
         // if user presses button with input
@@ -78,49 +74,12 @@ class CalculatorViewViewModel: ObservableObject {
         currentInput = String(inputAsDouble).formattedAsNumber()
     }
     
-    
-    func updateVariableButtons() {
-        // if both locked
-        // do nothing
-        if variableButtonOne.isLocked && variableButtonTwo.isLocked {
-            return
-            
-        // if one locked and one unlocked
-        // always update unlocked
-        } else if variableButtonOne.isLocked && !variableButtonTwo.isLocked {
-            variableButtonTwo.value = currentInput
-        } else if !variableButtonOne.isLocked && variableButtonTwo.isLocked {
-            variableButtonOne.value = currentInput
-            
-        // if both empty and unlocked
-        // fill first
-        } else if !variableButtonOne.isLocked && !variableButtonTwo.isLocked {
-            if variableButtonOne.value == "" {
-                variableButtonOne.value = currentInput
-            } else if variableButtonTwo.value == "" {
-                variableButtonTwo.value = currentInput
-            } else {
-                variableButtonOne.value = currentInput
-            }
-        }
-    }
-    
-    func clearVariableButtons() {
-        if !variableButtonOne.isLocked {
-            variableButtonOne.value = ""
-        }
-        if !variableButtonTwo.isLocked {
-            variableButtonTwo.value = ""
-        }
-    }
-    
     func equalsButtonPressed() {
         numbersArray.append(currentInput)
         operatorsArray.append(currentOperator)
         currentInput = calculator.MathWithPEMDAS(arr: numbersArray, oper: operatorsArray)
         savedEquations.append(currentInput)
         clearWorkingInputs()
-//        updateVariableButtons()
         isDisplayingFinalAnswer = true
     }
     
@@ -198,6 +157,5 @@ class CalculatorViewViewModel: ObservableObject {
         currentOperator = ""
         numbersArray = []
         operatorsArray = []
-        clearVariableButtons()
     }
 }
