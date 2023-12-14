@@ -15,7 +15,6 @@ struct adamsCalcUpdatedApp: App {
     // StoreManager object to make in-app purchases
     @StateObject var storeManager = StoreManager()
     // Advertising Product Id's
-    var productIds = ["remove_advertising"]
     
     // App Tracking Transparency - Request permission and play ads on open only
     func requestIDFA() {
@@ -33,10 +32,6 @@ struct adamsCalcUpdatedApp: App {
             HomeView(storeManager: storeManager)
                 .onAppear(perform: {
                     requestIDFA()
-                    if storeManager.myProducts.isEmpty {
-                        SKPaymentQueue.default().add(storeManager)
-                        storeManager.getProducts(productIDs: productIds)
-                    }
                 })
         }
     }

@@ -1,10 +1,3 @@
-//
-//  CalculatorViewViewModel.swift
-//  adamsCalcUpdated
-//
-//  Created by Adam Reed on 10/3/22.
-//
-
 import Foundation
 
 struct VariableButton {
@@ -15,7 +8,6 @@ struct VariableButton {
 
 class CalculatorViewViewModel: ObservableObject {
     @Published var calculator = Calculator()
-    @Published var storeManager = StoreManager()
     
     @Published(key: "NumbersArray") var numbersArray:[String] = []
     @Published(key: "OperatorsArray") var operatorsArray:[String] = []
@@ -26,32 +18,6 @@ class CalculatorViewViewModel: ObservableObject {
     
     @Published var variableButtonOne = VariableButton(id: 1, value: "", isLocked: false)
     @Published var variableButtonTwo = VariableButton(id: 2, value: "", isLocked: false)
-    
-    // Admob
-    @Published var interstitial = AdsManager.Interstitial()
-    @Published var interstitialCountdownToNextAd = 0 {
-        didSet {
-            print("\(interstitialCountdownToNextAd)")
-            if interstitialCountdownToNextAd > 9 && storeManager.purchasedRemoveAds != true {
-                print("conditions true show interstitial")
-                showInterstitial = true
-                interstitialCountdownToNextAd = 0
-            }
-        }
-    }
-    @Published var showInterstitial = false {
-        didSet {
-            if showInterstitial {
-                print("Showing ad")
-                interstitial.showAd()
-                showInterstitial = false
-            } else {
-                print("Request ads")
-                interstitial.requestInterstitialAds()
-            }
-        }
-    }
-    
     
     func handleButtonInput(_ buttonInput: ButtonType) {
         // if user presses button with input
@@ -109,14 +75,12 @@ class CalculatorViewViewModel: ObservableObject {
                 currentOperator = operatorsArray.removeLast()
             }
         }
-        interstitialCountdownToNextAd += 1
     }
     
     func positiveNegative() {
         guard currentInput != "" else { return }
         let inputAsDouble = (Double(currentInput) ?? 0) * -1
         currentInput = String(inputAsDouble).formattedAsNumber()
-        interstitialCountdownToNextAd += 1
     }
     
     
@@ -155,7 +119,6 @@ class CalculatorViewViewModel: ObservableObject {
         if !variableButtonTwo.isLocked {
             variableButtonTwo.value = ""
         }
-        interstitialCountdownToNextAd += 1
     }
     
     func equalsButtonPressed() {
@@ -165,12 +128,10 @@ class CalculatorViewViewModel: ObservableObject {
         clearWorkingInputs()
         updateVariableButtons()
         isDisplayingFinalAnswer = true
-        interstitialCountdownToNextAd += 1
     }
     
     func variableInput(_ input: ButtonType) {
         currentInput = input.description
-        interstitialCountdownToNextAd += 1
     }
     
     func operatorInput(_ input: ButtonType) {
@@ -183,7 +144,6 @@ class CalculatorViewViewModel: ObservableObject {
         } else {
             currentOperator = input.description
         }
-        interstitialCountdownToNextAd += 1
     }
     
     func decimalInput() {
@@ -210,19 +170,16 @@ class CalculatorViewViewModel: ObservableObject {
         } else {
             currentInput = "0."
         }
-        interstitialCountdownToNextAd += 1
     }
     
     
     // TODO: Handle when user presses decimal first, currently shows nothing until number input
     func numberInput(input: ButtonType) {
         if isDisplayingFinalAnswer && currentOperator == "" {
-            print("here")
             currentInput = input.description
             isDisplayingFinalAnswer = false
             
         } else if isDisplayingFinalAnswer {
-            print("here isDisplaying")
             numbersArray.append(currentInput)
             operatorsArray.append(currentOperator)
             currentOperator = ""
@@ -231,10 +188,8 @@ class CalculatorViewViewModel: ObservableObject {
             
         } else {
             if currentOperator == "" {
-                print("here current operator")
                 currentInput += input.description
             } else {
-                print("here else")
                 operatorsArray.append(currentOperator)
                 currentOperator = ""
                 numbersArray.append(currentInput)
@@ -255,6 +210,5 @@ class CalculatorViewViewModel: ObservableObject {
         numbersArray = []
         operatorsArray = []
         clearVariableButtons()
-        interstitialCountdownToNextAd += 1
     }
 }

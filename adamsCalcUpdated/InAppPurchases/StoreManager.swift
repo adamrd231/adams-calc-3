@@ -1,94 +1,107 @@
-//
-//  StoreManager.swift
-//  adamsCalcUpdated
-//
-//  Created by Adam Reed on 12/22/21.
-//
-
 import Foundation
 import StoreKit
+import Combine
 
-class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+struct StoreIDsConstant {
+    static var removeAds = "remove_advertising"
+}
+
+@MainActor
+class StoreManager: ObservableObject  {
+
+    private var productIDs = [
+        StoreIDsConstant.removeAds
+    ]
     
-    @Published var myProducts = [SKProduct]()
-    var request: SKProductsRequest!
-    @Published var transactionState: SKPaymentTransactionState?
-//    @Published var purchasedRemoveAds = UserDefaults.standard.bool(forKey: "purchasedRemoveAds") {
-//        didSet {
-//            UserDefaults.standard.setValue(self.purchasedRemoveAds, forKey: "purchasedRemoveAds")
-//        }
-//    }
-    @Published var purchasedRemoveAds = true
+    @Published var isViewingStore: Bool = false
+    @Published var products:[Product] = []
     
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        print("Did receive response")
-        
-        if !response.products.isEmpty {
-            for fetchedProduct in response.products {
-                DispatchQueue.main.async {
-                    self.myProducts.append(fetchedProduct)
+    @Published var purchasedProductIDs: Set<String> = []
+    @Published var isLoadingProducts: Bool = false
+    @Published var productsLoaded: Bool = false
+    
+    // Listen for transactions that might be successful but not recorded
+    var transactionListener: Task <Void, Error>?
+    private var cancellable = Set<AnyCancellable>()
+    
+    init() {
+        transactionListener = listenForTransactions()
+        Task {
+            await requestProducts()
+            // Must be called after products have already been fetched
+            // Transactions do not contain product or product info
+            await updateCurrentEntitlements()
+        }
+    }
+    
+    @MainActor
+    func requestProducts() async {
+        print("Requesting products......")
+        guard !self.productsLoaded else { return }
+        do {
+            products = try await Product.products(for: productIDs)
+        } catch let error {
+            print("Error requesting products: \(error)")
+        }
+    }
+    
+    @MainActor
+    func purchase(_ product: Product) async throws {
+        let result = try await product.purchase()
+        switch result {
+        case .success(.verified(let transaction)):
+            await transaction.finish()
+            purchasedProductIDs.insert(product.id)
+        case let .success(.unverified(_, error)):
+            print("Purchase error: success but unverified \(error)")
+            // Success, but transaction / receipt can't be verified
+            // Possibly a jailbroken phone?
+            break
+        case .pending:
+            // Transaction waiting on SCA (Strong customer auth)
+            // Needs approval from Ask to Buy
+            break
+        case .userCancelled:
+            break
+        default:
+            break
+        }
+    }
+    
+    func listenForTransactions() -> Task <Void, Error> {
+        return Task.detached {
+            for await result in Transaction.updates {
+                await self.handle(transactionVerification: result)
+            }
+        }
+    }
+    
+    private func updateCurrentEntitlements() async {
+        for await result in Transaction.currentEntitlements {
+            await self.handle(transactionVerification: result)
+        }
+    }
+    
+    @MainActor
+    func restorePurchases() async throws {
+        try await AppStore.sync()
+
+    }
+
+    @MainActor
+    private func handle(transactionVerification result: VerificationResult <Transaction> ) async {
+        switch result {
+            case let.verified(transaction):
+                guard let product = self.products.first(where: { $0.id == transaction.productID }) else { return }
+                if transaction.revocationDate == nil {
+//                    self.purchasedNonConsumables.insert(product)
+                    self.purchasedProductIDs.insert(product.id)
+                } else {
+                    self.purchasedProductIDs.remove(product.id)
                 }
-            }
-        }
-        
-        for invalidIdentifier in response.invalidProductIdentifiers {
-            print("Invalid identifiers found: \(invalidIdentifier)")
+                await transaction.finish()
+            default: return
         }
     }
-    
-    func getProducts(productIDs: [String]) {
-        print("Start requesting products ...")
-        let request = SKProductsRequest(productIdentifiers: Set(productIDs))
-        request.delegate = self
-        request.start()
-    }
-
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .purchasing:
-                transactionState = .purchasing
-            case .purchased:
-                UserDefaults.standard.setValue(true, forKey: transaction.payment.productIdentifier)
-                queue.finishTransaction(transaction)
-                purchasedRemoveAds = true
-                transactionState = .purchased
-            case .restored:
-                UserDefaults.standard.setValue(true, forKey: transaction.payment.productIdentifier)
-                queue.finishTransaction(transaction)
-                purchasedRemoveAds = true
-                transactionState = .restored
-            case .failed, .deferred:
-                print("Payment Queue Error: \(String(describing: transaction.error))")
-                    queue.finishTransaction(transaction)
-                    transactionState = .failed
-                    default:
-                    queue.finishTransaction(transaction)
-            }
-        }
-    }
-    
-    func purchaseProduct(product: SKProduct) {
-        if SKPaymentQueue.canMakePayments() {
-            let payment = SKPayment(product: product)
-            SKPaymentQueue.default().add(payment)
-        } else {
-            print("User can't make payment.")
-        }
-    }
-    
-    
-    
-    func request(_ request: SKRequest, didFailWithError error: Error) {
-        print("Request did fail: \(error)")
-    }
-    
-    func restoreProducts() {
-        print("Restoring products ...")
-        SKPaymentQueue.default().restoreCompletedTransactions()
-    }
-    
-    
 }
 

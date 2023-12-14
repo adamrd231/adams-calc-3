@@ -10,6 +10,14 @@ import GoogleMobileAds
 import UIKit
 
 final private class BannerVC: UIViewControllerRepresentable  {
+    
+    private struct BannerAdMobConstant {
+        #if DEBUG
+            static var bannerID = "ca-app-pub-3940256099942544/2934735716"
+        #else
+            static var bannerID = "ca-app-pub-4186253562269967/7129641862"
+        #endif
+    }
 
     func makeUIViewController(context: Context) -> UIViewController {
         let view = GADBannerView(adSize: GADAdSizeBanner)
@@ -23,15 +31,14 @@ final private class BannerVC: UIViewControllerRepresentable  {
         return viewController
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        print("Updating UIViewController")
-    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
 }
 
 struct AdMobBanner: View {
     var body: some View {
         HStack(alignment: .center) {
-            BannerVC().frame(width: 320, height: 55, alignment: .center)
+            BannerVC()
+                .frame(width: 320, height: 70, alignment: .center)
         }
     }
 }

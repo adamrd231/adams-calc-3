@@ -42,11 +42,11 @@ struct CalculatorView: View {
                     buttonPad
                 }
                 .padding()
-                if storeManager.purchasedRemoveAds != true {
-                    AdMobBanner()
-                        .frame(height: 60)
-                    
-                }
+//                if storeManager.purchasedRemoveAds != true {
+//                    AdMobBanner()
+//                        .frame(height: 60)
+//                    
+//                }
             }
             .preference(key: Size.self, value: [geo.frame(in: CoordinateSpace.global)])
         }

@@ -1,25 +1,35 @@
-//
-//  InAppPurchasesView.swift
-//  adamsCalcUpdated
-//
-//  Created by Adam Reed on 12/30/21.
-//
-
 import SwiftUI
 
-
 struct InAppStorePurchasesView: View {
-    
     // Store Manager object for making in app purchases
     @StateObject var storeManager: StoreManager
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
-                listOfPurchases
-                explanationForPurchases
+            List {
+                Section {
+                    ForEach(storeManager.products, id: \.id) { product in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(product.displayName)
+                                    .bold()
+                                Text(product.description)
+                                    .font(.caption)
+                            }
+                            Spacer(minLength: 30)
+                            Button(product.displayPrice) {
+                                Task {
+                                    try await storeManager.purchase(product)
+                                }
+                            }
+                        }
+                    }
+                }
+                Section {
+                    explanationForPurchases
+                }
             }
-            .padding()
+
             // Navigation Components
             .navigationTitle("In-App Purchases")
             .toolbar {
@@ -28,7 +38,7 @@ struct InAppStorePurchasesView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Restore Purchases") {
-                        storeManager.restoreProducts()
+                        
                     }
                 }
             }
@@ -38,36 +48,7 @@ struct InAppStorePurchasesView: View {
 
 extension InAppStorePurchasesView {
     var listOfPurchases: some View {
-        List(self.storeManager.myProducts, id: \.self) { product in
-            HStack(alignment: .top, spacing: 15) {
-                Image("no-ads")
-                    .resizable()
-                    .frame(width: 50, height: 50, alignment: .leading)
-                VStack(alignment: .leading) {
-                    Text("\(product.localizedTitle)")
-                        .font(.subheadline)
-                    Text("\(product.localizedDescription)").fixedSize(horizontal: false, vertical: true)
-                        .font(.caption)
-                    Button( action: {
-                        storeManager.purchaseProduct(product: product)
-                    }) {
-                        VStack {
-                            if storeManager.purchasedRemoveAds == true {
-                                Text("purchased")
-                            } else {
-                                Text("$\(product.price)")
-                                    .bold()
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 5)
-                                    .background(Color.theme.lightGray)
-                                    .foregroundColor(Color.theme.blue)
-                                    .clipShape(Capsule())
-                            }
-                        }
-                    }.disabled(storeManager.purchasedRemoveAds)
-                }
-            }
-        }
+        Text("Placeholder")
     }
     
     var explanationForPurchases: some View {
@@ -76,7 +57,6 @@ extension InAppStorePurchasesView {
                 .font(.subheadline)
                 .fontWeight(.heavy)
                 .foregroundColor(.gray)
-                .padding(.top)
                 .textCase(.uppercase)
             Text("Hello, My name is Adam Reed and I am a full-time software engineer, dog-dad and believe code is where I can make my mark and help the world.")
                 .font(.footnote)
@@ -96,7 +76,6 @@ extension InAppStorePurchasesView {
                 .padding(.top)
             Link("contact@rdconcepts.design", destination: URL(string: "mailto:contact@rdconcepts.design")!)
                 .font(.footnote)
-                .padding(.bottom)
         }
     }
 }
