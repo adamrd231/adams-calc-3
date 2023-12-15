@@ -27,15 +27,25 @@ struct CalculatorView: View {
                         currentInput: vm.currentInput,
                         currentOperator: vm.currentOperator
                     )
+                    .onChange(of: vm.savedEquations, perform: { newValue in
+                        print("Saved something!")
+                        if !storeManager.purchasedProductIDs.contains(where: { $0 ==  StoreIDsConstant.removeAds }) {
+                            vm.advertisingVM.interstitialCounter += 1
+                        }
+        
+                    })
                     .padding(.leading)
                     variableInputs
                         .padding(.leading)
                     buttonPad
                         .padding(.horizontal)
                 }
-                AdMobBanner()
-                    .padding(.top, 10)
-                    .frame(height: 70)
+                if !storeManager.purchasedProductIDs.contains(where: { $0 == StoreIDsConstant.removeAds }) {
+                    AdMobBanner()
+                        .padding(.top, 10)
+                        .frame(height: 70)
+                }
+ 
             }
             .preference(key: Size.self, value: [geo.frame(in: CoordinateSpace.global)])
         }

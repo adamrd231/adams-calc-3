@@ -17,11 +17,19 @@ struct InAppStorePurchasesView: View {
                                     .font(.caption)
                             }
                             Spacer(minLength: 30)
-                            Button(product.displayPrice) {
-                                Task {
-                                    try await storeManager.purchase(product)
+                            if storeManager.purchasedProductIDs.contains(where: { $0 == product.id }) {
+                                Button("Purchased") { }
+                                    .disabled(true)
+                                    .buttonStyle(.bordered)
+                            } else {
+                                Button(product.displayPrice) {
+                                    Task {
+                                        try await storeManager.purchase(product)
+                                    }
                                 }
+                                .buttonStyle(.bordered)
                             }
+                            
                         }
                     }
                 }

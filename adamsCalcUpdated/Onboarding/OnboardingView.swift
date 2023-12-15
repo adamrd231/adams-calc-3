@@ -1,10 +1,3 @@
-//
-//  OnboardingView.swift
-//  adamsCalcUpdated
-//
-//  Created by Adam Reed on 10/3/22.
-//
-
 import SwiftUI
 
 struct OnboardingView: View {

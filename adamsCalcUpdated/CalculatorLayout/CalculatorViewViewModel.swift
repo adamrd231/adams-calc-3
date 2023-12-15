@@ -2,6 +2,7 @@ import Foundation
 
 class CalculatorViewViewModel: ObservableObject {
     @Published var calculator = Calculator()
+    @Published var advertisingVM = AdvertisingViewModel()
     @Published(key: "NumbersArray") var numbersArray:[String] = []
     @Published(key: "OperatorsArray") var operatorsArray:[String] = []
     @Published(key: "CurrentInput") var currentInput = ""
@@ -75,6 +76,7 @@ class CalculatorViewViewModel: ObservableObject {
     }
     
     func equalsButtonPressed() {
+        guard currentInput != "" && numbersArray.count > 0 else { return }
         numbersArray.append(currentInput)
         operatorsArray.append(currentOperator)
         currentInput = calculator.MathWithPEMDAS(arr: numbersArray, oper: operatorsArray)
