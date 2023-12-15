@@ -65,7 +65,7 @@ extension CalculatorView {
                             .foregroundColor(Color.theme.lightGray)
                     } else {
                         ForEach(vm.savedEquations.reversed(), id: \.self) { saved in
-                            Button(saved) {
+                            Button(saved.formattedAsNumber()) {
                                 if vm.currentOperator == "" {
                                     vm.currentInput = saved
                                 } else {
