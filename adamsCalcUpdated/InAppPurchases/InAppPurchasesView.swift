@@ -66,9 +66,7 @@ extension InAppStorePurchasesView {
             VStack(alignment: .leading) {
                 Text("Feedback")
                     .fontWeight(.bold)
-                
                 Link("contact@rdconcepts.design", destination: URL(string: "mailto:contact@rdconcepts.design")!)
-   
             }
         }
     }

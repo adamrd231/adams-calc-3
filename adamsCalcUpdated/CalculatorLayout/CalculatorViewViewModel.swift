@@ -7,8 +7,8 @@ class CalculatorViewViewModel: ObservableObject {
     @Published(key: "CurrentInput") var currentInput = ""
     @Published(key: "CurrentOperator") var currentOperator = ""
 
-    @Published var isDisplayingFinalAnswer = false
-    @Published var savedEquations: [String] = []
+    @Published(key: "isDisplayingAnswer") var isDisplayingFinalAnswer = false
+    @Published(key: "savedEquations") var savedEquations: [String] = []
     
     func handleButtonInput(_ buttonInput: ButtonType) {
         // if user presses button with input
