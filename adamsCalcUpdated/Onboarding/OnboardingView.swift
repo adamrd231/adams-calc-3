@@ -9,100 +9,20 @@ import SwiftUI
 
 struct OnboardingView: View {
     
-    @State var variableButton = VariableButton(id: 1, value: "42", isLocked: false)
-    @State var pretendInput = ""
-    
     var body: some View {
         List {
-            Section(header: Text("WTF is this all about?")) {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("The big idea")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .textCase(.uppercase)
-                    Text("Adam's calculator is designed to help you remember, not your chores or to-do lists but the last inputs you entered. Calculating cost of internet for the year? Adam's calc saves answers from previous calculations to help, and you can use the saved answers as an input button.")
-                        .fixedSize(horizontal: false, vertical: true)
+            Section(header: Text("About the app")) {
+                VStack(alignment: .leading) {
+                    Text("Adam's Calc")
+                        .bold()
+                    Text("Designed to help you remember equations, make comparisons, and be a little more friendly than the usual calculator app. Watch the bar along the top grow as it populates any equation worth calculating, those become buttons which you can use to enter those numbers back into the mix.")
                 }
-                .padding(.vertical, 15)
-                .padding(.horizontal, 5)
             }
-            
-            Section(header: Text("Variable Button Demo")) {
-                VStack(alignment: .center) {
-                    Text(pretendInput.formattedAsNumber())
-                        .fontWeight(.heavy)
-                        .frame(height: 100)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .padding(.trailing, 15)
-                        .foregroundColor(Color.theme.textColor)
-                        .font(.largeTitle)
-   
-                    VStack {
-                        Text(variableButton.value.formattedAsNumber())
-                        .modifier(
-                            VariableButtonStyle(size: (100, 50), isLocked: variableButton.isLocked))
-                        
-                        .onTapGesture {
-                            pretendInput = variableButton.value
-                        }
-                        .onLongPressGesture(minimumDuration: 0.3) {
-                            print("Long press button one")
-                            variableButton.isLocked.toggle()
-                        }
-                        Text(variableButton.isLocked ? "Saving Value" : "Not Saving Value")
-                            .font(.subheadline)
-                    }
-                    .padding(.bottom)
-     
-                    HStack {
-                        Button("9 * 6") {
-                            pretendInput = "54"
-                            if !variableButton.isLocked {
-                                variableButton.value = "54"
-                            }
-                        }
-                        .buttonStyle(.plain)
-                        .padding()
-                        .background(Color(.lightGray))
-                        .cornerRadius(15)
-
-                        Button("6 * 7") {
-                            pretendInput = "42"
-                            if !variableButton.isLocked {
-                                variableButton.value = "42"
-                            }
-                        }
-                        .buttonStyle(.plain)
-                        .padding()
-                        .background(Color(.lightGray))
-                        .cornerRadius(15)
-                        Button("5 * 3") {
-                            pretendInput = "15"
-                            if !variableButton.isLocked {
-                                variableButton.value = "15"
-                            }
-                        }
-                        .buttonStyle(.plain)
-                        .padding()
-                        .background(Color(.lightGray))
-                        .cornerRadius(15)
-                    }
-                    Text("Demo calculations for demonstration")
-                        .font(.subheadline)
-                    
-                   
-                    VStack(alignment: .leading, spacing: 9) {
-                        Text("Short Press • Use number in field as input")
-                        Text("Long Press • changes button status to saved or not saving number")
-                        Text("• Saved variable button does not accept new inputs")
-                        
-                    }
-                    .font(.headline)
-                    .padding(.vertical)
-                    .fixedSize(horizontal: false, vertical: true)
-                    Text("Feedback welcome at contact@rdconcepts.design")
-                        .font(.caption)
-                        .padding(.bottom)
+            Section(header: Text("About the developer")) {
+                VStack(alignment: .leading) {
+                    Text("rdConcepts")
+                        .bold()
+                    Text("Living and working out of Northern Michigan, I build iOS and websites to help solve problems for users. My goal is to work for myself using the money I raise from the apps I have developed.")
                 }
             }
         }

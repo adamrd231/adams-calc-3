@@ -19,13 +19,15 @@ struct CalculatorView: View {
     @ViewBuilder var body: some View {
         GeometryReader { geo in
             VStack {
-                VStack {
+                VStack(spacing: 10) {
                     Spacer()
                     AnswerView(
                         numbersArray: vm.numbersArray,
                         operatorsArray: vm.operatorsArray,
                         currentInput: vm.currentInput,
-                        currentOperator: vm.currentOperator)
+                        currentOperator: vm.currentOperator
+                    )
+                    .padding(.leading)
                     variableInputs
                         .padding(.leading)
                     buttonPad
@@ -63,8 +65,8 @@ extension CalculatorView {
                                     vm.currentInput = saved
                                 }
                             }
-                            .background(Color.theme.darkGray)
-                            .foregroundColor(Color.theme.lightGray)
+                            
+                            .foregroundColor(Color.theme.textColor)
                             .font(.callout)
                             .buttonStyle(.bordered)
                             .cornerRadius(5)
@@ -72,7 +74,7 @@ extension CalculatorView {
                     }
                 }
             }
-            .background(.gray.opacity(0.1))
+            .background(Color.theme.lightGray.opacity(0.1))
             .cornerRadius(10)
     }
     
@@ -90,6 +92,7 @@ extension CalculatorView {
 struct CalculatorView_Previews: PreviewProvider {
     static var previews: some View {
         CalculatorView(storeManager: StoreManager())
+            .preferredColorScheme(.dark)
     }
 }
 

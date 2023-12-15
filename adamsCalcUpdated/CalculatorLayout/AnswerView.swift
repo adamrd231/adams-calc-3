@@ -20,9 +20,8 @@ struct AnswerView: View {
                 Spacer(minLength: 0)
             }
             .lineLimit(1)
-            .font(.system(size: 50))
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .padding()
+            .font(.system(size: 66))
+//            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .foregroundColor(Color.theme.textColor)
     }

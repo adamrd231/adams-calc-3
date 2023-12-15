@@ -184,15 +184,15 @@
 		668AED4E2758487D0059F7A9 /* adamsCalcUpdated */ = {
 			isa = PBXGroup;
 			children = (
-				660DBC5E28EB3CDF008DDF41 /* Onboarding */,
 				668AED4F2758487D0059F7A9 /* adamsCalcUpdatedApp.swift */,
+				668AED512758487D0059F7A9 /* HomeView.swift */,
+				660DBC5E28EB3CDF008DDF41 /* Onboarding */,
 				662A522228BC0820003A9296 /* Extensions */,
 				6627E005277419D200B03DAC /* InAppPurchases */,
 				6627E0022773D7B200B03DAC /* GoogleAdMob */,
 				660DBC5D28EB3CC8008DDF41 /* Models */,
 				668276002B2B90C900B5B548 /* States */,
 				660DBC5828EB3B12008DDF41 /* CalculatorLayout */,
-				668AED512758487D0059F7A9 /* HomeView.swift */,
 				668AED532758487F0059F7A9 /* Assets.xcassets */,
 				668AED582758487F0059F7A9 /* Info.plist */,
 				668AED552758487F0059F7A9 /* Preview Content */,
