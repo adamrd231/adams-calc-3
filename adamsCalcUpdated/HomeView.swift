@@ -9,11 +9,14 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var storeManager: StoreManager
-    
+    @StateObject var vm = CalculatorViewViewModel()
     
     var body: some View {
         TabView {
-            CalculatorView(storeManager: storeManager)
+            CalculatorView(
+                vm: vm,
+                storeManager: storeManager
+            )
                 .tabItem {
                     VStack {
                         Image(systemName: "plusminus.circle")
@@ -21,7 +24,7 @@ struct HomeView: View {
                     }
                 }            
 
-            OnboardingView()
+            OnboardingView(vm: vm)
                 .tabItem {
                     VStack {
                         Image(systemName: "questionmark.circle.fill")

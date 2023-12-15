@@ -9,8 +9,26 @@ import SwiftUI
 
 struct OnboardingView: View {
     
+    @ObservedObject var vm: CalculatorViewViewModel
+    @State var isDeleting = false
+    
     var body: some View {
         List {
+            Section(header: Text("Clear saved calcs")) {
+                VStack(alignment: .leading) {
+                    Text("Reset")
+                        .bold()
+                    Text("This will reset all of the calculations that your app have made, this is a permanent delete.")
+                    Button("Delete") {
+                        isDeleting.toggle()
+                    }
+                    .buttonStyle(.bordered)
+                }
+                .alert("Are you sure?", isPresented: $isDeleting) {
+                    Button("No", role: .cancel) { }
+                    Button("Yes") { vm.savedEquations = [] }
+                }
+            }
             Section(header: Text("About the app")) {
                 VStack(alignment: .leading) {
                     Text("Adam's Calc")
@@ -31,6 +49,6 @@ struct OnboardingView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingView()
+        OnboardingView(vm: CalculatorViewViewModel())
     }
 }

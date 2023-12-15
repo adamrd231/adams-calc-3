@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CalculatorView: View {
-    @ObservedObject var vm = CalculatorViewViewModel()
+    @ObservedObject var vm: CalculatorViewViewModel
     @StateObject var storeManager: StoreManager
     @State var numberOfDecimals = 3
     @State var playerFrame = CGRect.zero
@@ -91,7 +91,10 @@ extension CalculatorView {
 
 struct CalculatorView_Previews: PreviewProvider {
     static var previews: some View {
-        CalculatorView(storeManager: StoreManager())
+        CalculatorView(
+            vm: CalculatorViewViewModel(),
+            storeManager: StoreManager()
+        )
             .preferredColorScheme(.dark)
     }
 }
