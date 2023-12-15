@@ -1,14 +1,5 @@
 import SwiftUI
 
-struct Size: PreferenceKey {
-
-    typealias Value = [CGRect]
-    static var defaultValue: [CGRect] = []
-    static func reduce(value: inout [CGRect], nextValue: () -> [CGRect]) {
-        value.append(contentsOf: nextValue())
-    }
-}
-
 struct CalculatorView: View {
     @ObservedObject var vm = CalculatorViewViewModel()
     @StateObject var storeManager: StoreManager
@@ -30,14 +21,19 @@ struct CalculatorView: View {
             VStack {
                 VStack {
                     Spacer()
-                    displayText
+                    AnswerView(
+                        numbersArray: vm.numbersArray,
+                        operatorsArray: vm.operatorsArray,
+                        currentInput: vm.currentInput,
+                        currentOperator: vm.currentOperator)
                     variableInputs
                         .padding(.leading)
                     buttonPad
                         .padding(.horizontal)
                 }
                 AdMobBanner()
-                    .frame(height: 60)
+                    .padding(.top, 10)
+                    .frame(height: 70)
             }
             .preference(key: Size.self, value: [geo.frame(in: CoordinateSpace.global)])
         }
@@ -46,30 +42,7 @@ struct CalculatorView: View {
 
 //MARK: Views
 extension CalculatorView {
-    private var displayText: some View {
-        // Answers
-        VStack {
-            HStack {
-                ForEach(vm.numbersArray.indices, id: \.self) { index in
-                    Text(vm.numbersArray[index].formattedAsNumber())
-                    if index < vm.operatorsArray.count {
-                        Text(vm.operatorsArray[index])
-                    }
-                }
-                Text(vm.currentInput.formattedAsNumber())
-                Text(vm.currentOperator)
-            }
-            .lineLimit(1)
-            .minimumScaleFactor(0.5)
-            .font(.system(size: 50))
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .padding()
-        }
-        .foregroundColor(Color.theme.textColor)
-    }
-    
     private var variableInputs: some View {
-//        VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     if vm.savedEquations.count == 0 {
@@ -101,8 +74,6 @@ extension CalculatorView {
             }
             .background(.gray.opacity(0.1))
             .cornerRadius(10)
-        
-//        }
     }
     
     private var buttonPad: some View {
@@ -113,32 +84,6 @@ extension CalculatorView {
                 }
             }
         }
-    }
-}
-
-//MARK: Calculator Button Extensions
-extension CalculatorView {
-    
-    func getButtonSize() -> (height: CGFloat, width: CGFloat) {
-        // Width
-        let screenWidth = UIScreen.main.bounds.width
-        // Number of buttons
-        let columnButtonCount: CGFloat = 4
-        // Number of spaces
-        let spacingCount = columnButtonCount + 1
-        // individual button width
-        let width = (screenWidth - (spacingCount * Constants.padding)) / columnButtonCount
-        
-        
-        // Height
-        let screenHeight = UIScreen.main.bounds.height
-        let rowButtonCount: CGFloat = 4.0
-        let screenSize = screenHeight * 0.47
-        let heightSpacingCount = rowButtonCount + 1
-        let height = (screenHeight - (heightSpacingCount * Constants.padding) - (screenSize + 60)) / rowButtonCount
-        
-        // Return Tuple
-        return (height, width)
     }
 }
 
